@@ -1,13 +1,16 @@
-notificationcenter
-==================
+jquery.notificationcenter
+=========================
 
-simple notification center
+Base on https://github.com/mbuonomo/notificationcenter
 
-More informations available on http://lab.mbuonomo.com/notificationcenter
+Apple OS X Style Notification Center for web
 
+Demo site: Coming soon!
 
 TODO
 
 * callback on each notification in the right panel
-* templating
-* right panel on top
+* add ajax call/check to config
+* add better default icons
+* add better default sounds
+* add default/builtin notifs

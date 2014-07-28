@@ -170,9 +170,7 @@
     };
 
     Plugin.prototype.is_open = function() {
-        var pos = parseInt($('.notificationcentercontainer').css('right'));
-
-        if (pos > 0)
+        if ($(this.options.centerElement).is(':visible'))
             return true;
         else
             return false;
@@ -193,10 +191,13 @@
 
             $('.notificationcentercontainer').animate({
                 right: 0
-            }, 500);
-
-            $('#notificationcenteroverlay').remove();
-            $(this.options.centerElement).hide();
+            }, {
+                duration: 500,
+                complete: function() {
+                    $('#notificationcenteroverlay').remove();
+                    $(parent.options.centerElement).hide();
+                }
+            });
         } else {
             if (this.options.counter) {
                 $(this.options.toggleButton).removeAttr('data-counter');

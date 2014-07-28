@@ -56,6 +56,17 @@
     function notification_changementVisibilite() {
     }
 
+    function notification_closenotif() {
+        return '<div class="closenotif"><i class="fa fa-times"></i></div>';
+    }
+
+    function notification_notifcenterbox(notiftext, notiftime) {
+	if (notiftime)
+        	return '<li><div class="notifcenterbox">' + notification_closenotif() + notiftext + '<br /><small data-livestamp="' + notiftime + '"></small></div></li>';
+	else
+        	return '<li><div class="notifcenterbox">' + notification_closenotif() + notiftext + '</div></li>';
+    }
+
 
 
     function Plugin( element, options ) {
@@ -78,9 +89,12 @@
         if(this.options.addPanel){
             var id = this.options.centerElement.replace('#', '');
             $('body').prepend('<div id="'+id+'" class="notificationcentercontainer"></div>');
+            // Line it up with bodyElement
+            var bposition = $(this.options.bodyElement).position();
+            $(this.options.centerElement).css({top: bposition.top});
         }
 
-        $(this.options.toggleButton).addClass('notificationcentericon');
+        $(this.options.toggleButton).addClass('notificationcentericon').addClass('open');
 
         if (this.options.default_notifs.length > 0) {
             var centerElm = this.options.centerElement,
@@ -103,8 +117,7 @@
                 }
 
                 $(item.values).each(function(i,notif){
-                    $(centerElm+' .center'+type+' ul').prepend('<li><div class="notifcenterbox"><div class="closenotif">x</div>'+ notif.text +' '+'<br /><small data-livestamp="'+notif.time+'"></small></div></li>');
-
+                    $(centerElm+' .center'+type+' ul').prepend(notification_notifcenterbox(notif.text, notif.time));
                 });
             });
 
@@ -147,21 +160,10 @@
 
 
    Plugin.prototype.listener = function(el, options) {
+            var parent = this;
 
-            $(options.toggleButton+'.open').on('click',function(){
-                if($(this).hasClass('open')){
-                    $(this).removeClass('open').addClass('close');
-                    $('.notificationcentercontainer').animate({right:'+=300'}, 500);
-                    if(options.counter){
-                        $(options.toggleButton).removeAttr('data-counter');
-                        if(options.title_counter) {
-                            document.title = document.title.replace(/^\([0-9]+\)/, '');
-                        }
-                    }
-                } else {
-                    $(this).removeClass('close').addClass('open');
-                    $('.notificationcentercontainer').animate({right:'-=300'}, 500);
-                }
+            $(options.toggleButton).on('click',function(){
+		parent.slide();
                 return false;
             });
 
@@ -186,6 +188,9 @@
         if($(this.options.toggleButton).hasClass('open')) {
             if ($('.notificationul').length === 0){
                 $('body').prepend('<ul class="notificationul"></ul>');
+                // Line it up with bodyElement
+                var bposition = $(this.options.bodyElement).position();
+                $('.notificationul').css({top: bposition.top});
             }
 
             var randomnumber = Math.floor(Math.random()*1199999),
@@ -194,10 +199,10 @@
             this.current_notif.push(randomnumber);
 
             if(index !== false){
-    html = '<li id="box'+randomnumber+'"><div class="notification"><div class="closenotif">x</div><div class="iconnotif"><div class="iconnotifimg"><img src="'+this.options.types[index].img+'" /></div></div><div class="contentnotif">'+text+'</div></div></li>';
+    html = '<li id="box'+randomnumber+'"><div class="notification">' + notification_closenotif() + '<div class="iconnotif"><div class="iconnotifimg"><img src="'+this.options.types[index].img+'" /></div></div><div class="contentnotif">'+text+'</div></div></li>';
 
             } else {
-    html = '<li id="box'+randomnumber+'"><div class="notification"><div class="closenotif">x</div><div class="iconnotif"></div><div class="contentnotif">'+text+'</div></div></li>';
+    html = '<li id="box'+randomnumber+'"><div class="notification">' + notification_closenotif() + '<div class="iconnotif"></div><div class="contentnotif">'+text+'</div></div></li>';
             }
 
             $('.notificationul').prepend(html);
@@ -257,9 +262,9 @@
         if(jQuery().livestamp){
             var date = new Date(),
                 time = Math.round(date.getTime()/1000);
-            $(this.options.centerElement+' .center'+type+' ul').prepend('<li><div class="notifcenterbox"><div class="closenotif">x</div>'+ text +' '+'<br /><small data-livestamp="'+time+'"></small></div></li>');
+            $(this.options.centerElement+' .center'+type+' ul').prepend(notification_notifcenterbox(text, time));
         }else {
-            $(this.options.centerElement+' .center'+type+' ul').prepend('<li><div class="notifcenterbox"><div class="closenotif">x</div>'+ text +' '+'<br /></div></li>');
+            $(this.options.centerElement+' .center'+type+' ul').prepend(notification_notifcenterbox(text, 0));
         }
 
         $('.closenotif').on('click', function(){

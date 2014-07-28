@@ -87,7 +87,7 @@
 
         this.options = $.extend( {}, defaults, options) ;
         this.options.zIndex = {
-            body: 0,
+            panel: 0,
             button: 0
         };
         
@@ -101,15 +101,21 @@
     Plugin.prototype.init = function () {
         if (this.options.addPanel) {
             var id = this.options.centerElement.replace('#', '');
-            $('body').prepend('<div id="'+id+'" class="notificationcentercontainer"></div>');
+            $('body').prepend('<div id="'+id+'"></div>');
             // Line it up with bodyElement
             var bposition = $(this.options.bodyElement).position();
+            $(this.options.centerElement).hide();
             $(this.options.centerElement).css({
-                top: bposition.top
+                position: 'absolute',
+                top: bposition.top,
+                right: 0
             });
         }
 
 	$(this.options.toggleButton).addClass('notificationcentericon');
+
+        if (!$(this.options.bodyElement).hasClass('notificationcentercontainer'))
+            $(this.options.bodyElement).addClass('notificationcentercontainer');
 
         if (window.HTMLAudioElement && this.options.alert_hidden_sound && this.options.alert_hidden) {
             snd = new Audio('');
@@ -166,27 +172,31 @@
     Plugin.prototype.is_open = function() {
         var pos = parseInt($('.notificationcentercontainer').css('right'));
 
-        if (pos >= 0)
+        if (pos > 0)
             return true;
         else
             return false;
     };
 
     Plugin.prototype.slide = function() {
+        var parent = this;
+
         if (this.is_open()) {
             $(this.options.centerElement).css({
-                zIndex: this.options.zIndex.body
+                zIndex: this.options.zIndex.panel
             });
             $(this.options.toggleButton).css({
                 zIndex: this.options.zIndex.button
             });
 
             $(this.options.toggleButton).removeClass('close').addClass('open');
+
             $('.notificationcentercontainer').animate({
-                right: '-=300'
+                right: 0
             }, 500);
 
             $('#notificationcenteroverlay').remove();
+            $(this.options.centerElement).hide();
         } else {
             if (this.options.counter) {
                 $(this.options.toggleButton).removeAttr('data-counter');
@@ -194,19 +204,23 @@
                     notification_updatetitle(false);
             }
 
-            this.options.zIndex.body = $(this.options.centerElement).css('zIndex');
+            $(this.options.centerElement).show();
+            this.options.zIndex.panel = $(this.options.centerElement).css('zIndex');
             this.options.zIndex.button = $(this.options.toggleButton).css('zIndex');
 
             $(this.options.toggleButton).removeClass('open').addClass('close');
             $('.notificationcentercontainer').animate({
-                right: '+=300'
-            }, 500);
-
-            $(this.options.centerElement).css({
-                zIndex: 1002
-            });
-            $(this.options.toggleButton).css({
-                zIndex: 1002
+                right: 300
+            }, {
+                duration: 500,
+                complete: function() {
+                    $(parent.options.centerElement).css({
+                        zIndex: 1002
+                    });
+                    $(parent.options.toggleButton).css({
+                        zIndex: 1002
+                    });
+                }
             });
 
             // Safety add an overlay over notificationcentercontainer

@@ -186,11 +186,16 @@ body {
     margin-left: 3px;
     padding-top: 4px;
 }
+.notificationcentericon {
+    position: relative;
+    top: 0;
+    left: 0;
+}
 .notificationcentericon[data-counter]:after {
     content:attr(data-counter);
     position:absolute;
     top: -1em;
-    right: -0.5em;
+    right: -1em;
     padding:3px 9px;
     border:2px solid white;
     border-radius:100px;

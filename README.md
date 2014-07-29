@@ -14,3 +14,4 @@ TODO
 * add better default icons
 * add better default sounds
 * add default/builtin notifs
+* Allow icons to use classes/FontAwesome

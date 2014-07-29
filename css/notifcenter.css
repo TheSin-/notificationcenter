@@ -49,12 +49,8 @@ body {
     right:-300px;
     -webkit-box-shadow:inset 2px 0 3px 1px rgba(0, 0, 0, 0.5);
     box-shadow:inset 2px 0 3px 1px rgba(0, 0, 0, 0.5)
-    -webkit-border-top-left-radius: 5px;
-    -moz-border-radius-topleft: 5px;
-    border-top-left-radius: 5px;
     color: #fff;
     background-color: #333;
-    padding-top: 5px;
 }
 .notificationul {
     list-style:none;

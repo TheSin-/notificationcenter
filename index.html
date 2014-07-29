@@ -20,6 +20,8 @@
 			}
 
 			footer {
+				position: absolute;
+				right: 0;
 				width: 100%;
 				font-weight: bold;
 				background: #ccc;
@@ -536,32 +538,37 @@
 	&lt;div id="noticationcentermain"&gt;
 		[...]all your html[...]
 	&lt;/div&gt;
-&lt;/body&gt;
-									</pre>
+&lt;/body&gt;</pre>
 								</div>
 							</div>
 						</div>
 						<div>
 	  						<div class="cell">
-								<h3>Javascript setup and definition</h3>
+								<h3>Javascript setup</h3>
 	  							<div class="cell">
           								<pre>
 &lt;script&gt;
 $('body').notificationcenter({
-            centerElement: "#notificationcenterpanel",
-            bodyElement: "#noticationcentermain",
-            toggleButton: "#notificationcentericon",
-            addPanel: true,
-            displayTime: 5000,
-            types: [],
-            counter: true,
-            default_notifs: [],
-            faye: false,
-            alert_hidden: true,
-            alert_hidden_sound: "sounds/Funk"
-        });
-&lt;/script&gt;
-									</pre>
+	centerElement: "#notificationcenterpanel",
+	bodyElement: "#noticationcentermain",
+	toggleButton: "#notificationcentericon",
+	addPanel: true,
+	displayTime: 5000,
+	types: [],
+	counter: true,
+	default_notifs: [],
+	faye: false,
+	alert_hidden: true,
+	alert_hidden_sound: "sounds/Funk"
+});
+&lt;/script&gt;</pre>
+								</div>
+							</div>
+						</div>
+						<div>
+	  						<div class="cell">
+								<h3>Parameters/Definition</h3>
+								<div class="cell">
 
 									<table class="arguments">
 										<thead>
@@ -618,8 +625,7 @@ $('body').notificationcenter({
 	}, {
 		[...]
 	}]
-});
-													</pre>
+});</pre>
 												</td>
 											</tr>
 											<tr>
@@ -644,8 +650,7 @@ $('body').notificationcenter({
 	}, {
 		[...]
 	}]
-});
-													</pre>
+});</pre>
 												</td>
 											</tr>
 											<tr>
@@ -659,8 +664,7 @@ $('body').notificationcenter({
 		server: 'http://yourserver:port'
 		chanel: 'your chanel'
 	}
-});
-													</pre>
+});</pre>
 												</td>
 											</tr>
 											<tr>
@@ -688,8 +692,7 @@ $('body').notificationcenter({
 	  				  					<h4>.notificationcenter('slide')</h4>
 										<div class="cell">
 			  		  						<pre>
-$('body').notificationcenter('slide');
-											</pre>
+$('body').notificationcenter('slide');</pre>
 										</div>
 									</div>
 								</div>
@@ -698,8 +701,7 @@ $('body').notificationcenter('slide');
 	  					  			<h4>.notificationcenter('newAlert', text, type)</h4>
 									<div class="cell">
 	  					  				<pre>
-$('body').notificationcenter('newAlert', 'This is a new alert.', 'gift');
-										</pre>
+$('body').notificationcenter('newAlert', 'This is a new alert.', 'gift');</pre>
 									</div>
 								</div>
 							</div>

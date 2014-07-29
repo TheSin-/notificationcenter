@@ -10,7 +10,6 @@ Demo site: http://thesin-.github.io/notificationcenter/
 
 TODO
 * callback on each notification in the right panel
-* add ajax parameter to loading notifications
 * add better default icons
 * add default/builtin notifs
 * Allow icons to use classes/FontAwesome

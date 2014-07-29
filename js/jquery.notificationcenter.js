@@ -88,6 +88,20 @@
 			right: 0
 		});
 
+		// Make sure body element has position: absolute or relative
+		var bodyPos = $(nc.options.bodyElement).css('position');
+		if (bodyPos != 'relative' ||
+		    bodyPos != 'absolute')
+			bodyPos = 'absolute';
+		$(nc.options.bodyElement).css({
+			position: bodyPos,
+			top: bposition.top,
+			right: 0,
+			width: '100%',
+			height: '100%',
+			overflow: 'auto'
+		});
+
 		$(nc.options.toggleButton).addClass('notificationcentericon');
 
 		if (window.HTMLAudioElement &&
@@ -132,7 +146,8 @@
 		}
 
 		if (nc.options.faye !== false) {
-			var subscription = client.subscribe(nc.options.faye.chanel, function(message) {
+			var client = new Faye.Client(nc.options.faye.server);
+			var subscription = client.subscribe(nc.options.faye.channel, function(message) {
 				nc.newAlert(message.text, message.type);
 			});            
 		}

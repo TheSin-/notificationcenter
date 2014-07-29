@@ -110,9 +110,9 @@
 			var snd = new Audio('');
                     
 			if (snd.canPlayType('audio/ogg'))
-				nc.snd = new Audio(this.options.alert_hidden_sound + '.ogg');
+				nc.snd = new Audio(nc.options.alert_hidden_sound + '.ogg');
 			else if (snd.canPlayType('audio/mp3'))
-				nc.snd = new Audio(this.options.alert_hidden_sound + '.mp3');
+				nc.snd = new Audio(nc.options.alert_hidden_sound + '.mp3');
 			else
 				nc.snd = false;
 		}

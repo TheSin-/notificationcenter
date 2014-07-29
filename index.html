@@ -433,12 +433,21 @@
 					alert_hidden_sound: 'sounds/Purr'
 				});
 
+				$('.slideit').on('click', function() {
+					$('body').notificationcenter('slide');
+				});
+
 				$('.notif').on('click', function() {
 					$('body').notificationcenter('newAlert', 'New alert by button click.', $(this).attr('data-type'));
 				});
 
-				$('.slideit').on('click', function() {
-					$('body').notificationcenter('slide');
+				var ajax_options = 'examples/object.json';
+				var ajax_checkTime = 0.5 * 60 * 1000; // 5 minutes
+				$('.ajax').on('click', function() {
+					if (!$('.ajax').hasClass('disabled')) {
+						$('body').notificationcenter('ajaxAlerts', ajax_options, ajax_checkTime);
+						$('.ajax').addClass('disabled');
+					}
 				});
 			});
 		</script>
@@ -471,9 +480,7 @@
 						<div>
 							<div class="cell">
 								<p>It's really easy to show the center. The plugin create a panel on the right side of your website.</p>
-							</div>
-							<div class="cell">
-								<p><a class="btn slideit" href="#" style="white-space: nowrap;">Show/Hide panel</a></p>
+								<p><a class="btn slideit" href="#">Show/Hide panel</a></p>
 							</div>
 						</div>
 					</div>
@@ -482,10 +489,17 @@
 						<div>
 							<div class="cell">
 								<p>How to throw a notification with Javascript.</p>
+								<p><a class="btn notif" href="#" data-type="gift">Add a notification</a></p>
+								<p><a class="btn notif" href="#" data-type="calendar">Add an other one</a></p>
 							</div>
+						</div>
+					</div>
+					<div class="cell">
+						<h2>Ajax Notifications</h2>
+						<div>
 							<div class="cell">
-								<p><a class="btn notif" href="#" data-type="gift" style="width:100%;">Add a notification</a></p>
-								<p><a class="btn notif" href="#" data-type="calendar" style="width:100%;">Add an other one</a></p>
+								<p>How to istart and ajax check with Javascript. <span style="font-style: italic; color: #666;">Will take 5 minutes before you see the first notification.</span></p>
+								<p><a class="btn ajax" href="#">Start ajax</a></p>
 							</div>
 						</div>
 					</div>

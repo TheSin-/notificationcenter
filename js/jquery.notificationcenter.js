@@ -279,10 +279,8 @@
 		setInterval(function() {
 			$.ajax(ajaxobj).done(function(data) {
 				if (data) {
-					var rawdata = $.parseJSON(data);
-
-					if ($.isArray(rawdata)) {
-						$.each(rawdata, function(k, v) {
+					if ($.isArray(data)) {
+						$.each(data, function(k, v) {
 							if ($.isArray(v))
 								nc.newAlert(v[0], v[1]);
 							else
@@ -292,7 +290,7 @@
 					
 				}
 			});
-		}, checkTime);
+		}, checktime);
 	};
 
 	Plugin.prototype.newAlert = function(text, type) {

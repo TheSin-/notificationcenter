@@ -579,6 +579,7 @@ $('body').notificationcenter({
 	counter: true,
 	default_notifs: [],
 	faye: false,
+	ajax: false,
 	alert_hidden: true,
 	alert_hidden_sound: "sounds/Funk"
 });
@@ -629,7 +630,7 @@ $('body').notificationcenter({
 												<td>displayTime</td>
 												<td>int</td>
 												<td>5000</td>
-												<td>Display time for each notification.</td>
+												<td>Display time for each notification in milliseconds.</td>
 											</tr>
 											<tr>
 												<td>types</td>
@@ -689,6 +690,49 @@ $('body').notificationcenter({
 												</td>
 											</tr>
 											<tr>
+												<td>ajax</td>
+												<td>object</td>
+												<td>false</td>
+												<td><a href="http://api.jquery.com/jQuery.ajax/">jQuery ajax Object</a> to define the ajax call.
+													<pre>
+$('body').notificationcenter({
+	ajax: {
+		type: 'POST',
+		url: 'some.php',
+		data: {
+			authkey: 'guess',
+			user: 'john'
+		}
+	}
+});</pre>
+													A JSON array is expected as a result of the query, each item can be as an array or an object.
+													<pre>
+[
+	[
+		"This is an alert",
+		"system"
+	 ],
+	 [ ... ]
+]</pre>
+													<pre>
+[
+	{
+		"text": "This is an alert",
+		"type": "system"
+	},
+	{
+		[ ... ]
+	}
+]</pre>
+												</td>
+											</tr>
+											<tr>
+												<td>ajax_checkTime</td>
+												<td>int</td>
+												<td>5000</td>
+												<td>Time between ajax calls in milliseconds.</td>
+											</tr>
+											<tr>
 												<td>alert_hidden</td>
 												<td>bool</td>
 												<td>true</td>
@@ -723,6 +767,22 @@ $('body').notificationcenter('slide');</pre>
 									<div class="cell">
 	  					  				<pre>
 $('body').notificationcenter('newAlert', 'This is a new alert.', 'gift');</pre>
+									</div>
+								</div>
+								<div>
+									<div class="cell">
+	  					  			<h4>.notificationcenter('ajaxAlerts', options_object, checkTime)</h4>
+									<div class="cell">
+	  					  				<pre>
+var ajax_options = {
+	type: 'POST',
+	url: 'some.php',
+	data: {
+		userid: 99
+	}
+};
+
+$('body').notificationcenter('ajaxAlerts', ajax_options, 5000);</pre>
 									</div>
 								</div>
 							</div>

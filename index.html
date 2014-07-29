@@ -442,7 +442,7 @@
 				});
 
 				var ajax_options = 'examples/object.json';
-				var ajax_checkTime = 0.5 * 60 * 1000; // 5 minutes
+				var ajax_checkTime = 5 * 60 * 1000; // 5 minutes
 				$('.ajax').on('click', function() {
 					if (!$('.ajax').hasClass('disabled')) {
 						$('body').notificationcenter('ajaxAlerts', ajax_options, ajax_checkTime);

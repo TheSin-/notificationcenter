@@ -3,14 +3,13 @@
 /**
 * The easiest way to throw a notification using CuRL
 *
-* For more informations about the notification center please visit http://lab.mbuonomo.com/notificationcenter
+* For more informations about the notification center please visit
+*   http://lab.mbuonomo.com/notificationcenter
 *
 * @author Mathieu BUONOMO <mbuonomo@gmail.com>
 * @version 0.1
 */
-class notificationcenter
-{
-	
+class notificationcenter {
 	/**
 	 * Server url
 	 *
@@ -19,6 +18,7 @@ class notificationcenter
 	 * @var string
 	 */
 	private $_sServerUrl 		= "";
+
 	/**
 	 * Your channel
 	 *
@@ -36,9 +36,11 @@ class notificationcenter
 	 * @param string $sUrl 
 	 * @return void
 	 */
-	private function sendRequest($sUrl, $aParams){
-
-		$data_string = json_encode(array("channel" => $this->_sChannel, "data" => $aParams));
+	private function sendRequest($sUrl, $aParams) {
+		$data_string = json_encode(array(
+			"channel" => $this->_sChannel,
+			"data" => $aParams
+		));
 
 		$ch = curl_init($this->_sServerUrl);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -47,34 +49,27 @@ class notificationcenter
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 		    'Content-Type: application/json',
 		    'Content-Length: ' . strlen($data_string))
-		);                                                                                                                   
-
+		);
 
 		$output = curl_exec($ch);
 
-		if($output === false)
-		{
+		if ($output === false) {
 			trigger_error('Erreur curl : '.curl_error($ch),E_USER_WARNING);
-		}
-		else
-		{
+		} else {
 			curl_close($ch);
 			return $output;
 		}
 	}
 
-	public function __construct($server, $channel){
+	public function __construct($server, $channel) {
 		$this->_sServerUrl = $server;
 		$this->_sChannel = $channel;
 	}
 	
-	public function shoot($message, $type){
+	public function shoot($message, $type) {
 		$aParams['text'] = $message;
 		$aParams['type'] = $type;
 		return $this->sendRequest($this->_sServerUrl, $aParams);
 	}
 }
-
-
-
 ?>

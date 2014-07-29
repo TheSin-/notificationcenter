@@ -36,7 +36,7 @@
 		default_notifs:		[],
 		faye:			false,
 		ajax:			false,
-		checkTime:		5000,
+		ajax_checkTime:		5000,
 		alert_hidden:		true,
 		alert_hidden_sound:	''
 	};
@@ -150,6 +150,10 @@
 			var subscription = client.subscribe(nc.options.faye.channel, function(message) {
 				nc.newAlert(message.text, message.type);
 			});            
+		}
+
+		if (nc.options.ajax !== false) {
+			nc.ajaxAlerts(nc.options.ajax, nc.options.ajax_checkTime);
 		}
 	};
 
@@ -266,6 +270,29 @@
 				return false;
 			});
 		}
+	};
+
+	Plugin.prototype.ajaxAlerts = function(ajaxobj, checktime) {
+		if (typeof checktime === 'undefined' || !checktime)
+			checktime = nc._defaults.ajax_checkTime;
+
+		setInterval(function() {
+			$.ajax(ajaxobj).done(function(data) {
+				if (data) {
+					var rawdata = $.parseJSON(data);
+
+					if ($.isArray(rawdata)) {
+						$.each(rawdata, function(k, v) {
+							if ($.isArray(v))
+								nc.newAlert(v[0], v[1]);
+							else
+								nc.newAlert(v.text, v.type);
+						});
+					}
+					
+				}
+			});
+		}, checkTime);
 	};
 
 	Plugin.prototype.newAlert = function(text, type) {

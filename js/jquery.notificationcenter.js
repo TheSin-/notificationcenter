@@ -41,29 +41,6 @@
 		alert_hidden_sound:	''
 	};
 
-	var hiddentype;
-	if (typeof document.hidden !== "undefined")
-		hiddentype = "hidden";
-	else if (typeof document.mozHidden !== "undefined")
-		hiddentype = "mozHidden";
-	else if (typeof document.msHidden !== "undefined")
-		hiddentype = "msHidden";
-	else if (typeof document.webkitHidden !== "undefined")
-		hiddentype = "webkitHidden";
-	else
-		hiddentype = false;
-
-	function inArray(needle, haystack) {
-		var length = haystack.length;
-
-		for (var i = 0; i < length; i++) {
-			if (haystack[i].type === needle)
-				return i;
-		}
-
-		return false;
-	}
-
 	var nc;
 	function Plugin(element, options) {
 		nc = this;
@@ -78,6 +55,16 @@
 		nc.options.title = document.title;
 		nc.snd = false;
 		nc.hiddentype = false;
+
+		if (typeof document.hidden !== "undefined")
+			nc.hiddentype = "hidden";
+		else if (typeof document.mozHidden !== "undefined")
+			nc.hiddentype = "mozHidden";
+		else if (typeof document.msHidden !== "undefined")
+			nc.hiddentype = "msHidden";
+		else if (typeof document.webkitHidden !== "undefined")
+			nc.hiddentype = "webkitHidden";
+
         
 		nc._defaults = defaults;
 		nc._name = pluginName;
@@ -88,19 +75,18 @@
 
 	// Start Prototypes
 	Plugin.prototype.init = function () {
-		if (nc.options.addPanel) {
-			var id = nc.options.centerElement.replace('#', '');
-			$('body').prepend('<div id="'+id+'"></div>');
+		if (nc.options.addPanel &&
+		    $(nc.options.centerElement).length === 0)
+			$('body').prepend('<div id="' + nc.options.centerElement.replace('#', '') + '"></div>');
 
-			// Line it up with bodyElement
-			var bposition = $(nc.options.bodyElement).position();
-			$(nc.options.centerElement).hide();
-			$(nc.options.centerElement).css({
-				position: 'absolute',
-				top: bposition.top,
-				right: 0
-			});
-		}
+		// Line it up with bodyElement
+		var bposition = $(nc.options.bodyElement).position();
+		$(nc.options.centerElement).hide();
+		$(nc.options.centerElement).css({
+			position: 'absolute',
+			top: bposition.top,
+			right: 0
+		});
 
 		$(nc.options.toggleButton).addClass('notificationcentericon');
 
@@ -127,7 +113,7 @@
 				var type = item.type;
 
 				if ($(centerElm+' .center'+type).length === 0) {
-					var i = inArray(type, types);
+					var i = nc.inArray(type, types);
 
 					if (i !== false) {
 						var bgcolor = (types[i].bgcolor === undefined)?'#FF00FF':types[i].bgcolor;
@@ -158,6 +144,17 @@
 			return false;
 		});
 	};
+
+	Plugin.prototype.inArray = function(needle, haystack) {
+		var length = haystack.length;
+
+		for (var i = 0; i < length; i++) {
+			if (haystack[i].type === needle)
+				return i;
+		}
+
+		return false;
+	}
 
 	Plugin.prototype.is_open = function() {
 		if ($(nc.options.centerElement).is(':visible'))
@@ -269,7 +266,7 @@
 			}
 
 			var randomnumber = Math.floor(Math.random() * 1199999);
-			var index = inArray(type, nc.options.types);
+			var index = nc.inArray(type, nc.options.types);
 			var html = '';
 
 			nc.current_notif.push(randomnumber);
@@ -315,7 +312,7 @@
 		}
 
 		if ($(nc.options.centerElement + ' .center' + type).length === 0) {
-			var index = inArray(type, nc.options.types);
+			var index = nc.inArray(type, nc.options.types);
 
 			if (index !== false) {
 				var bgcolor  = (nc.options.types[index].bgcolor === undefined)?'#FF00FF':nc.options.types[index].bgcolor;

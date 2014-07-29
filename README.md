@@ -12,6 +12,5 @@ TODO
 * callback on each notification in the right panel
 * add ajax call/check to config
 * add better default icons
-* add better default sounds
 * add default/builtin notifs
 * Allow icons to use classes/FontAwesome

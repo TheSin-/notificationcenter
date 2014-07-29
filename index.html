@@ -544,7 +544,8 @@
 						<div>
 	  						<div class="cell">
 								<h3>Javascript setup and definition</h3>
-          							<pre>
+	  							<div class="cell">
+          								<pre>
 &lt;script&gt;
 $('body').notificationcenter({
             centerElement: "#notificationcenterpanel",
@@ -560,141 +561,146 @@ $('body').notificationcenter({
             alert_hidden_sound: "sounds/Funk"
         });
 &lt;/script&gt;
-								</pre>
-
-								<table class="arguments">
-									<thead>
-										<tr>
-											<th style="width: 100px;">Name</th>
-											<th style="width: 50px;">type</th>
-											<th style="width: 50px;">default</th>
-											<th>description</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>centerElement</td>
-											<td>string</td>
-											<td>"#notificationcenterpanel"</td>
-											<td>Define the id of the element embedding your dom.</td>
-										</tr>
-										<tr>
-											<td>bodyElement</td>
-											<td>string</td>
-											<td>"#noticationcentermain"</td>
-											<td>Closes the modal when escape key is pressed</td>
-										</tr>
-										<tr>
-											<td>toggleButton</td>
-											<td>string</td>
-											<td>"#notificationcentericon"</td>
-											<td>Id of the button to toggle the panel.</td>
-										</tr>
-										<tr>
-											<td>addPanel</td>
-											<td>boolean</td>
-											<td>true</td>
-											<td>If you want the panel on the right.</td>
-										</tr>
-										<tr>
-											<td>displayTime</td>
-											<td>int</td>
-											<td>5000</td>
-											<td>Display time for each notification.</td>
-										</tr>
-										<tr>
-											<td>types</td>
-											<td>array</td>
-											<td>[]</td>
-											<td>Array of objects to define the types of each notifications.
-												<pre>
-$('body').notificationcenter({
-	types:[
-{
-	type:'gift', // define the type
-	img:'img/gift.png', // icon path
-	bgcolor:'#EB5D49', // background color for the center header
-	color:'#FFFFFF' // text color for the center header
-},
-[...]
-	]
-});
-												</pre>
-											</td>
-										</tr>
-										<tr>
-											<td>counter</td>
-											<td>boolean</td>
-											<td>true</td>
-											<td>Display a counter.</td>
-										</tr>
-										<tr>
-											<td>default_notifs</td>
-											<td>array</td>
-											<td>[]</td>
-											<td>Array of objects to define the default notifications.
-												<pre>
-$('body').notificationcenter({
-	default_notifs:[
-{
-	type:'gift', // define the type
-	values:[{text:'This is an example', time:date.getTime()/1000}]
-},
-[...]
-	]
-});
-												</pre>
-											</td>
-										</tr>
-										<tr>
-											<td>faye</td>
-											<td>object</td>
-											<td>false</td>
-											<td>Object to define the faye connection.
-												<pre>
-$('body').notificationcenter({
-	faye:
-{
-	server:'http://yourserver:port'
-	chanel:'your chanel'
-}});
-												</pre>
-											</td>
-										</tr>
-										<tr>
-											<td>alert_hidden</td>
-											<td>bool</td>
-											<td>true</td>
-											<td>If you want to be alerted even if the page has not the focus.</td>
-										</tr>
-										<tr>
-											<td>alert_hidden_sound</td>
-											<td>string</td>
-											<td>''</td>
-											<td>Url of the audio file <strong>without the extension</strong> You must provide the file in both format MP3/OGG</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div>
-							<div class="cell">
-	  		 		 			<h3 id="meths">Methods</h3>
-								<div class="cell">
-	  				  				<h4>.notificationcenter('slide')</h4>
-			  		  				<pre>
-$('body').notificationcenter('slide');
 									</pre>
+
+									<table class="arguments">
+										<thead>
+											<tr>
+												<th style="width: 100px;">Name</th>
+												<th style="width: 50px;">type</th>
+												<th style="width: 50px;">default</th>
+												<th>description</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>centerElement</td>
+												<td>string</td>
+												<td>"#notificationcenterpanel"</td>
+												<td>Define the id of the element embedding your dom.</td>
+											</tr>
+											<tr>
+												<td>bodyElement</td>
+												<td>string</td>
+												<td>"#noticationcentermain"</td>
+												<td>Closes the modal when escape key is pressed</td>
+											</tr>
+											<tr>
+												<td>toggleButton</td>
+												<td>string</td>
+												<td>"#notificationcentericon"</td>
+												<td>Id of the button to toggle the panel.</td>
+											</tr>
+											<tr>
+												<td>addPanel</td>
+												<td>boolean</td>
+												<td>true</td>
+												<td>If you want the panel on the right.</td>
+											</tr>
+											<tr>
+												<td>displayTime</td>
+												<td>int</td>
+												<td>5000</td>
+												<td>Display time for each notification.</td>
+											</tr>
+											<tr>
+												<td>types</td>
+												<td>array</td>
+												<td>[]</td>
+												<td>Array of objects to define the types of each notifications.
+													<pre>
+$('body').notificationcenter({
+	types: [{
+		type: 'gift', // define the type
+		img: 'img/gift.png', // icon path
+		bgcolor: '#EB5D49', // background color for the center header
+		color: '#FFFFFF' // text color for the center header
+	}, {
+		[...]
+	}]
+});
+													</pre>
+												</td>
+											</tr>
+											<tr>
+												<td>counter</td>
+												<td>boolean</td>
+												<td>true</td>
+												<td>Display a counter.</td>
+											</tr>
+											<tr>
+												<td>default_notifs</td>
+												<td>array</td>
+												<td>[]</td>
+												<td>Array of objects to define the default notifications.
+													<pre>
+$('body').notificationcenter({
+	default_notifs: [{
+		type: 'gift', // define the type
+		values: [{
+			text: 'This is an example',
+			time: date.getTime()/1000
+		}]
+	}, {
+		[...]
+	}]
+});
+													</pre>
+												</td>
+											</tr>
+											<tr>
+												<td>faye</td>
+												<td>object</td>
+												<td>false</td>
+												<td>Object to define the faye connection.
+													<pre>
+$('body').notificationcenter({
+	faye: {
+		server: 'http://yourserver:port'
+		chanel: 'your chanel'
+	}
+});
+													</pre>
+												</td>
+											</tr>
+											<tr>
+												<td>alert_hidden</td>
+												<td>bool</td>
+												<td>true</td>
+												<td>If you want to be alerted even if the page has not the focus.</td>
+											</tr>
+											<tr>
+												<td>alert_hidden_sound</td>
+												<td>string</td>
+												<td>''</td>
+												<td>Url of the audio file <strong>without the extension</strong> You must provide the file in both format MP3/OGG</td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
 						<div>
 							<div class="cell">
-	  				  			<h4>.notificationcenter('newAlert', text, type)</h4>
-								<div class="cell">
-	  				  				<pre>
+	  		 		 			<h3 id="meths">Methods</h3>
+								<div>
+									<div class="cell">
+	  				  					<h4>.notificationcenter('slide')</h4>
+										<div class="cell">
+			  		  						<pre>
+$('body').notificationcenter('slide');
+											</pre>
+										</div>
+									</div>
+								</div>
+								<div>
+									<div class="cell">
+	  					  			<h4>.notificationcenter('newAlert', text, type)</h4>
+									<div class="cell">
+	  					  				<pre>
 $('body').notificationcenter('newAlert', 'This is a new alert.', 'gift');
-									</pre>
+										</pre>
+									</div>
 								</div>
 							</div>
 						</div>

@@ -7,36 +7,352 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<link href="css/bootstrap.css" rel="stylesheet">
 		<link href="css/notifcenter.css" rel="stylesheet">
-		<link href="css/doc.css" rel="stylesheet">
 		<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
 		<style type="text/css">
-			.navbar {
+			body {
+				color: #000;
+				background: #fff;
+				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				overflow: hidden;
+				padding: 0;
+				margin: 0;
+			}
+
+			footer {
+				width: 100%;
+				font-weight: bold;
+				background: #ccc;
+				padding: 10px 0;
+				text-align: center;
+			}
+
+			pre {
+				display: block;
+				padding: 9.5px;
+				margin: 0 0 10px;
+				font-size: 13px;
+				line-height: 20px;
+				word-break: break-all;
+				word-wrap: break-word;
+				white-space: pre;
+				white-space: pre-wrap;
+				background-color: #f5f5f5;
+				border: 1px solid #ccc;
+				border: 1px solid rgba(0,0,0,0.15);
+				-webkit-border-radius: 4px;
+				-moz-border-radius: 4px;
+				border-radius: 4px;
+				font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+				color: #333;
+			}
+
+			a {
+				text-decoration: none;
+				color: #08c;
+			}
+
+			a:hover {
+				color: #005580;
+			}
+
+			h1, h2, h3, h4, h5, h6 {
+				margin: 10px 0;
+				font-weight: bold;
+				line-height: 20px;
+				text-rendering: optimizelegibility;
+			}
+
+			h1, h2, h3 {
+				line-height:40px
+			}
+
+			h1 {
+				font-size: 60px;
+				line-height: 60px;
+				letter-spacing: -1px;
+				margin-bottom: 0;
+			}
+
+			h2 {
+				font-size:31.5px
+			}
+
+			h3 {
+				font-size:24.5px;
+			}
+
+			h4 {
+				font-size:17.5px
+			}
+
+			.navigation {
 				color: #fff;
 				font-size: 18px;
-				overflow: visible;
 				margin-bottom: 20px;
-			}
-
-			.navbar-inverse .navbar-inner {
 				background: #34495e;
+				height: 60px;
+				overflow: hidden;
 			}
 
-                        .navbar .nav > li {
-                                padding: 14px 15px 17px;
-                        }
-
-			.navbar .nav > li > a:hover {
-				color: #1abc9c;
+			.navigation ul {
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
 			}
 
-			.navbar .brand {
-				color: #1abc9c;
-			}
-
-			.navbar .brand:hover {
+			.navigation ul,
+			.navigation ul li,
+			.navigation ul li a {
 				color: #fff;
+				display: inline;
+				padding: 0 10px;
+			}
+
+			.navigation li:hover,
+			.navigation li a:hover {
+				color: #1abc9c;
+			}
+
+			.navigation .right {
+				position: absolute;
+				top: 10px;
+				right: 20px;
+			}
+
+			.navigation .brand {
+				padding-left: 10px;
+				padding-top: 10px;
+			}
+
+			.navigation .brand a {
+				color: #1abc9c;
+			}
+
+			.navigation .brand a:hover {
+				color: #fff;
+			}
+
+			.content {
+				margin: auto auto;
+				width: 80%;
+			}
+
+			.banner {
+				background-color: #eee;
+				border-radius: 6px;
+				-moz-border-radius: 6px;
+				-webkit-border-radius: 6px;
+				font-weight: bold;
+				line-height: 30px;
+				margin-bottom: 30px;
+				padding: 60px;
+			}
+
+			.timer {
+				font-size: 400%;
+				font-weight: bold;
+				color: #2ecc71;
+			}
+
+			.cell {
+				display: table-cell;
+				min-width: 50%;
+				padding: 10px;
+			}
+
+			table.arguments,
+			table.arguments th,
+			table.arguments td {
+				border-collapse: collapse;
+				border: 1px solid #ccc;
+			}
+
+			table.arguments th,
+			table.arguments td {
+				background: #fff;
+				padding: 10px;
+				vertical-align: top;
+			}
+
+			table.arguments tbody tr:nth-child(odd),
+			table.arguments tbody tr:nth-child(odd) td {
+				background: #eee;
+			}
+
+			#notificationcentericon {
+				cursor: pointer;
+				display: inline-block;
+			}
+
+			/* From Bootstrap for buttons only */
+			.btn {
+				display: inline-block;
+				*display: inline;
+				*zoom: 1;
+				padding: 4px 12px;
+				margin-bottom: 0;
+				font-size: 14px;
+				line-height: 20px;
+				text-align: center;
+				vertical-align: middle;
+				cursor: pointer;
+				color: #333;
+				text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+				background-color: #f5f5f5;
+				background-image: -moz-linear-gradient(top, #fff, #e6e6e6);
+				background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e6e6e6));
+				background-image: -webkit-linear-gradient(top, #fff, #e6e6e6);
+				background-image: -o-linear-gradient(top, #fff, #e6e6e6);
+				background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+				background-repeat: repeat-x;
+				filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+				border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+				border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+				*background-color: #e6e6e6;
+				filter: progid: DXImageTransform.Microsoft.gradient(enabled = false);
+				border: 1px solid #ccc;
+				*border: 0;
+				border-bottom-color: #b3b3b3;
+				-webkit-border-radius: 4px;
+				-moz-border-radius: 4px;
+				border-radius: 4px;
+				*margin-left: .3em;
+				-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+				-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+				box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+			}
+
+			.btn:hover,
+			.btn:focus,
+			.btn:active,
+			.btn.active,
+			.btn.disabled,
+			.btn[disabled] {
+				color: #333;
+				background-color: #e6e6e6;
+				*background-color: #d9d9d9;
+			}
+
+			.btn:active,
+			.btn.active {
+				background-color: #ccc \9;
+			}
+
+			.btn:first-child {
+				*margin-left: 0;
+			}
+
+			.btn:hover,
+			.btn:focus {
+				color: #333;
+				text-decoration: none;
+				background-position: 0 -15px;
+				-webkit-transition: background-position .1s linear;
+				-moz-transition: background-position .1s linear;
+				-o-transition: background-position .1s linear;
+				transition: background-position .1s linear;
+			}
+
+			.btn:focus {
+				outline: thin dotted #333;
+				outline: 5px auto -webkit-focus-ring-color;
+				outline-offset: -2px;
+			}
+
+			.btn.active,
+			.btn:active {
+				background-image: none;
+				outline: 0;
+				-webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .05);
+				-moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .05);
+				box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15), 0 1px 2px rgba(0, 0, 0, .05);
+			}
+
+			.btn.disabled,
+			.btn[disabled] {
+				cursor: default;
+				background-image: none;
+				opacity: .65;
+				filter: alpha(opacity=65);
+				-webkit-box-shadow: none;
+				-moz-box-shadow: none;
+				box-shadow: none;
+			}
+
+			.btn-primary.active,
+			.btn-warning.active,
+			.btn-danger.active,
+			.btn-success.active,
+			.btn-info.active,
+			.btn-inverse.active {
+				color: rgba(255, 255, 255, 0.75);
+			}
+
+			.btn-primary {
+				color: #fff;
+				text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+				background-color: #006dcc;
+				background-image: -moz-linear-gradient(top, #08c, #04c);
+				background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08c), to(#04c));
+				background-image: -webkit-linear-gradient(top, #08c, #04c);
+				background-image: -o-linear-gradient(top, #08c, #04c);
+				background-image: linear-gradient(to bottom, #08c, #04c);
+				background-repeat: repeat-x;
+				filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+				border-color: #04c #04c #002a80;
+				border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+				*background-color: #04c;
+				filter: progid: DXImageTransform.Microsoft.gradient(enabled = false);
+			}
+
+			.btn-primary:hover,
+			.btn-primary:focus,
+			.btn-primary:active,
+			.btn-primary.active,
+			.btn-primary.disabled,
+			.btn-primary[disabled] {
+				color: #fff;
+				background-color: #04c;
+				*background-color: #003bb3;
+			}
+
+			.btn-primary:active,
+			.btn-primary.active {
+				background-color: #039 \9;
+			}
+
+			.btn-success {
+				color: #fff;
+				text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+				background-color: #5bb75b;
+				background-image: -moz-linear-gradient(top, #62c462, #51a351);
+				background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
+				background-image: -webkit-linear-gradient(top, #62c462, #51a351);
+				background-image: -o-linear-gradient(top, #62c462, #51a351);
+				background-image: linear-gradient(to bottom, #62c462, #51a351);
+				background-repeat: repeat-x;
+				filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
+				border-color: #51a351 #51a351 #387038;
+				border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+				*background-color: #51a351;
+				filter: progid: DXImageTransform.Microsoft.gradient(enabled = false);
+			}
+
+			.btn-success:hover,
+			.btn-success:focus,
+			.btn-success:active,
+			.btn-success.active,
+			.btn-success.disabled,
+			.btn-success[disabled] {
+				color: #fff;
+				background-color: #51a351;
+				*background-color: #499249;
+			}
+
+			.btn-success:active,
+			.btn-success.active {
+				background-color: #408140 \9;
 			}
 		</style>
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -110,7 +426,7 @@
 				});
 
 				$('.notif').on('click', function() {
-					$('body').notificationcenter('newAlert', 'Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.', $(this).attr('data-type'));
+					$('body').notificationcenter('newAlert', 'New alert by button click.', $(this).attr('data-type'));
 				});
 
 				$('.slideit').on('click', function() {
@@ -121,46 +437,46 @@
 	</head>
 	<body>
 		<div id="noticationcentermain" style="background: #fff;">
-			<div class="navbar navbar-inverse">
-				<div class="navbar-inner">
-					<div class="container">
-						<a class="brand" href="#">jquery.notificationcenter.js</a>
-						<div class="nav-collapse">
-							<ul class="nav pull-right">
-								<li><a href="#" id="notificationcentericon"><i class="fa fa-bars fa-3x"></i></a></li>
-							</ul>
-						</div>
-					</div>
+			<div class="navigation">
+				<div class="brand">
+					<a href="#"><i class="fa fa-cogs"></i> jquery.notificationcenter.js</a>
 				</div>
+				<ul class="right">
+					<li><a href="#docs">Documentation</a></li>
+					<li><a href="#defs">Definition</a></li>
+					<li><a href="#meths">Methods</a></li>
+					<li style="padding-left: 20px;"><span id="notificationcentericon"><i class="fa fa-bars fa-2x"></i></span></li>
+				</ul>
 			</div>
 
-			<div class="container">
-				<div class="hero-unit">
+			<div class="content">
+				<div class="banner">
 					<h1>Notification center for jQuery!</h1>
 					<p>Trying to implement a simple notification center like like Apple OS X.</p>
 					<p><a class="btn btn-primary btn-large" href="https://github.com/thesin-/notificationcenter/archive/master.zip"><i class="fa fa-cloud-download fa-lg"></i> Download</a>&nbsp;&nbsp;<a class="btn btn-success btn-large" href="https://github.com/thesin-/notificationcenter"><i class="fa fa-github-alt fa-lg"></i> GitHub</a></p>
 				</div>
-				<div class="row">
-					<div class="span6">
-						<h2>Triggers</h2>
-						<div class="row-fluid">
-							<div class="span8">
+
+				<div>
+					<div class="cell">
+						<h2>Panel Control</h2>
+						<div>
+							<div class="cell">
 								<p>It's really easy to show the center. The plugin create a panel on the right side of your website.</p>
 							</div>
-							<div class="span4">
-								<p><a class="btn slideit" href="#">Display the panel on the right</a></p>
+							<div class="cell">
+								<p><a class="btn slideit" href="#" style="white-space: nowrap;">Show/Hide panel</a></p>
 							</div>
 						</div>
 					</div>
-					<div class="span6">
+					<div class="cell">
 						<h2>Notifications</h2>
-						<div class="row-fluid">
-							<div class="span6">
+						<div>
+							<div class="cell">
 								<p>How to throw a notification with Javascript.</p>
 							</div>
-							<div class="span4">
-								<p><a class="btn notif" href="#" data-type="gift" style="width:100%;">Shoot a notification</a></p>
-								<p><a class="btn notif" href="#" data-type="calendar" style="width:100%;">Another one</a></p>
+							<div class="cell">
+								<p><a class="btn notif" href="#" data-type="gift" style="width:100%;">Add a notification</a></p>
+								<p><a class="btn notif" href="#" data-type="calendar" style="width:100%;">Add an other one</a></p>
 							</div>
 						</div>
 					</div>
@@ -168,24 +484,24 @@
 
 				<hr>
 
-				<div class="row">
-					<div class="span8">
+				<div>
+					<div class="cell">
 						<h2>FAYE &amp; node.js</h2>
 						<p>Why not adding a little bit of push in it?</p>
 						<blockquote>
 							<p>Faye is a publish-subscribe messaging system based on the <a href="http://svn.cometd.com/trunk/bayeux/bayeux.html" target="_blank">Bayeux</a> protocol. It provides message servers for <a href="http://nodejs.org/" target="_blank">Node.js</a> and <a href="http://www.ruby-lang.org/" target="_blank">Ruby</a>, and clients for use on the server and in all major web browsers.</p>
 						</blockquote>
 						<p>For example purpose we will shoot some notification via ajax every 15 minutes</p>
-						<div class="row-fluid">
-							<div class="span4" style="text-align:right">
+						<div style="padding-left: 40px;">
+							<div class="cell" style="text-align: right;">
 								<img src="img/time.png" width="64" />
 							</div>
-							<div class='span4 timer'>
+							<div class='cell timer'i style="height: 100%; vertical-align: middle;">
 								15:00
 							</div>
 						</div>
 					</div>
-					<div class="span4">
+					<div class="cell">
 						<img src="img/nodejs.png">
 						<img src="img/faye-logo.gif">
 					</div>
@@ -193,26 +509,29 @@
 
 				<hr>
 
-			  	<div class="row">
-			  		<h2>Tips</h2>
-			  		<div class="span12">
+			  	<div>
+			  		<h2 id="#tips">Tips</h2>
+			  		<div class="cell">
 				  		<p>Want to display the date for each notification?</p>
 		  				<p>Include <a href="http://momentjs.com/" target="_blank">Moment.js</a> and <a href="http://mattbradley.github.io/livestampjs/" target="_blank">Livestamp.js</a> and ENJOY :)</p>
 	  				</div>
 	  			</div>
-	  			<div class="row">
-	  				<div class="span12">
-				  		<h2>Documentation</h2>
-				  		<h3>How to start</h3>
-          					<pre class="prettyprint linenums">
+
+				<hr>
+
+	  			<div>
+	  				<div class="cell">
+				  		<h2 id="docs">Documentation</h2>
+				  		<h3>HTML setup</h3>
+          					<pre>
 &lt;body&gt;
 	&lt;div id="noticationcentermain"&gt;
 		[...]all your html[...]
 	&lt;/div&gt;
 &lt;/body&gt;
 						</pre>
-						<h3>Definition</h3>
-          					<pre class="prettyprint linenums">
+						<h3>Javascript setup and definition</h3>
+          					<pre>
 &lt;script&gt;
 $('body').notificationcenter({
             centerElement: "#notificationcenterpanel",
@@ -229,7 +548,7 @@ $('body').notificationcenter({
         });
 &lt;/script&gt;
 						</pre>
-						<table class="table table-bordered table-striped">
+						<table class="arguments">
 							<thead>
 								<tr>
 									<th style="width: 100px;">Name</th>
@@ -274,7 +593,7 @@ $('body').notificationcenter({
 									<td>array</td>
 									<td>[]</td>
 									<td>Array of objects to define the types of each notifications.
-										<pre class="prettyprint linenums">
+										<pre>
 $('body').notificationcenter({
 	types:[
 {
@@ -300,7 +619,7 @@ $('body').notificationcenter({
 									<td>array</td>
 									<td>[]</td>
 									<td>Array of objects to define the default notifications.
-										<pre class="prettyprint linenums">
+										<pre>
 $('body').notificationcenter({
 	default_notifs:[
 {
@@ -318,7 +637,7 @@ $('body').notificationcenter({
 									<td>object</td>
 									<td>false</td>
 									<td>Object to define the faye connection.
-										<pre class="prettyprint linenums">
+										<pre>
 $('body').notificationcenter({
 	faye:
 {
@@ -342,23 +661,20 @@ $('body').notificationcenter({
 								</tr>
 							</tbody>
 						</table>
-	  		 		 	<h3>Methods</h3>
+	  		 		 	<h3 id="meths">Methods</h3>
 	  				  	<h4>.notificationcenter('slide')</h4>
-			  		  	<pre class="prettyprint linenums">
+			  		  	<pre>
 $('body').notificationcenter('slide');
 						</pre>
 	  				  	<h4>.notificationcenter('newAlert', text, type)</h4>
-	  		  			<div class="bs-docs-example" style="padding-bottom: 24px;">
-            						<a onClick="$('body').notificationcenter('newAlert', 'Sed posuere consectetur est at lobortis. Nullam id dolor id nibh ultricies vehicula ut id elit.', 'gift');" class="btn btn-primary btn-large">Display a new notification</a>
-          					</div>
-	  				  	<pre class="prettyprint linenums">
-$('body').notificationcenter('newAlert', 'Sed posuere consectetur est at lobortis. Nullam id dolor id nibh ultricies vehicula ut id elit.', 'gift');
+	  				  	<pre>
+$('body').notificationcenter('newAlert', 'This is a new alert.', 'gift');
 						</pre>
   		 		 	</div>
 				</div>
 			</div>
 			<footer>
-				<p>&copy; <a href="http://www.mathieubuonomo.com">Mathieu BUONOMO</a></p>
+				&copy; jquery.notificationcenter.js
 			</footer>
 		</div>
 	</body>

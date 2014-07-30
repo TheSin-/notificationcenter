@@ -29,7 +29,7 @@
 		bodyElement:		"#noticationcentermain",
 		toggleButton:		"#notificationcentericon",
 		addPanel:		true,
-		notification_offset:	false,
+		notification_offset:	0,
 		displayTime:		5000,
 		types:			[{
 						type: 'system',
@@ -357,9 +357,7 @@
 
 				// Line it up with bodyElement
 				var bposition = $(nc.options.bodyElement).position();
-				var offset = 0;
-				if (nc.options.notification_offset !== false)
-					offset = nc.options.notification_offset;
+
 				$('.notificationul').css({
 					top: bposition.top + nc.options.notification_offset
 				});

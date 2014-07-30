@@ -33,7 +33,7 @@
 		displayTime:		5000,
 		types:			[{
 						type: 'system',
-						img: 'fa fa-cogs fa-lg',
+						img: 'fa fa-cogs',
 						imgtype: 'class',
 						bgcolor: '#222',
 						color: '#fff'
@@ -366,14 +366,16 @@
 			}
 
 			var index = nc.inArray(type, nc.options.types);
-			var html = '';
+			var icon = '<i class="' + nc._defaults.types[0].img + '"></i>';
 
-			if (index !== false)
-				html = '<li id="box' + notifnumber + '"><div class="notification">' + nc.closenotif() + '<div class="iconnotif"><div class="iconnotifimg"><img src="' + nc.options.types[index].img + '" /></div></div><div class="contentnotif">' + text + '</div></div></li>';
-			else
-				html = '<li id="box' + notifnumber + '"><div class="notification">' + nc.closenotif() + '<div class="iconnotif"></div><div class="contentnotif">' + text + '</div></div></li>';
+			if (index !== false) {
+				if (nc.options.types[index].imgtype == 'class')
+					icon = '<i class="' + nc.options.types[index].img + '"></i>';
+				else
+					icon = '<img src="' + nc.options.types[index].img + '">';
+			}
 
-			$('.notificationul').prepend(html);
+			$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification">' + nc.closenotif() + '<div class="iconnotif"><div class="iconnotifimg">' + icon + '</div></div><div class="contentnotif">' + text + '</div></div></li>');
 
 			$('#box' + notifnumber).css({
 				right: '0px',

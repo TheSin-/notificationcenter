@@ -355,11 +355,8 @@
 			if ($('.notificationul').length === 0) {
 				$(nc.options.bodyElement).prepend('<ul class="notificationul"></ul>');
 
-				// Line it up with bodyElement
-				var bposition = $(nc.options.bodyElement).position();
-
 				$('.notificationul').css({
-					top: bposition.top + nc.options.notification_offset
+					top: nc.options.notification_offset
 				});
 			}
 

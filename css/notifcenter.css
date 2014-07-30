@@ -86,7 +86,7 @@ body {
 }
 
 .notification li .active {
-	right: 30px;
+	right: 0px;
 }
 
 .notification {

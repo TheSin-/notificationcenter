@@ -17,3 +17,4 @@ TODO
 * Add a close notif to the type to close all in a type
 * Add method to export the panel list for storage
 * Add option to set a storage callback
+* Add notification pop offset option

@@ -117,6 +117,7 @@
 				nc.snd = false;
 		}
 
+		nc.captureTitle()
 		nc.listener();
 
 		if (nc.options.default_notifs.length > 0) {
@@ -206,6 +207,13 @@
 	Plugin.prototype.closenotif = function() {
 		return '<div class="closenotif"><i class="fa fa-times"></i></div>';
 	}
+
+	Plugin.prototype.captureTitle = function(title) {
+		if (typeof title === 'undefined')
+			title = document.title.replace(/^\([0-9]+\) /, '');
+
+		nc.options.title = title;
+	};
 
 	Plugin.prototype.slide = function() {
 		if (nc.is_open()) {

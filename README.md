@@ -13,4 +13,3 @@ TODO
 * add better default icons
 * add default/builtin notifs
 * Allow icons to use classes/FontAwesome
-* Add a method to update the title

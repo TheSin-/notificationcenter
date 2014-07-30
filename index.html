@@ -402,6 +402,7 @@
 
 				var date = new Date();
 				$('body').notificationcenter({
+					notification_offset: 50,
 					types:[
 						{
 							type: 'gift',
@@ -593,12 +594,15 @@ $('body').notificationcenter({
 	bodyElement: "#noticationcentermain",
 	toggleButton: "#notificationcentericon",
 	addPanel: true,
+	notification_offset: false,
 	displayTime: 5000,
 	types: [],
+	typeMaxDisplay: 5,
 	counter: true,
 	default_notifs: [],
 	faye: false,
 	ajax: false,
+	ajax_checkTime: 5000,
 	alert_hidden: true,
 	alert_hidden_sound: "sounds/Funk"
 });
@@ -646,6 +650,12 @@ $('body').notificationcenter({
 												<td>If you want the panel on the right.</td>
 											</tr>
 											<tr>
+												<td>notification_offset</td>
+												<td>int</td>
+												<td>false</td>
+												<td>If you want the notifications to start a little lower. Useful to not cover up the notificationcentericon.</td>
+											</tr>
+											<tr>
 												<td>displayTime</td>
 												<td>int</td>
 												<td>5000</td>
@@ -661,6 +671,7 @@ $('body').notificationcenter({
 	types: [{
 		type: 'gift', // define the type
 		img: 'img/gift.png', // icon path
+		imgtype: 'image', // image or class, if class img is the classes
 		bgcolor: '#EB5D49', // background color for the center header
 		color: '#FFFFFF' // text color for the center header
 	}, {
@@ -668,6 +679,12 @@ $('body').notificationcenter({
 	}]
 });</pre>
 												</td>
+											</tr>
+											<tr>
+												<td>typeMaxDisplay</td>
+												<td>int</td>
+												<td>5</td>
+												<td>The amount of notifications per type to display in the panel, the rest will get queued as some are removed others will show.  <span class="comment">0 = no limit</span></td>
 											</tr>
 											<tr>
 												<td>counter</td>

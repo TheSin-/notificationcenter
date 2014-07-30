@@ -124,7 +124,8 @@ body {
 }
 
 .notification .closenotif,
-.notifcenterbox .closenotif {
+.notifcenterbox .closenotif,
+.centerheader .closenotif {
 	position: absolute;
 	width: 13px;
 	height: 13px;
@@ -133,12 +134,12 @@ body {
 	cursor: pointer;
 	display: none;
 	background-color: #b7b8bc;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
+	-moz-border-radius: 100px;
+	-webkit-border-radius: 100px;
 	border-radius: 100px;
 	text-align: center;
 	font-size: 80%;
-	line-height: 1;
+	line-height: 1px;
 	color: #e7e8ec;
 	padding: 1px;
 }
@@ -146,6 +147,14 @@ body {
 .notifcenterbox .closenotif {
 	top: -5px;
 	right: -5px;
+	background-color: #111;
+	color: #555;
+}
+
+.centerheader .closenotif {
+	display: block;
+	top: 6px;
+	right: 6px;
 	background-color: #111;
 	color: #555;
 }
@@ -195,8 +204,9 @@ body {
 }
 
 .centerheader {
+	position: relative;
 	height: 24px;
-	padding: 0 30px;
+	padding: 0 5px;
 	background-size: 24px;
 	background-position: center left;
 	background-repeat: no-repeat;
@@ -206,6 +216,10 @@ body {
 	font-weight: bold;
 	margin-left: 3px;
 	padding-top: 4px;
+}
+
+.centerheader > i {
+	padding-right: 10px;
 }
 
 .notificationcentericon {

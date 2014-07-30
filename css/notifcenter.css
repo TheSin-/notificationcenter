@@ -111,6 +111,7 @@ body {
 
 .notifcenterbox {
 	position: relative;
+	padding-right: 10px;
 }
 
 .notifcenterbox small {
@@ -206,7 +207,7 @@ body {
 .centerheader {
 	position: relative;
 	height: 24px;
-	padding: 0 5px;
+	padding: 0 35px;
 	background-size: 24px;
 	background-position: center left;
 	background-repeat: no-repeat;
@@ -218,8 +219,14 @@ body {
 	padding-top: 4px;
 }
 
-.centerheader > i {
+.centerheader > i,
+.centerheader > img {
 	padding-right: 10px;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 2px;
+	left: 2px;
 }
 
 .notificationcentericon {

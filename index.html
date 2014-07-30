@@ -54,6 +54,11 @@
 				color: #333;
 			}
 
+			.comment {
+				font-style: italic;
+				color: #666;
+			}
+
 			a {
 				text-decoration: none;
 				color: #08c;
@@ -498,7 +503,7 @@
 						<h2>Ajax Notifications</h2>
 						<div>
 							<div class="cell">
-								<p>How to istart and ajax check with Javascript. <span style="font-style: italic; color: #666;">Will take 5 minutes before you see the first notification.</span></p>
+								<p>How to istart and ajax check with Javascript. <span class="comment">Will take 5 minutes before you see the first notification.</span></p>
 								<p><a class="btn ajax" href="#">Start ajax</a></p>
 							</div>
 						</div>
@@ -797,6 +802,22 @@ var ajax_options = {
 };
 
 $('body').notificationcenter('ajaxAlerts', ajax_options, 5000);</pre>
+									</div>
+								</div>
+								<div>
+									<div class="cell">
+	  					  			<h4>.notificationcenter('captureTitle', title)</h4>
+									<div class="cell">
+										Set a page title.
+										<div class="cell">
+	  					  					<pre>
+$('body').notificationcenter('captureTitle', 'This is the new page title');</pre>
+										</div>
+										Use the current page title. <span class="comment">It will attempt to detect and remove any current notification counts</span>
+										<div class="cell">
+	  					  					<pre>
+$('body').notificationcenter('captureTitle');</pre>
+										</div>
 									</div>
 								</div>
 							</div>

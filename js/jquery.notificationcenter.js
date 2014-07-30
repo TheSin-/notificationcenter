@@ -22,15 +22,23 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 ; (function ($, window, document, undefined) {
-	var current_notif = [];
+	var notifs = [];
 	var pluginName = "notificationcenter";
 	var defaults = {
 		centerElement:		"#notificationcenterpanel",
 		bodyElement:		"#noticationcentermain",
 		toggleButton:		"#notificationcentericon",
 		addPanel:		true,
+		notification_offset:	false,
 		displayTime:		5000,
-		types:			[],
+		types:			[{
+						type: 'system',
+						img: 'fa fa-cogs fa-lg',
+						imgtype: 'class',
+						bgcolor: '#222',
+						color: '#fff'
+					}],
+		typeMaxDisplay:		5,
 		counter:		true,
 		title_counter:		true,
 		default_notifs:		[],
@@ -65,10 +73,9 @@
 		else if (typeof document.webkitHidden !== "undefined")
 			nc.hiddentype = "webkitHidden";
 
-        
 		nc._defaults = defaults;
 		nc._name = pluginName;
-		nc.current_notif = current_notif;
+		nc.notifs = notifs;
         
 		nc.init();
 	}
@@ -121,27 +128,12 @@
 		nc.listener();
 
 		if (nc.options.default_notifs.length > 0) {
-			var centerElm = nc.options.centerElement;
-			var types = nc.options.types;
-
 			$(nc.options.default_notifs).each(function(index, item) {
 				var type = item.type;
 
-				if ($(centerElm+' .center'+type).length === 0) {
-					var i = nc.inArray(type, types);
-
-					if (i !== false) {
-						var bgcolor = (types[i].bgcolor === undefined)?'#FF00FF':types[i].bgcolor;
-						var color = (types[i].color === undefined)?'#000000':types[i].color;
-
-						$(centerElm).prepend('<div class="centerlist center' + type + '"><div class="centerheader" style="background-color:' + bgcolor + ';color:' + color + ';background-image:url(' + types[index].img + ')">' + types[index].type + '</div><ul></ul></div>');
-					} else {
-						$(centerElm).prepend('<div class="centerlist center' + type + '"><div class="centerheader"></div><ul></ul></div>');
-					}
-				}
-
-				$(item.values).each(function(i,notif) {
-					$(centerElm + ' .center' + type + ' ul').prepend(nc.notifcenterbox(notif.text, notif.time));
+				$(item.values).each(function(i, notif) {
+					// notif.time
+					nc.newAlert(notif.text, type, true);
 				});
 			});
 		}
@@ -193,8 +185,8 @@
 		document.title = title;
 	}
 
-	Plugin.prototype.notifcenterbox = function(notiftext, notiftime) {
-		var str = '<li><div class="notifcenterbox">' + nc.closenotif() + notiftext;
+	Plugin.prototype.notifcenterbox = function(notiftext, notiftime, notifnumber) {
+		var str = '<li id="notif' + notifnumber + '"><div class="notifcenterbox">' + nc.closenotif() + notiftext;
 
 		if (notiftime)
 			str += '<br><small data-livestamp="' + notiftime + '"></small>';
@@ -203,6 +195,27 @@
 
 		return str;
 	}
+
+
+	Plugin.prototype.centerHeader = function(type, index) {
+		var string = '';
+		var icon = '<i class="' + nc._defaults.types[0].img + '"></i>';
+		var bgcolor  = (index === false || typeof nc.options.types[index].bgcolor === 'undefined')?nc._defaults.types[0].bgcolor:nc.options.types[index].bgcolor;
+		var color  = (index === false || typeof nc.options.types[index].color === 'undefined')?nc._defaults.types[0].bgcolor:nc.options.types[index].color;
+
+		if (index !== false) {
+			if (nc.options.types[index].imgtype == 'class')
+				icon = '<i class="' + nc.options.types[index].img + '"></i>';
+			else
+				icon = '<img src="' + nc.options.types[index].img + '">';
+		}
+
+		$(nc.options.centerElement).prepend('<div class="centerlist center' + type + '"><div class="centerheader" style="background-color: ' + bgcolor + '; color: ' + color + ';">' + icon + type + nc.closenotif() + '</div><ul></ul></div>');
+
+		$(nc.options.centerElement).find('.centerlist.center' + type).find('.closenotif').on('click', function() {
+			nc.removeNotifType(type);
+		});
+	};
 
 	Plugin.prototype.closenotif = function() {
 		return '<div class="closenotif"><i class="fa fa-times"></i></div>';
@@ -301,43 +314,87 @@
 		}, checktime);
 	};
 
-	Plugin.prototype.newAlert = function(text, type) {
-		if (!nc.is_open()) {
+	Plugin.prototype.removeNotifType = function(type) {
+		$(nc.options.centerElement).find('.centerlist.center' + type).find('li').each(function() {
+			nc.removeNotif(this);
+		});
+	}
+
+	Plugin.prototype.removeNotif = function(notif) {
+		var notifnumber = $(notif).attr('id');
+		notifnumber = notifnumber.replace('notif', '');
+
+		var index = nc.notifs.indexOf(notifnumber.toString());
+
+		if ($(notif).parents('ul').find('li').length == 1)
+			$(notif).parents('.centerlist').remove();
+
+		$(notif).remove();
+
+		if (index > -1)
+			nc.notifs.splice(index, 1);
+	}
+
+	Plugin.prototype.getNotifNum = function() {
+		var notifnumber = false;
+		while(!notifnumber || nc.notifs.indexOf(notifnumber.toString()) > -1)
+			notifnumber = Math.floor(Math.random() * 1199999);
+
+		nc.notifs.push(notifnumber.toString());
+
+		return notifnumber;
+	};
+
+	Plugin.prototype.newAlert = function(text, type, displayNotification) {
+		if (typeof displayNotification === 'undefined')
+			displayNotification = false;
+
+		var notifnumber = nc.getNotifNum();
+
+		if (!nc.is_open() && !displayNotification) {
 			if ($('.notificationul').length === 0) {
-				$('body').prepend('<ul class="notificationul"></ul>');
+				$(nc.options.bodyElement).prepend('<ul class="notificationul"></ul>');
 
 				// Line it up with bodyElement
 				var bposition = $(nc.options.bodyElement).position();
+				var offset = 0;
+				if (nc.options.notification_offset !== false)
+					offset = nc.options.notification_offset;
 				$('.notificationul').css({
-					top: bposition.top
+					top: bposition.top + nc.options.notification_offset
 				});
 			}
 
-			var randomnumber = Math.floor(Math.random() * 1199999);
 			var index = nc.inArray(type, nc.options.types);
 			var html = '';
 
-			nc.current_notif.push(randomnumber);
-
 			if (index !== false)
-				html = '<li id="box' + randomnumber + '"><div class="notification">' + nc.closenotif() + '<div class="iconnotif"><div class="iconnotifimg"><img src="' + nc.options.types[index].img + '" /></div></div><div class="contentnotif">' + text + '</div></div></li>';
+				html = '<li id="box' + notifnumber + '"><div class="notification">' + nc.closenotif() + '<div class="iconnotif"><div class="iconnotifimg"><img src="' + nc.options.types[index].img + '" /></div></div><div class="contentnotif">' + text + '</div></div></li>';
 			else
-				html = '<li id="box' + randomnumber + '"><div class="notification">' + nc.closenotif() + '<div class="iconnotif"></div><div class="contentnotif">' + text + '</div></div></li>';
+				html = '<li id="box' + notifnumber + '"><div class="notification">' + nc.closenotif() + '<div class="iconnotif"></div><div class="contentnotif">' + text + '</div></div></li>';
 
 			$('.notificationul').prepend(html);
 
-			$('#box'+randomnumber).css({
-				right: '30px',
+			$('#box' + notifnumber).css({
+				right: '0px',
 				position: 'relative'
 			}).fadeIn(500);
 
 			window.setTimeout(function() {
-				$('#box' + randomnumber).css({
+				$('#box' + notifnumber).css({
 					right: '-450px'
 				}).fadeOut(500, function() {
 					$(this).remove();
 				});
 			}, nc.options.displayTime);
+
+			$('#box' + notifnumber + ' .closenotif').on('click', function() {
+				$(this).parents('li').css({
+					right: '-450px'
+				}).fadeOut(500, function() {
+					$(this).remove();
+				});
+			});
 
 			if (nc.options.counter) {
 				if ($(nc.options.toggleButton).attr('data-counter') === undefined) {
@@ -362,14 +419,7 @@
 		if ($(nc.options.centerElement + ' .center' + type).length === 0) {
 			var index = nc.inArray(type, nc.options.types);
 
-			if (index !== false) {
-				var bgcolor  = (nc.options.types[index].bgcolor === undefined)?'#FF00FF':nc.options.types[index].bgcolor;
-				var color  = (nc.options.types[index].color === undefined)?'#000000':nc.options.types[index].color;
-
-				$(nc.options.centerElement).prepend('<div class="centerlist center' + type + '"><div class="centerheader" style="background-color: ' + bgcolor + '; color: ' + color + '; background-image: url(' + nc.options.types[index].img + ')">' + nc.options.types[index].type + '</div><ul></ul></div>');
-			} else {
-				$(nc.options.centerElement).prepend('<div class="centerlist center' + type + '"><div class="centerheader"></div><ul></ul></div>');
-			}
+			nc.centerHeader(type, index);
 		}
 
 		var time = 0;
@@ -378,16 +428,13 @@
 			time = Math.round(date.getTime() / 1000);
 		}
 
-		$(nc.options.centerElement + ' .center' + type + ' ul').prepend(nc.notifcenterbox(text, time));
+		$(nc.options.centerElement + ' .center' + type + ' ul').prepend(nc.notifcenterbox(text, time, notifnumber));
 
-		$('.closenotif').on('click', function() {
+		$('#notif' + notifnumber + ' .closenotif').on('click', function() {
 			$(this).parents('li').css({
 				right: '-450px'
 			}).fadeOut(500, function() {
-				if ($(this).parents('ul').find('li').length == 1)
-					$(this).parents('.centerlist').remove();
-
-				$(this).remove();
+				nc.removeNotif(this);
 			});
 		});
 	};

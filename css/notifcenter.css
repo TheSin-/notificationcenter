@@ -146,8 +146,8 @@ body {
 }
 
 .notifcenterbox .closenotif {
-	top: -5px;
-	right: -5px;
+	top: 0;
+	right: -9px;
 	background-color: #111;
 	color: #555;
 }

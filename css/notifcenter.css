@@ -128,8 +128,8 @@ body {
 .notifcenterbox .closenotif,
 .centerheader .closenotif {
 	position: absolute;
-	width: 13px;
-	height: 13px;
+	width: 12px;
+	height: 12px;
 	top: 5px;
 	right: 5px;
 	cursor: pointer;
@@ -139,7 +139,7 @@ body {
 	-webkit-border-radius: 100px;
 	border-radius: 100px;
 	text-align: center;
-	font-size: 80%;
+	font-size: 12px;
 	line-height: 1px;
 	color: #e7e8ec;
 	padding: 1px;

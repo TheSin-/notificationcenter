@@ -13,3 +13,4 @@ TODO
 * add better default icons
 * Add method to export the panel list for storage
 * Add option to set a storage callback
+* Only apply timeout to top notification

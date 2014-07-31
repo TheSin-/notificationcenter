@@ -379,6 +379,12 @@
 					nc.slide();
 					return false;
 				});
+
+				$(nc.options.bodyElement).on('scroll', function(e) {
+					$('.notificationul').css({
+						top: nc.options.notification_offset + e.target.scrollTop
+					});
+				});
 			}
 
 			function is_open() {

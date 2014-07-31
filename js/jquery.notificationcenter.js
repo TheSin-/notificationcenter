@@ -52,7 +52,8 @@
 				ajax:			false,
 				ajax_checkTime:		5000,
 				alert_hidden:		true,
-				alert_hidden_sound:	''
+				alert_hidden_sound:	'',
+				store_callback:		false
 			}
 
 			/* public methods */
@@ -473,6 +474,9 @@
 						notifno++;
 					});
 				}
+
+				if (nc.options.store_callback !== false)
+					nc.options.store_callback(nc.notifs);
 			}
 
 			function removeNotifType(type) {

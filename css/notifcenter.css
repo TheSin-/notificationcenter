@@ -186,11 +186,11 @@ body {
 }
 
 .notification .contentnotif {
-	width: 290px;
+	width: 270px;
 	float: left;
-	height: 90px;
-	padding-top: 10px;
-	padding-left: 10px;
+	height: 80px;
+	padding: 10px;
+	padding-right: 20px;
 	background-color: #fff;
 	-webkit-border-top-right-radius: 8px;
 	-webkit-border-bottom-right-radius: 8px;

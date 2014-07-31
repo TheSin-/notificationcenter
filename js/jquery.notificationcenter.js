@@ -82,6 +82,7 @@
 					title = document.title.replace(/^\([0-9]+\) /, '');
 
 				nc.options.title = title;
+				updatetitle();
 			};
 
 			nc.slide = function() {

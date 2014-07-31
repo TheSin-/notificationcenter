@@ -115,19 +115,6 @@
 					nc.options.zIndex.button = $(nc.options.toggleButton).css('zIndex');
 
 					$(nc.options.toggleButton).removeClass('open').addClass('close');
-					$(nc.options.bodyElement).animate({
-						right: $(nc.options.centerElement).outerWidth()
-					}, {
-						duration: 500,
-						complete: function() {
-							$(nc.options.centerElement).css({
-								zIndex: 1002
-							});
-							$(nc.options.toggleButton).css({
-								zIndex: 1002
-							});
-						}
-					});
 
 					// Safety add an overlay over document to remove
 					// event control, only notifier panel has control
@@ -144,6 +131,20 @@
 					$('#notificationcenteroverlay').on('click', function() {
 						nc.slide();
 						return false;
+					});
+
+					$(nc.options.bodyElement).animate({
+						right: $(nc.options.centerElement).outerWidth()
+					}, {
+						duration: 500,
+						complete: function() {
+							$(nc.options.centerElement).css({
+								zIndex: 1002
+							});
+							$(nc.options.toggleButton).css({
+								zIndex: 1002
+							});
+						}
 					});
 				}
 			};
@@ -242,6 +243,7 @@
 					    document[nc.options.hiddentype] &&
 					    nc.options.snd)
 						nc.options.snd.play();
+
 				}
 
 				var time = 0;
@@ -443,7 +445,7 @@
 						icon = '<img src="' + nc.options.types[index].img + '">';
 				}
 
-				$(nc.options.centerElement).prepend('<div class="centerlist center' + type + '"><div class="centerheader" style="background-color: ' + bgcolor + '; color: ' + color + ';">' + icon + type + closenotif() + '</div><ul></ul></div>');
+				$(nc.options.centerElement).prepend('<div class="centerlist center' + type + '"><div class="centerheader" style="background-color: ' + bgcolor + '; color: ' + color + ';">' + icon + type + '<div class="notiftypecount"></div>' + closenotif() + '</div><ul></ul></div>');
 
 				$(nc.options.centerElement).find('.centerlist.center' + type).find('.closenotif').on('click', function() {
 					removeNotifType(type);
@@ -455,10 +457,12 @@
 			}
 
 			function hideNotifs(type) {
-				if (nc.options.typeMaxDisplay > 0) {
-					var notifications = $(nc.options.centerElement + ' .center' + type + ' ul li');
-					var count = notifications.length;
+				var notifications = $(nc.options.centerElement + ' .center' + type + ' ul li');
+				var count = notifications.length;
 
+				$(nc.options.centerElement + ' .center' + type).find('.notiftypecount').text('(' + count + ')');
+
+				if (nc.options.typeMaxDisplay > 0) {
 					var notifno = 0;
 					$.each(notifications, function(k, v) {
 						if (notifno < nc.options.typeMaxDisplay)

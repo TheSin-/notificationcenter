@@ -160,6 +160,11 @@ body {
 	color: #555;
 }
 
+.centerheader .notiftypecount {
+	display: inline;
+	font-size: 80%;
+}
+
 .notification .iconnotif {
 	width: 99px;
 	float: left;

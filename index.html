@@ -378,7 +378,7 @@
 		<script src="js/jquery.livestamp.js"></script>
 		<script src="js/jquery.notificationcenter.js"></script>
 		<script src="js/jquery.timer.js"></script>
-		<script src="http://176.31.127.193:8000/faye/client.js"></script>
+		<!-- <script src="http://176.31.127.193:8000/faye/client.js"></script> -->
 		<script>
 			var client = null;
 			$(document).ready(function(){
@@ -450,10 +450,6 @@
 							}]
 						}
 					],
-					faye : {
-						server: 'http://176.31.127.193:8000/faye',
-						channel: '/messages'
-					},
 					alert_hidden_sound: 'sounds/Purr'
 				});
 

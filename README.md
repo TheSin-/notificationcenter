@@ -13,4 +13,3 @@ TODO
 * add better default icons
 * Add method to export the panel list for storage
 * Add option to set a storage callback
-* Add mouseover binding to notifications, delay timeout

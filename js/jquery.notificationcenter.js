@@ -53,7 +53,7 @@
 				ajax_checkTime:		5000,
 				alert_hidden:		true,
 				alert_hidden_sound:	''
-			};
+			}
 
 			/* public methods */
 			nc.construct = function(settings) {
@@ -208,13 +208,13 @@
 						position: 'relative'
 					}).fadeIn(500);
 
-					window.setTimeout(function() {
+					ncTimeout(function() {
 						$('#box' + notifnumber).css({
 							right: '-' + $('#box' + notifnumber).outerWidth() + 20 + 'px'
 						}).fadeOut(500, function() {
 							$(this).remove();
 						});
-					}, nc.options.displayTime);
+					}, nc.options.displayTime, '#box' + notifnumber);
 
 					$('#box' + notifnumber + ' .closenotif').on('click', function() {
 						$(this).parents('li').css({
@@ -264,6 +264,40 @@
 				}
 
 				return false;
+			}
+
+			function ncTimeout(func, timeout, watchele) {
+				var seconds = timeout / 1000;
+				var done = false;
+				var timer;
+
+				var counter = function() {
+					if (!done) {
+						seconds--;
+
+						timer = setTimeout(function() {
+							counter();
+						}, 1000);
+					}
+
+					if (seconds < 1) {
+						done = true;
+						clearTimeout(timer);
+						func();
+					}
+				}
+
+				counter();
+
+				if (typeof watchele !== 'undefined') {
+					$(watchele).on('mouseover', function() {
+						clearTimeout(timer);
+					});
+
+					$(watchele).on('mouseout', function() {
+						counter();
+					});
+				}
 			}
 
 			// Plugin Functions

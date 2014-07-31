@@ -151,14 +151,14 @@
 			};
 
 					
-			nc.fayeAlert = function(faye) {
+			nc.faye = function(faye) {
 				var client = new Faye.Client(faye.server);
 				var subscription = client.subscribe(faye.channel, function(message) {
 					nc.newAlert(message.text, message.type);
 				});
 			}
 
-			nc.ajaxAlert = function(ajaxobj, checktime) {
+			nc.ajax = function(ajaxobj, checktime) {
 				if (typeof checktime === 'undefined' || !checktime)
 					checktime = nc._defaults.ajax_checkTime;
 
@@ -371,10 +371,10 @@
 				}
 
 				if (nc.options.faye !== false)
-					nc.fayeAlert(nc.options.faye);
+					nc.faye(nc.options.faye);
 
 				if (nc.options.ajax !== false)
-					nc.ajaxAlert(nc.options.ajax, nc.options.ajax_checkTime);
+					nc.ajax(nc.options.ajax, nc.options.ajax_checkTime);
 			}
 
 			function bindings() {

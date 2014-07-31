@@ -468,7 +468,7 @@
 				var ajax_checkTime = 5 * 60 * 1000; // 5 minutes
 				$('.ajax').on('click', function() {
 					if (!$('.ajax').hasClass('disabled')) {
-						$.notificationcenter.ajaxAlert(ajax_options, ajax_checkTime);
+						$.notificationcenter.ajax(ajax_options, ajax_checkTime);
 						$('.ajax').addClass('disabled');
 					}
 				});
@@ -849,7 +849,7 @@ $.notificationcenter.newAlert('This is a new alert.', 'gift');</pre>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.fayeAlert(faye_object)</a></h4>
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.faye(faye_object)</a></h4>
 									<div class="cell collapsable">
 	  					  				<pre>
 var faye = {
@@ -857,12 +857,12 @@ var faye = {
 	channel: 'your channel'
 };
 
-$.notificationcenter.fayeAlert(faye);</pre>
+$.notificationcenter.faye(faye);</pre>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.ajaxAlert(options_object, checkTime)</a></h4>
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.ajax(options_object, checkTime)</a></h4>
 									<div class="cell collapsable">
 	  					  				<pre>
 var ajax_options = {
@@ -873,7 +873,7 @@ var ajax_options = {
 	}
 };
 
-$.notificationcenter.ajaxAlert(ajax_options, 5000);</pre>
+$.notificationcenter.ajax(ajax_options, 5000);</pre>
 									</div>
 								</div>
 								<div>

@@ -162,9 +162,9 @@
 			}
 
 			.timer {
-				font-size: 400%;
+				font-size: 200%;
 				font-weight: bold;
-				color: #2ecc71;
+				color: #1abc9c;
 			}
 
 			.cell {
@@ -393,7 +393,7 @@
 					return false;
 				});
 
-				var minutes = 15;
+				var minutes = 5;
 				var seconds = minutes * 60;
 				var counter = setInterval(function() {
 					if (seconds > 0) {
@@ -407,7 +407,7 @@
 						$('.timer').html(mins + ':' + secs);
 					} else {
 						seconds = minutes * 60;
-						$.notificationcenter.newAlert('This alert has been pushed via + minutes + minute timer', 'system');
+						$.notificationcenter.newAlert('This alert has been pushed via ' + minutes + ' minute timer', 'system');
 					}
 				}, 1000);
 
@@ -498,6 +498,10 @@
 					<p><a class="btn btn-primary btn-large" href="https://github.com/thesin-/notificationcenter/archive/master.zip"><i class="fa fa-cloud-download fa-lg"></i> Download</a>&nbsp;&nbsp;<a class="btn btn-success btn-large" href="https://github.com/thesin-/notificationcenter"><i class="fa fa-github-alt fa-lg"></i> GitHub</a></p>
 				</div>
 
+				<div style="text-align: center; font-weight: bold; width: 100%">
+					<p>New notification in <span class="timer"></span></p>
+				</div>
+
 				<div>
 					<div class="cell">
 						<h2>Panel Control</h2>
@@ -534,25 +538,13 @@
 
 				<div>
 					<div class="cell">
-						<h2>FAYE &amp; node.js</h2>
+						<img src="img/faye-logo.gif">
+						<img src="img/nodejs.png">
 						<div class="cell">
 							<p>Why not adding a little bit of push in it?</p>
 							<blockquote>
 								<p>Faye is a publish-subscribe messaging system based on the <a href="http://svn.cometd.com/trunk/bayeux/bayeux.html" target="_blank">Bayeux</a> protocol. It provides message servers for <a href="http://nodejs.org/" target="_blank">Node.js</a> and <a href="http://www.ruby-lang.org/" target="_blank">Ruby</a>, and clients for use on the server and in all major web browsers.</p>
 							</blockquote>
-							<p>For example purpose we will shoot some notification via js timer every 15 minutes</p>
-							<div style="padding-left: 40px;">
-								<div class="cell" style="text-align: right;">
-									<img src="img/time.png" width="64" />
-								</div>
-								<div class='cell timer'i style="height: 100%; vertical-align: middle;">
-									15:00
-								</div>
-							</div>
-						</div>
-						<div class="cell">
-							<img src="img/nodejs.png">
-							<img src="img/faye-logo.gif">
 						</div>
 					</div>
 				</div>

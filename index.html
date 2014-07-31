@@ -382,6 +382,17 @@
 		<script>
 			var client = null;
 			$(document).ready(function(){
+				$('.collapsable').hide();
+				$('.permalink').bind('click', function() {
+					if ($(this).parents('td').length > 0) {
+						$(this).closest('tr').find('.collapsable').toggle();
+					} else {
+						$(this).closest('div').find('.collapsable').toggle();
+					}
+
+					return false;
+				});
+
 				var minutes = 15;
 				var seconds = minutes * 60;
 				var counter = setInterval(function() {
@@ -670,11 +681,12 @@ $('body').notificationcenter({
 												<td>Display time for each notification in milliseconds.</td>
 											</tr>
 											<tr>
-												<td>types</td>
+												<td><a href="#" class="permalink">types</a></td>
 												<td>array</td>
 												<td>[]</td>
 												<td>Array of objects to define the types of each notifications.
-													<pre>
+													<div class="collapsable">
+														<pre>
 $('body').notificationcenter({
 	types: [{
 		type: 'gift', // define the type
@@ -686,6 +698,7 @@ $('body').notificationcenter({
 		[...]
 	}]
 });</pre>
+													</div>
 												</td>
 											</tr>
 											<tr>
@@ -701,11 +714,12 @@ $('body').notificationcenter({
 												<td>Display a counter.</td>
 											</tr>
 											<tr>
-												<td>default_notifs</td>
+												<td><a href="#" class="permalink">default_notifs</a></td>
 												<td>array</td>
 												<td>[]</td>
 												<td>Array of objects to define the default notifications.
-													<pre>
+													<div class="collapsable">
+														<pre>
 $('body').notificationcenter({
 	default_notifs: [{
 		type: 'gift', // define the type
@@ -717,28 +731,32 @@ $('body').notificationcenter({
 		[...]
 	}]
 });</pre>
+													</div>
 												</td>
 											</tr>
 											<tr>
-												<td>faye</td>
+												<td><a href="#" class="permalink">faye</a></td>
 												<td>object</td>
 												<td>false</td>
 												<td>Object to define the faye connection.
-													<pre>
+													<div class="collapsable">
+														<pre>
 $('body').notificationcenter({
 	faye: {
 		server: 'http://yourserver:port'
 		chanel: 'your chanel'
 	}
 });</pre>
+													</div>
 												</td>
 											</tr>
 											<tr>
-												<td>ajax</td>
+												<td><a href="#" class="permalink">ajax</a></td>
 												<td>object</td>
 												<td>false</td>
 												<td><a href="http://api.jquery.com/jQuery.ajax/">jQuery ajax Object</a> to define the ajax call.
-													<pre>
+													<div class="collapsable">
+														<pre>
 $('body').notificationcenter({
 	ajax: {
 		type: 'POST',
@@ -749,8 +767,8 @@ $('body').notificationcenter({
 		}
 	}
 });</pre>
-													A JSON array is expected as a result of the query, each item can be as an array or an object.
-													<pre>
+														A JSON array is expected as a result of the query, each item can be as an array or an object.
+														<pre>
 [
 	[
 		"This is an alert",
@@ -758,7 +776,7 @@ $('body').notificationcenter({
 	 ],
 	 [ ... ]
 ]</pre>
-													<pre>
+														<pre>
 [
 	{
 		"text": "This is an alert",
@@ -768,6 +786,7 @@ $('body').notificationcenter({
 		[ ... ]
 	}
 ]</pre>
+													</div>
 												</td>
 											</tr>
 											<tr>
@@ -798,8 +817,8 @@ $('body').notificationcenter({
 	  		 		 			<h3 id="meths">Methods</h3>
 								<div>
 									<div class="cell">
-	  				  					<h4>$.notificationcenter.slide()</h4>
-										<div class="cell">
+	  				  					<h4><a href="#" class="permalink">$.notificationcenter.slide()</a></h4>
+										<div class="cell collapsable">
 			  		  						<pre>
 $.notificationcenter.slide();</pre>
 										</div>
@@ -807,16 +826,16 @@ $.notificationcenter.slide();</pre>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4>$.notificationcenter.newAlert(text, type)</h4>
-									<div class="cell">
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.newAlert(text, type)</a></h4>
+									<div class="cell collapsable">
 	  					  				<pre>
 $.notificationcenter.newAlert('This is a new alert.', 'gift');</pre>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4>$.notificationcenter.fayeAlert(faye_object)</h4>
-									<div class="cell">
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.fayeAlert(faye_object)</a></h4>
+									<div class="cell collapsable">
 	  					  				<pre>
 var faye = {
 	server: 'http://yourserver:port',
@@ -828,8 +847,8 @@ $.notificationcenter.fayeAlert(faye);</pre>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4>$.notificationcenter.ajaxAlert(options_object, checkTime)</h4>
-									<div class="cell">
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.ajaxAlert(options_object, checkTime)</a></h4>
+									<div class="cell collapsable">
 	  					  				<pre>
 var ajax_options = {
 	type: 'POST',
@@ -844,8 +863,8 @@ $.notificationcenter.ajaxAlert(ajax_options, 5000);</pre>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4>$.notificationcenter.captureTitle([title])</h4>
-									<div class="cell">
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.captureTitle([title])</a></h4>
+									<div class="cell collapsable">
 										Set a page title. <span class="comments">title is optional, it'll use the current title otherwise</span>
 										<div class="cell">
 	  					  					<pre>

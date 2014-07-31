@@ -396,7 +396,7 @@
 						$('.timer').html(mins + ':' + secs);
 					} else {
 						seconds = minutes * 60;
-						$('body').notificationcenter('newAlert', 'This alert has been pushed via + minutes + minute timer', 'system');
+						$.notificationcenter.newAlert('This alert has been pushed via + minutes + minute timer', 'system');
 					}
 				}, 1000);
 
@@ -447,18 +447,18 @@
 				});
 
 				$('.slideit').on('click', function() {
-					$('body').notificationcenter('slide');
+					$.notificationcenter.slide();
 				});
 
 				$('.notif').on('click', function() {
-					$('body').notificationcenter('newAlert', 'New alert by button click.', $(this).attr('data-type'));
+					$.notificationcenter.newAlert('New alert by button click.', $(this).attr('data-type'));
 				});
 
 				var ajax_options = 'examples/object.json';
 				var ajax_checkTime = 5 * 60 * 1000; // 5 minutes
 				$('.ajax').on('click', function() {
 					if (!$('.ajax').hasClass('disabled')) {
-						$('body').notificationcenter('ajaxAlerts', ajax_options, ajax_checkTime);
+						$.notificationcenter.ajaxAlert(ajax_options, ajax_checkTime);
 						$('.ajax').addClass('disabled');
 					}
 				});
@@ -798,24 +798,37 @@ $('body').notificationcenter({
 	  		 		 			<h3 id="meths">Methods</h3>
 								<div>
 									<div class="cell">
-	  				  					<h4>.notificationcenter('slide')</h4>
+	  				  					<h4>$.notificationcenter.slide()</h4>
 										<div class="cell">
 			  		  						<pre>
-$('body').notificationcenter('slide');</pre>
+$.notificationcenter.slide();</pre>
 										</div>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4>.notificationcenter('newAlert', text, type)</h4>
+	  					  			<h4>$.notificationcenter.newAlert(text, type)</h4>
 									<div class="cell">
 	  					  				<pre>
-$('body').notificationcenter('newAlert', 'This is a new alert.', 'gift');</pre>
+$.notificationcenter.newAlert('This is a new alert.', 'gift');</pre>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4>.notificationcenter('ajaxAlerts', options_object, checkTime)</h4>
+	  					  			<h4>$.notificationcenter.fayeAlert(faye_object)</h4>
+									<div class="cell">
+	  					  				<pre>
+var faye = {
+	server: 'http://yourserver:port',
+	channel: 'your channel'
+};
+
+$.notificationcenter.fayeAlert(faye);</pre>
+									</div>
+								</div>
+								<div>
+									<div class="cell">
+	  					  			<h4>$.notificationcenter.ajaxAlert(options_object, checkTime)</h4>
 									<div class="cell">
 	  					  				<pre>
 var ajax_options = {
@@ -826,22 +839,22 @@ var ajax_options = {
 	}
 };
 
-$('body').notificationcenter('ajaxAlerts', ajax_options, 5000);</pre>
+$.notificationcenter.ajaxAlert(ajax_options, 5000);</pre>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4>.notificationcenter('captureTitle', title)</h4>
+	  					  			<h4>$.notificationcenter.captureTitle([title])</h4>
 									<div class="cell">
-										Set a page title.
+										Set a page title. <span class="comments">title is optional, it'll use the current title otherwise</span>
 										<div class="cell">
 	  					  					<pre>
-$('body').notificationcenter('captureTitle', 'This is the new page title');</pre>
+$.notificationcenter.captureTitle('This is the new page title');</pre>
 										</div>
 										Use the current page title. <span class="comment">It will attempt to detect and remove any current notification counts</span>
 										<div class="cell">
 	  					  					<pre>
-$('body').notificationcenter('captureTitle');</pre>
+$.notificationcenter.captureTitle();</pre>
 										</div>
 									</div>
 								</div>

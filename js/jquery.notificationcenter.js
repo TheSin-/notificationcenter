@@ -22,7 +22,7 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 ; (function ($, window, document, undefined) {
-	var notifs = [];
+	var notifs = {};
 	var pluginName = "notificationcenter";
 	var defaults = {
 		centerElement:		"#notificationcenterpanel",
@@ -79,6 +79,38 @@
         
 		nc.init();
 	}
+
+	// Start helper prototypes
+	Plugin.prototype.indexOfBy = function(obj, name, value) {
+		$.each(obj, function(k, v) {
+			if (v[name] == value)
+				return k;
+		});
+
+		return false;
+	};
+
+	Plugin.prototype.lengthBy = function(obj, name, value) {
+		var count = 0;
+
+		$.each(obj, function(k, v) {
+			if (v[name] == value)
+				count++;
+		});
+
+		return count;
+	};
+
+	Array.prototype.inArray = function(needle) {
+		var length = this.length;
+
+		for (var i = 0; i < length; i++) {
+			if (this[i].type === needle)
+				return i;
+		}
+
+		return false;
+	};
 
 	// Start Prototypes
 	Plugin.prototype.init = function () {
@@ -157,17 +189,6 @@
 		});
 	};
 
-	Plugin.prototype.inArray = function(needle, haystack) {
-		var length = haystack.length;
-
-		for (var i = 0; i < length; i++) {
-			if (haystack[i].type === needle)
-				return i;
-		}
-
-		return false;
-	}
-
 	Plugin.prototype.is_open = function() {
 		if ($(nc.options.centerElement).is(':visible'))
 			return true;
@@ -185,15 +206,33 @@
 		document.title = title;
 	}
 
-	Plugin.prototype.notifcenterbox = function(notiftext, notiftime, notifnumber) {
-		var str = '<li id="notif' + notifnumber + '"><div class="notifcenterbox">' + nc.closenotif() + notiftext;
+	Plugin.prototype.notifcenterbox = function(type, text, time, number) {
+		nc.notifs[number] = {
+			type: type,
+			text: text,
+			time: time
+		}
 
-		if (notiftime)
-			str += '<br><small data-livestamp="' + notiftime + '"></small>';
+		if ($(nc.options.centerElement + ' .center' + type).length === 0) {
+			var index = nc.options.types.inArray(type);
+
+			nc.centerHeader(type, index);
+		}
+
+		var str = '<li id="notif' + number + '"><div class="notifcenterbox">' + nc.closenotif() + text;
+
+		if (time)
+			str += '<br><small data-livestamp="' + time + '"></small>';
 
 		str += '</div></li>';
 
-		return str;
+		$(nc.options.centerElement + ' .center' + type + ' ul').prepend(str);
+
+		$('#notif' + number + ' .closenotif').on('click', function() {
+			nc.removeNotif($(this).parents('li'));
+		});
+
+		nc.hideNotifs(type);
 	}
 
 
@@ -314,33 +353,55 @@
 		}, checktime);
 	};
 
+	Plugin.prototype.hideNotifs = function(type) {
+		if (nc.options.typeMaxDisplay > 0) {
+			var notifications = $(nc.options.centerElement + ' .center' + type + ' ul li');
+			var count = notifications.length;
+
+			var notifno = 0;
+			$.each(notifications, function(k, v) {
+				if (notifno < nc.options.typeMaxDisplay)
+					$(notifications[k]).show();
+				else
+					$(notifications[k]).hide();	
+
+				notifno++;
+			});
+		}
+	};
+
 	Plugin.prototype.removeNotifType = function(type) {
 		$(nc.options.centerElement).find('.centerlist.center' + type).find('li').each(function() {
 			nc.removeNotif(this);
 		});
-	}
+	};
 
 	Plugin.prototype.removeNotif = function(notif) {
 		var notifnumber = $(notif).attr('id');
 		notifnumber = notifnumber.replace('notif', '');
 
-		var index = nc.notifs.indexOf(notifnumber.toString());
+		$(notif).css({
+			right: '-450px'
+		}).fadeOut(500, function() {
+			if ($(notif).parents('ul').find('li').length <= 1)
+				$(notif).parents('.centerlist').remove();
 
-		if ($(notif).parents('ul').find('li').length == 1)
-			$(notif).parents('.centerlist').remove();
+			$(this).remove();
 
-		$(notif).remove();
+			nc.hideNotifs(type);
+		});
 
-		if (index > -1)
-			nc.notifs.splice(index, 1);
-	}
+		var type = nc.notifs[notifnumber].type;
+
+		delete nc.notifs[notifnumber];
+	};
 
 	Plugin.prototype.getNotifNum = function() {
 		var notifnumber = false;
-		while(!notifnumber || nc.notifs.indexOf(notifnumber.toString()) > -1)
+		while(!notifnumber || typeof nc.notifs[notifnumber] !== 'undefined')
 			notifnumber = Math.floor(Math.random() * 1199999);
 
-		nc.notifs.push(notifnumber.toString());
+		nc.notifs[notifnumber] = {};
 
 		return notifnumber;
 	};
@@ -360,7 +421,7 @@
 				});
 			}
 
-			var index = nc.inArray(type, nc.options.types);
+			var index = nc.options.types.inArray(type);
 			var icon = '<i class="' + nc._defaults.types[0].img + '"></i>';
 
 			if (index !== false) {
@@ -413,27 +474,13 @@
 				nc.snd.play();
 		}
 
-		if ($(nc.options.centerElement + ' .center' + type).length === 0) {
-			var index = nc.inArray(type, nc.options.types);
-
-			nc.centerHeader(type, index);
-		}
-
 		var time = 0;
 		if (jQuery().livestamp) {
 			var date = new Date();
 			time = Math.round(date.getTime() / 1000);
 		}
 
-		$(nc.options.centerElement + ' .center' + type + ' ul').prepend(nc.notifcenterbox(text, time, notifnumber));
-
-		$('#notif' + notifnumber + ' .closenotif').on('click', function() {
-			$(this).parents('li').css({
-				right: '-450px'
-			}).fadeOut(500, function() {
-				nc.removeNotif(this);
-			});
-		});
+		nc.notifcenterbox(type, text, time, notifnumber);
 	};
 
 	$.fn[pluginName] = function(options) {

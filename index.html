@@ -450,7 +450,10 @@
 							}]
 						}
 					],
-					alert_hidden_sound: 'sounds/Purr'
+					alert_hidden_sound: 'sounds/Purr',
+					store_callback: function(notifs) {
+						console.log(JSON.stringify(notifs))
+					}
 				});
 
 				$('.slideit').on('click', function() {
@@ -610,7 +613,8 @@ $('body').notificationcenter({
 	ajax: false,
 	ajax_checkTime: 5000,
 	alert_hidden: true,
-	alert_hidden_sound: "sounds/Funk"
+	alert_hidden_sound: "sounds/Funk",
+	store_callback: false
 });
 &lt;/script&gt;</pre>
 								</div>
@@ -793,6 +797,30 @@ $('body').notificationcenter({
 												<td>string</td>
 												<td>''</td>
 												<td>Url of the audio file <strong>without the extension</strong> You must provide the file in both format MP3/OGG</td>
+											</tr>
+											<tr>
+												<td><a href="#" class="permalink">store_callback</a></td>
+												<td>function</td>
+												<td>false</td>
+												<td>Function to call to store the panel's contents, false = no storage.  <span class="comments">An object that holds the current panel info will be passed in as an arg. Check your console.</span>
+													<div class="collapsable">
+														<pre>
+$('body').notificationcenter({
+	store_callback: function(notifs) {
+		$.ajax({
+			type: 'POST',
+			url: 'some.php',
+			data: {
+				uid: 100,
+				notifications: notifs
+			}
+		}).done(function(data) {
+			console.log('storage updated')
+		});
+	}
+});</pre>
+													</div>
+												</td>
 											</tr>
 										</tbody>
 									</table>

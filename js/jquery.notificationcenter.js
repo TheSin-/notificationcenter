@@ -189,13 +189,6 @@
 						$('.notificationul').css({
 							top: nc.options.notification_offset
 						});
-
-						// Add top padding if panel isn't at the top
-						var bposition = $(nc.options.bodyElement).position();
-						if (bposition.top > 0)
-							$('.notificationul').css({
-								'padding-top': bposition.top
-							});
 					}
 
 					var index = inArray(type, nc.options.types);

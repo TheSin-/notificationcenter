@@ -439,6 +439,10 @@
 					$('#notif' + number).on('click', function() {
 						nc.slide(callback, nc.notifs[number]);
 					});
+
+					$('#notif' + number).css({
+						cursor: 'pointer'
+					});
 				}
 
 				hideNotifs(type);

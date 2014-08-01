@@ -85,7 +85,7 @@
 				updatetitle();
 			};
 
-			nc.slide = function() {
+			nc.slide = function(callback, notif) {
 				if (is_open()) {
 					$(nc.options.centerElement).css({
 						zIndex: nc.options.zIndex.panel
@@ -103,6 +103,8 @@
 						complete: function() {
 							$('#notificationcenteroverlay').remove();
 							$(nc.options.centerElement).hide();
+							if (typeof callback === 'function')
+								callback(notif);
 						}
 					});
 				} else {
@@ -155,7 +157,7 @@
 			nc.faye = function(faye) {
 				var client = new Faye.Client(faye.server);
 				var subscription = client.subscribe(faye.channel, function(message) {
-					nc.newAlert(message.text, message.type);
+					nc.newAlert(message.text, message.type, true, message.callback, message.time);
 				});
 			}
 
@@ -169,9 +171,9 @@
 							if ($.isArray(data)) {
 								$.each(data, function(k, v) {
 									if ($.isArray(v))
-										nc.newAlert(v[0], v[1]);
+										nc.newAlert(v[0], v[1], true, v[2], v[3]);
 									else
-										nc.newAlert(v.text, v.type);
+										nc.newAlert(v.text, v.type, true, v.callback, v.time);
 								});
 							}
 						}
@@ -179,13 +181,16 @@
 				}, checktime);
 			};
 
-			nc.newAlert = function(text, type, displayNotification) {
+			nc.newAlert = function(text, type, displayNotification, callback, time) {
 				if (typeof displayNotification === 'undefined')
-					displayNotification = false;
+					displayNotification = true;
+
+				if (typeof callback === 'undefined')
+					callback = false;
 
 				var notifnumber = getNotifNum();
 
-				if (!is_open() && !displayNotification) {
+				if (!is_open() && displayNotification) {
 					if ($('.notificationul').length === 0) {
 						$(nc.options.bodyElement).prepend('<ul class="notificationul"></ul>');
 
@@ -248,13 +253,12 @@
 
 				}
 
-				var time = 0;
-				if (jQuery().livestamp) {
+				if (jQuery().livestamp && typeof time === 'undefined') {
 					var date = new Date();
 					time = Math.round(date.getTime() / 1000);
 				}
 
-				notifcenterbox(type, text, time, notifnumber);
+				notifcenterbox(type, text, time, notifnumber, callback);
 			};
 
 			/* private functions */
@@ -365,8 +369,7 @@
 						var type = item.type;
 
 						$(item.values).each(function(i, notif) {
-							// notif.time
-							nc.newAlert(notif.text, type, true);
+							nc.newAlert(notif.text, type, false, notif.callback, notif.time);
 						});
 					});
 				}
@@ -405,11 +408,12 @@
 				document.title = title;
 			}
 
-			function notifcenterbox(type, text, time, number) {
+			function notifcenterbox(type, text, time, number, callback) {
 				nc.notifs[number] = {
 					type: type,
 					text: text,
-					time: time
+					time: time,
+					callback: callback
 				}
 
 				if ($(nc.options.centerElement + ' .center' + type).length === 0) {
@@ -430,6 +434,12 @@
 				$('#notif' + number + ' .closenotif').on('click', function() {
 					removeNotif($(this).parents('li'));
 				});
+
+				if (typeof callback === 'function') {
+					$('#notif' + number).on('click', function() {
+						nc.slide(callback, nc.notifs[number]);
+					});
+				}
 
 				hideNotifs(type);
 			}
@@ -476,7 +486,7 @@
 					});
 				}
 
-				if (nc.options.store_callback !== false)
+				if (typeof nc.options.store_callback === 'function')
 					nc.options.store_callback(nc.notifs);
 			}
 

@@ -446,7 +446,10 @@
 							type: 'gift',
 							values:[{
 								text: 'This is an example',
-								time: date.getTime()/1000
+								time: date.getTime()/1000,
+								callback: function(notif) {
+									alert('This is an example callback, here is the original text: ' + notif.text);
+								}
 							}]
 						}
 					],
@@ -708,7 +711,7 @@ $('body').notificationcenter({
 												<td><a href="#" class="permalink">default_notifs</a></td>
 												<td>array</td>
 												<td>[]</td>
-												<td>Array of objects to define the default notifications.
+												<td>Array of objects to define the default notifications. <span class="comments">callback is optional</span>
 													<div class="collapsable">
 														<pre>
 $('body').notificationcenter({
@@ -716,7 +719,10 @@ $('body').notificationcenter({
 		type: 'gift', // define the type
 		values: [{
 			text: 'This is an example',
-			time: date.getTime()/1000
+			time: date.getTime()/1000,
+			callback: function(notif) {
+				alert('this is a callback: ' + notif.text);
+			}
 		}]
 	}, {
 		[...]
@@ -841,10 +847,10 @@ $.notificationcenter.slide();</pre>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.newAlert(text, type)</a></h4>
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.newAlert(text, type, [display notification], [callback], [time])</a></h4>
 									<div class="cell collapsable">
 	  					  				<pre>
-$.notificationcenter.newAlert('This is a new alert.', 'gift');</pre>
+$.notificationcenter.newAlert('This is a new alert.', 'gift', true, function(notif) { alert('this is a callback: ' + notif.text); }, 1406857387);</pre>
 									</div>
 								</div>
 								<div>

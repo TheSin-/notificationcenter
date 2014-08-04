@@ -44,7 +44,8 @@
 					bgcolor: '#222',
 					color: '#fff'
 				}],
-				type_max_display:		5,
+				type_max_display:	5,
+				truncate_message:	0,
 				counter:		true,
 				title_counter:		true,
 				default_notifs:		[],
@@ -199,17 +200,13 @@
 						});
 					}
 
-					var index = inArray(type, nc.options.types);
-					var icon = '<i class="' + nc._defaults.types[0].img + '"></i>';
+					var notiftype = nc.types[type];
+					var textstr = text;
 
-					if (index !== false) {
-						if (nc.options.types[index].imgtype == 'class')
-							icon = '<i class="' + nc.options.types[index].img + '"></i>';
-						else
-							icon = '<img src="' + nc.options.types[index].img + '">';
-					}
+					if (notiftype.truncate_message)
+						textstr = truncatemsg(text, notiftype.truncate_message);
 
-					$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification">' + closenotif() + '<div class="iconnotif"><div class="iconnotifimg">' + icon + '</div></div><div class="contentnotif">' + text + '</div></div></li>');
+					$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification">' + closenotif() + '<div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + textstr + '</div></div></li>');
 
 					$('#box' + notifnumber).css({
 						right: '0px',
@@ -246,10 +243,8 @@
 						}
 					}
 
-					if (nc.options.alert_hidden &&
-					    document[nc.options.hiddentype] &&
-					    nc.options.snd)
-						nc.options.snd.play();
+					if (notiftype.alert_hidden)
+						notiftype.snd.play();
 
 				}
 
@@ -351,18 +346,14 @@
 				$(nc.options.toggle_button).addClass('notificationcentericon');
 
 				if (window.HTMLAudioElement &&
-				    nc.options.alert_hidden_sound &&
-				    nc.options.alert_hidden) {
-					var snd = new Audio('');
-                   
-					if (snd.canPlayType('audio/ogg'))
-						nc.options.snd = new Audio(nc.options.alert_hidden_sound + '.ogg');
-					else if (snd.canPlayType('audio/mp3'))
-						nc.options.snd = new Audio(nc.options.alert_hidden_sound + '.mp3');
-				}
+				    nc.options.alert_hidden)
+					nc._defaults['snd'] = new Audio('');
+				else
+					nc._defaults['alert_hidden'] = false;
 
 				nc.captureTitle()
 				bindings();
+				buildTypes();
 
 				if (nc.options.default_notifs.length > 0) {
 					$(nc.options.default_notifs).each(function(index, item) {
@@ -379,6 +370,18 @@
 
 				if (nc.options.ajax !== false)
 					nc.ajax(nc.options.ajax, nc.options.ajax_checkTime);
+			}
+
+			function buildTypes() {
+				nc.types = {};
+
+				$.each(nc.options.types, function(k, v) {
+					nc.types[v.type] = getnotiftype(v.type);
+				});
+
+				$.each(nc.options.types, function(k, v) {
+					nc.types[v.type] = getnotiftype(v.type);
+				});
 			}
 
 			function bindings() {
@@ -408,6 +411,87 @@
 				document.title = title;
 			}
 
+			function getnotiftype(type) {
+				var index = inArray(type, nc.options.types);
+				var notiftype;
+
+				if (index !== false)
+					notiftype = nc.options.types[index];
+				else
+					notiftype = nc._default.types[0];
+
+				notiftype['index'] = index;
+
+				if (typeof notiftype.bgcolor === 'undefined')
+					notiftype['bgcolor'] = nc._defaults.types[0].bgcolor
+
+				if (typeof notiftype.color === 'undefined')
+					notiftype['color']  = nc._defaults.types[0].bgcolor;
+
+				if (typeof notiftype.imgtype === 'undefined')
+					notiftype['imgtype'] = 'image';
+
+				if (typeof notiftype.truncate_message === 'undefined')
+					notiftype['truncate_message'] = nc.options.truncate_message;
+
+				if (typeof notiftype.type_max_display === 'undefined')
+					notiftype['type_max_display'] = nc.options.type_max_display;
+
+				if (typeof notiftype.alert_hidden === 'undefined')
+					notiftype['alert_hidden'] = nc.options.alert_hidden;
+
+				if (typeof notiftype.alert_hidden_sound === 'undefined')
+					notiftype['alert_hidden_sound'] = nc.options.alert_hidden_sound;
+
+				notiftype['snd'] = setSound(notiftype);
+
+				if (notiftype.imgtype == 'class')
+					notiftype['icon'] = '<i class="' + notiftype.img + '"></i>';
+				else
+					notiftype['icon'] = '<img src="' + notiftype.img + '">';
+
+				return notiftype;
+			}
+
+			function setSound(notiftype) {
+				if (nc._defaults.alert_hidden === true &&
+				    notiftype.alert_hidden === true) {
+					if (nc._defaults.snd.canPlayType('audio/ogg'))
+						return new Audio(notiftype.alert_hidden_sound + '.ogg');
+					else if (nc._defaults.snd.canPlayType('audio/mp3'))
+						return new Audio(notiftype.alert_hidden_sound + '.mp3');
+				}
+
+				return false;
+			}
+
+			// WhiteSpace/LineTerminator as defined in ES5.1 plus Unicode characters in the Space, Separator category.
+			function getTrimmableCharacters() {
+				return '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u2028\u2029\u3000\uFEFF';
+			}
+
+			function truncateOnWord(str, limit) {
+				var reg = RegExp('(?=[' + getTrimmableCharacters() + '])');
+				var words = str.split(reg);
+				var count = 0;
+
+				return words.filter(function(word) {
+					count += word.length;
+					return count <= limit;
+				}).join('');
+			}
+
+			function truncatemsg(msg, length) {
+				var mlength = msg.length;
+				var ellipse = '&hellip;';
+				var tmsg = msg;
+
+				if (mlength > length)
+					tmsg = truncateOnWord(msg, length) + ellipse;
+
+				return tmsg;
+			}
+
 			function notifcenterbox(type, text, time, number, callback) {
 				nc.notifs[number] = {
 					type: type,
@@ -416,13 +500,16 @@
 					callback: callback
 				}
 
-				if ($(nc.options.center_element + ' .center' + type).length === 0) {
-					var index = inArray(type, nc.options.types);
+				var notiftype = nc.types[type];
+				var textstr = text;
 
-					centerHeader(type, index);
-				}
+				if (notiftype.truncate_message)
+					textstr = truncatemsg(text, notiftype.truncate_message);
 
-				var str = '<li id="notif' + number + '"><div class="notifcenterbox">' + closenotif() + text;
+				if ($(nc.options.center_element + ' .center' + type).length === 0)
+					centerHeader(notiftype);
+
+				var str = '<li id="notif' + number + '"><div class="notifcenterbox">' + closenotif() + textstr;
 
 				if (time)
 					str += '<br><small data-livestamp="' + time + '"></small>';
@@ -448,23 +535,11 @@
 				hideNotifs(type);
 			}
 
-			function centerHeader(type, index) {
-				var string = '';
-				var icon = '<i class="' + nc._defaults.types[0].img + '"></i>';
-				var bgcolor  = (index === false || typeof nc.options.types[index].bgcolor === 'undefined')?nc._defaults.types[0].bgcolor:nc.options.types[index].bgcolor;
-				var color  = (index === false || typeof nc.options.types[index].color === 'undefined')?nc._defaults.types[0].bgcolor:nc.options.types[index].color;
+			function centerHeader(notiftype) {
+				$(nc.options.center_element).prepend('<div class="centerlist center' + notiftype.type + '"><div class="centerheader" style="background-color: ' + notiftype.bgcolor + '; color: ' + notiftype.color + ';">' + notiftype.icon + notiftype.type + '<div class="notiftypecount"></div>' + closenotif() + '</div><ul></ul></div>');
 
-				if (index !== false) {
-					if (nc.options.types[index].imgtype == 'class')
-						icon = '<i class="' + nc.options.types[index].img + '"></i>';
-					else
-						icon = '<img src="' + nc.options.types[index].img + '">';
-				}
-
-				$(nc.options.center_element).prepend('<div class="centerlist center' + type + '"><div class="centerheader" style="background-color: ' + bgcolor + '; color: ' + color + ';">' + icon + type + '<div class="notiftypecount"></div>' + closenotif() + '</div><ul></ul></div>');
-
-				$(nc.options.center_element).find('.centerlist.center' + type).find('.closenotif').on('click', function() {
-					removeNotifType(type);
+				$(nc.options.center_element).find('.centerlist.center' + notiftype.type).find('.closenotif').on('click', function() {
+					removeNotifType(notiftype.type);
 				});
 			}
 
@@ -475,15 +550,14 @@
 			function hideNotifs(type) {
 				var notifications = $(nc.options.center_element + ' .center' + type + ' ul li');
 				var count = notifications.length;
-				var index = nc.options.types.indexOf(type);
-				var type_max_display = (typeof nc.options.types[index].type_max_display !== 'undefined')?nc.options.types[index].type_max_display:nc.options.type_max_display;
+				var notiftype = nc.types[type];
 
 				$(nc.options.center_element + ' .center' + type).find('.notiftypecount').text('(' + count + ')');
 
-				if (type_max_display > 0) {
+				if (notiftype.type_max_display > 0) {
 					var notifno = 0;
 					$.each(notifications, function(k, v) {
-						if (notifno < type_max_display)
+						if (notifno < notiftype.type_max_display)
 							$(notifications[k]).show();
 						else
 							$(notifications[k]).hide();	

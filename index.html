@@ -420,14 +420,17 @@
 							type: 'fontawesome',
 							img: 'fa fa-bullseye',
 							imgtype: 'class',
+							type_max_display: 2,
 							bgcolor: '#222',
-							color: '#fff'
+							color: '#fff',
+							alert_hidden_sound: 'sounds/Basso'
 						},
 						{
 							type: 'gift',
 							img: 'img/gift.png',
 							bgcolor: '#eb5d49',
-							color: '#fff'
+							color: '#fff',
+							truncate_message: 28
 						},
 						{
 							type: 'calendar',
@@ -438,6 +441,7 @@
 						{
 							type: 'system',
 							img: 'img/settings.png',
+							typeMaxDisplay: 10,
 							bgcolor: '#222',
 							color: '#fff'
 						}
@@ -603,14 +607,15 @@
           								<pre>
 &lt;script&gt;
 $('body').notificationcenter({
-	centerElement: "#notificationcenterpanel",
-	bodyElement: "#noticationcentermain",
-	toggleButton: "#notificationcentericon",
-	addPanel: true,
+	center_element: "#notificationcenterpanel",
+	body_element: "#noticationcentermain",
+	toggle_button: "#notificationcentericon",
+	add_panel: true,
 	notification_offset: 0,
-	displayTime: 5000,
+	display_time: 5000,
 	types: [],
-	typeMaxDisplay: 5,
+	type_max_display: 5,
+	truncate_message: 0,
 	counter: true,
 	default_notifs: [],
 	faye: false,
@@ -687,6 +692,10 @@ $('body').notificationcenter({
 		type: 'gift', // define the type
 		img: 'img/gift.png', // icon path
 		imgtype: 'image', // image or class, if class img is the classes
+		typeMaxDisplay: 5, // if not present the global is used
+		alert_hidden: true, // if not present the global is used
+		alert_hidden_sound: 'sounds/Funk', // if not present the global is used
+		truncate_message: 0, // if not present the global is used
 		bgcolor: '#EB5D49', // background color for the center header
 		color: '#FFFFFF' // text color for the center header
 	}, {
@@ -707,6 +716,12 @@ $('body').notificationcenter({
 												<td>boolean</td>
 												<td>true</td>
 												<td>Display a counter.</td>
+											</tr>
+											<tr>
+												<td>truncate_message</td>
+												<td>int</td>
+												<td>0</td>
+												<td>Display only one x characters of the notification/notif. <span class="comments">callback will always have the full message</span></td>
 											</tr>
 											<tr>
 												<td><a href="#" class="permalink">default_notifs</a></td>

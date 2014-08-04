@@ -31,12 +31,12 @@
 			nc.notifs = {};
 			nc._name = "notificationcenter";
 			nc._defaults = {
-				centerElement:		"#notificationcenterpanel",
-				bodyElement:		"#noticationcentermain",
-				toggleButton:		"#notificationcentericon",
-				addPanel:		true,
+				center_element:		"#notificationcenterpanel",
+				body_element:		"#noticationcentermain",
+				toggle_button:		"#notificationcentericon",
+				add_panel:		true,
 				notification_offset:	0,
-				displayTime:		5000,
+				display_time:		5000,
 				types:			[{
 					type: 'system',
 					img: 'fa fa-cogs',
@@ -44,7 +44,7 @@
 					bgcolor: '#222',
 					color: '#fff'
 				}],
-				typeMaxDisplay:		5,
+				type_max_display:		5,
 				counter:		true,
 				title_counter:		true,
 				default_notifs:		[],
@@ -87,38 +87,38 @@
 
 			nc.slide = function(callback, notif) {
 				if (is_open()) {
-					$(nc.options.centerElement).css({
+					$(nc.options.center_element).css({
 						zIndex: nc.options.zIndex.panel
 					});
-					$(nc.options.toggleButton).css({
+					$(nc.options.toggle_button).css({
 						zIndex: nc.options.zIndex.button
 					});
 
-					$(nc.options.toggleButton).removeClass('close').addClass('open');
+					$(nc.options.toggle_button).removeClass('close').addClass('open');
 
-					$(nc.options.bodyElement).animate({
+					$(nc.options.body_element).animate({
 						right: '0px'
 					}, {
 						duration: 500,
 						complete: function() {
 							$('#notificationcenteroverlay').remove();
-							$(nc.options.centerElement).hide();
+							$(nc.options.center_element).hide();
 							if (typeof callback === 'function')
 								callback(notif);
 						}
 					});
 				} else {
 					if (nc.options.counter) {
-						$(nc.options.toggleButton).removeAttr('data-counter');
+						$(nc.options.toggle_button).removeAttr('data-counter');
 						if (nc.options.title_counter)
 							updatetitle();
 					}
 
-					$(nc.options.centerElement).show();
-					nc.options.zIndex.panel = $(nc.options.centerElement).css('zIndex');
-					nc.options.zIndex.button = $(nc.options.toggleButton).css('zIndex');
+					$(nc.options.center_element).show();
+					nc.options.zIndex.panel = $(nc.options.center_element).css('zIndex');
+					nc.options.zIndex.button = $(nc.options.toggle_button).css('zIndex');
 
-					$(nc.options.toggleButton).removeClass('open').addClass('close');
+					$(nc.options.toggle_button).removeClass('open').addClass('close');
 
 					// Safety add an overlay over document to remove
 					// event control, only notifier panel has control
@@ -137,15 +137,15 @@
 						return false;
 					});
 
-					$(nc.options.bodyElement).animate({
-						right: $(nc.options.centerElement).outerWidth()
+					$(nc.options.body_element).animate({
+						right: $(nc.options.center_element).outerWidth()
 					}, {
 						duration: 500,
 						complete: function() {
-							$(nc.options.centerElement).css({
+							$(nc.options.center_element).css({
 								zIndex: 1002
 							});
-							$(nc.options.toggleButton).css({
+							$(nc.options.toggle_button).css({
 								zIndex: 1002
 							});
 						}
@@ -192,7 +192,7 @@
 
 				if (!is_open() && displayNotification) {
 					if ($('.notificationul').length === 0) {
-						$(nc.options.bodyElement).prepend('<ul class="notificationul"></ul>');
+						$(nc.options.body_element).prepend('<ul class="notificationul"></ul>');
 
 						$('.notificationul').css({
 							top: nc.options.notification_offset
@@ -222,7 +222,7 @@
 						}).fadeOut(500, function() {
 							$(this).remove();
 						});
-					}, nc.options.displayTime, '#box' + notifnumber);
+					}, nc.options.display_time, '#box' + notifnumber);
 
 					$('#box' + notifnumber + ' .closenotif').on('click', function() {
 						$(this).parents('li').css({
@@ -233,14 +233,14 @@
 					});
 
 					if (nc.options.counter) {
-						if ($(nc.options.toggleButton).attr('data-counter') === undefined) {
-							$(nc.options.toggleButton).attr('data-counter', 1);
+						if ($(nc.options.toggle_button).attr('data-counter') === undefined) {
+							$(nc.options.toggle_button).attr('data-counter', 1);
 							if (nc.options.title_counter)
 								updatetitle();
 						} else {
-							var counter = parseInt($(nc.options.toggleButton).attr('data-counter')) + 1;
+							var counter = parseInt($(nc.options.toggle_button).attr('data-counter')) + 1;
 
-							$(nc.options.toggleButton).attr('data-counter', counter);
+							$(nc.options.toggle_button).attr('data-counter', counter);
 							if (nc.options.title_counter)
 								updatetitle();
 						}
@@ -320,26 +320,26 @@
 				else if (typeof document.webkitHidden !== "undefined")
 					nc.options.hiddentype = "webkitHidden";
 
-				if (nc.options.addPanel &&
-					$(nc.options.centerElement).length === 0)
-						$(nc.element).prepend('<div id="' + nc.options.centerElement.replace('#', '') + '"></div>');
+				if (nc.options.add_panel &&
+					$(nc.options.center_element).length === 0)
+						$(nc.element).prepend('<div id="' + nc.options.center_element.replace('#', '') + '"></div>');
 
-				// Line it up with bodyElement
-				var bposition = $(nc.options.bodyElement).position();
-				$(nc.options.centerElement).hide();
-				$(nc.options.centerElement).css({
+				// Line it up with body_element
+				var bposition = $(nc.options.body_element).position();
+				$(nc.options.center_element).hide();
+				$(nc.options.center_element).css({
 					position: 'absolute',
 					top: bposition.top,
 					right: '0px'
 				});
 
 				// Make sure body element has position: absolute or relative
-				var bodyPos = $(nc.options.bodyElement).css('position');
+				var bodyPos = $(nc.options.body_element).css('position');
 				if (bodyPos != 'relative' ||
 				    bodyPos != 'absolute')
 					bodyPos = 'absolute';
 
-				$(nc.options.bodyElement).css({
+				$(nc.options.body_element).css({
 					position: bodyPos,
 					top: bposition.top,
 					right: '0px',
@@ -348,7 +348,7 @@
 					overflow: 'auto'
 				});
 
-				$(nc.options.toggleButton).addClass('notificationcentericon');
+				$(nc.options.toggle_button).addClass('notificationcentericon');
 
 				if (window.HTMLAudioElement &&
 				    nc.options.alert_hidden_sound &&
@@ -382,12 +382,12 @@
 			}
 
 			function bindings() {
-				$(nc.options.toggleButton).on('click', function() {
+				$(nc.options.toggle_button).on('click', function() {
 					nc.slide();
 					return false;
 				});
 
-				$(nc.options.bodyElement).on('scroll', function(e) {
+				$(nc.options.body_element).on('scroll', function(e) {
 					$('.notificationul').css({
 						top: nc.options.notification_offset + e.target.scrollTop
 					});
@@ -395,12 +395,12 @@
 			}
 
 			function is_open() {
-				return $(nc.options.centerElement).is(':visible');
+				return $(nc.options.center_element).is(':visible');
 			}
 
 			function updatetitle() {
 				var title = nc.options.title;
-				var count = parseInt($(nc.options.toggleButton).attr('data-counter')) || false;
+				var count = parseInt($(nc.options.toggle_button).attr('data-counter')) || false;
 
 				if (count)
 					title = "(" + count + ") " + title;
@@ -416,7 +416,7 @@
 					callback: callback
 				}
 
-				if ($(nc.options.centerElement + ' .center' + type).length === 0) {
+				if ($(nc.options.center_element + ' .center' + type).length === 0) {
 					var index = inArray(type, nc.options.types);
 
 					centerHeader(type, index);
@@ -429,7 +429,7 @@
 
 				str += '</div></li>';
 
-				$(nc.options.centerElement + ' .center' + type + ' ul').prepend(str);
+				$(nc.options.center_element + ' .center' + type + ' ul').prepend(str);
 
 				$('#notif' + number + ' .closenotif').on('click', function() {
 					removeNotif($(this).parents('li'));
@@ -461,9 +461,9 @@
 						icon = '<img src="' + nc.options.types[index].img + '">';
 				}
 
-				$(nc.options.centerElement).prepend('<div class="centerlist center' + type + '"><div class="centerheader" style="background-color: ' + bgcolor + '; color: ' + color + ';">' + icon + type + '<div class="notiftypecount"></div>' + closenotif() + '</div><ul></ul></div>');
+				$(nc.options.center_element).prepend('<div class="centerlist center' + type + '"><div class="centerheader" style="background-color: ' + bgcolor + '; color: ' + color + ';">' + icon + type + '<div class="notiftypecount"></div>' + closenotif() + '</div><ul></ul></div>');
 
-				$(nc.options.centerElement).find('.centerlist.center' + type).find('.closenotif').on('click', function() {
+				$(nc.options.center_element).find('.centerlist.center' + type).find('.closenotif').on('click', function() {
 					removeNotifType(type);
 				});
 			}
@@ -473,15 +473,17 @@
 			}
 
 			function hideNotifs(type) {
-				var notifications = $(nc.options.centerElement + ' .center' + type + ' ul li');
+				var notifications = $(nc.options.center_element + ' .center' + type + ' ul li');
 				var count = notifications.length;
+				var index = nc.options.types.indexOf(type);
+				var type_max_display = (typeof nc.options.types[index].type_max_display !== 'undefined')?nc.options.types[index].type_max_display:nc.options.type_max_display;
 
-				$(nc.options.centerElement + ' .center' + type).find('.notiftypecount').text('(' + count + ')');
+				$(nc.options.center_element + ' .center' + type).find('.notiftypecount').text('(' + count + ')');
 
-				if (nc.options.typeMaxDisplay > 0) {
+				if (type_max_display > 0) {
 					var notifno = 0;
 					$.each(notifications, function(k, v) {
-						if (notifno < nc.options.typeMaxDisplay)
+						if (notifno < type_max_display)
 							$(notifications[k]).show();
 						else
 							$(notifications[k]).hide();	
@@ -495,7 +497,7 @@
 			}
 
 			function removeNotifType(type) {
-				$(nc.options.centerElement).find('.centerlist.center' + type).find('li').each(function() {
+				$(nc.options.center_element).find('.centerlist.center' + type).find('li').each(function() {
 					removeNotif(this);
 				});
 			}

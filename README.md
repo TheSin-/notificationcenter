@@ -11,4 +11,3 @@ Demo site: http://thesin-.github.io/notificationcenter/
 TODO
 * add better default icons
 * add Method to redisplay the notification that can be used in the callbacks
-* Add template strings for centerHeader, maybe others?

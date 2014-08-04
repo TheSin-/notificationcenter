@@ -46,6 +46,7 @@
 				}],
 				type_max_display:	5,
 				truncate_message:	0,
+				header_output:		'{icon} {count} {type}',
 				counter:		true,
 				title_counter:		true,
 				default_notifs:		[],
@@ -434,6 +435,9 @@
 				if (typeof notiftype.truncate_message === 'undefined')
 					notiftype['truncate_message'] = nc.options.truncate_message;
 
+				if (typeof notiftype.header_output === 'undefined')
+					notiftype['header_output'] = nc.options.header_output;
+
 				if (typeof notiftype.type_max_display === 'undefined')
 					notiftype['type_max_display'] = nc.options.type_max_display;
 
@@ -536,7 +540,18 @@
 			}
 
 			function centerHeader(notiftype) {
-				$(nc.options.center_element).prepend('<div class="centerlist center' + notiftype.type + '"><div class="centerheader" style="background-color: ' + notiftype.bgcolor + '; color: ' + notiftype.color + ';">' + notiftype.icon + notiftype.type + '<div class="notiftypecount"></div>' + closenotif() + '</div><ul></ul></div>');
+				var s = nc.options.header_output
+					.replace(/\{icon\}/gi, function(m, n) {
+                                        	return notiftype.icon;
+                                	})
+					.replace(/\{type\}/gi, function(m, n) {
+                                        	return notiftype.type;
+                                	})
+					.replace(/\{count\}/gi, function(m, n) {
+                                        	return '<div class="notiftypecount"></div>';
+                                	});
+
+				$(nc.options.center_element).prepend('<div class="centerlist center' + notiftype.type + '"><div class="centerheader" style="background-color: ' + notiftype.bgcolor + '; color: ' + notiftype.color + ';">' + s + closenotif() + '</div><ul></ul></div>');
 
 				$(nc.options.center_element).find('.centerlist.center' + notiftype.type).find('.closenotif').on('click', function() {
 					removeNotifType(notiftype.type);

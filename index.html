@@ -453,7 +453,7 @@
 								text: 'This is an example, I have a callback click me to see it.',
 								time: date.getTime()/1000,
 								callback: function(notif) {
-									alert('This is an example callback, here is the original text: ' + notif.text);
+									$.notificationcenter.alert(notif.text);
 								}
 							}]
 						}
@@ -745,7 +745,7 @@ $('body').notificationcenter({
 			text: 'This is an example',
 			time: date.getTime()/1000,
 			callback: function(notif) {
-				alert('this is a callback: ' + notif.text);
+				$.notificationcenter.alert(notif.text, notif.type);
 			}
 		}]
 	}, {
@@ -874,7 +874,7 @@ $.notificationcenter.slide();</pre>
 	  					  			<h4><a href="#" class="permalink">$.notificationcenter.newAlert(text, type, [display notification], [callback], [time])</a></h4>
 									<div class="cell collapsable">
 	  					  				<pre>
-$.notificationcenter.newAlert('This is a new alert.', 'gift', true, function(notif) { alert('this is a callback: ' + notif.text); }, 1406857387);</pre>
+$.notificationcenter.newAlert('This is a new alert.', 'gift', true, function(notif) { $.notificationcenter.alert(notif.text, notif.type); }, 1406857387);</pre>
 									</div>
 								</div>
 								<div>
@@ -904,6 +904,17 @@ var ajax_options = {
 };
 
 $.notificationcenter.ajax(ajax_options, 5000);</pre>
+									</div>
+								</div>
+								<div>
+									<div class="cell">
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.alert(text, type)</a></h4>
+									<div class="cell collapsable">
+										This is very useful for callbacks, you could setup a callback type even.
+										<div class="cell">
+	  					  					<pre>
+$.notificationcenter.alert('This is just an alert, nothing in notificaiton center', 'system');</pre>
+										</div>
 									</div>
 								</div>
 								<div>

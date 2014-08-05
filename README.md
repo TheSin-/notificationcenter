@@ -10,3 +10,4 @@ Demo site: http://thesin-.github.io/notificationcenter/
 
 TODO
 * add better default icons
+* Add sticky alerts

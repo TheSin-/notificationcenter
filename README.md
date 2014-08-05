@@ -6,7 +6,7 @@ Original idea and code from
 
 Apple OS X Style Notification Center for web
 
-Demo site: http://thesin-.github.io/notificationcenter/
+Demo/Documentation: http://thesin-.github.io/notificationcenter/
 
 TODO
 * add better default icons

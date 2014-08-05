@@ -9,5 +9,6 @@ Apple OS X Style Notification Center for web
 Demo/Documentation: http://thesin-.github.io/notificationcenter/
 
 TODO
-* add better default icons
+* Add better default icons
 * Add sticky alerts
+* Add swipe support to delete notifications (will require jquery mobile)

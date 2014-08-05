@@ -549,7 +549,7 @@
 					callback: callback
 				}
 
-				var notiftype = nc.types[type];
+				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
 				var textstr = text;
 
 				if (notiftype.truncate_message)
@@ -558,7 +558,11 @@
 				if ($(nc.options.center_element + ' .center' + type).length === 0)
 					centerHeader(notiftype);
 
-				var str = '<li id="notif' + number + '">' + closenotif(nc.mobile) + '<div class="notifcenterbox">' + textstr;
+				var str = '';
+				if (nc.mobile === true)
+					str = '<li id="notif' + number + '">' + closenotif(nc.mobile) + '<div class="notifcenterbox">' + textstr;
+				else
+					str = '<li id="notif' + number + '"><div class="notifcenterbox">' + closenotif() + textstr;
 
 				if (time)
 					str += '<br><small data-livestamp="' + time + '"></small>';
@@ -644,7 +648,7 @@
 			function hideNotifs(type) {
 				var notifications = $(nc.options.center_element + ' .center' + type + ' ul li');
 				var count = notifications.length;
-				var notiftype = nc.types[type];
+				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
 
 				$(nc.options.center_element + ' .center' + type).find('.notiftypecount').text('(' + count + ')');
 

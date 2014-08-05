@@ -119,14 +119,12 @@ body {
 }
 
 .centerlist ul li:hover .closenotif,
-.notifcenterbox:hover .closenotif,
 .notification:hover .closenotif {
 	display: block;
 }
 
-.notification .closenotif,
-.notifcenterbox .closenotif,
-.centerheader .closenotif {
+.centerlist .closenotif,
+.notification .closenotif {
 	position: absolute;
 	width: 12px;
 	height: 12px;
@@ -145,22 +143,18 @@ body {
 	padding: 1px;
 }
 
-.notifcenterbox .closenotif {
-	top: 0;
-	right: -9px;
+.centerlist .closenotif {
+	top: 7px;
+	right: 7px;
 	background-color: #111;
 	color: #555;
 }
 
 .centerheader .closenotif {
 	display: block;
-	top: 7px;
-	right: 6px;
-	background-color: #111;
-	color: #555;
 }
 
-.centerheader .behind {
+.behind {
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -168,18 +162,18 @@ body {
 	right: 0;
 }
 
-.centerheader .behind .ui-btn {
+.behind .ui-btn {
 	width: 68px;
 	margin: 0px;
 	float: right;
 	border: none;
 }
 
-.centerheader .behind .delete-btn,
-.centerheader .behind .delete-btn:active,
-.centerheader .behind .delete-btn:visited,
-.centerheader .behind .delete-btn:focus,
-.centerheader .behind .delete-btn:hover {
+.behind .delete-btn,
+.behind .delete-btn:active,
+.behind .delete-btn:visited,
+.behind .delete-btn:focus,
+.behind .delete-btn:hover {
 	color: white;
 	background-color: red;
 	text-shadow: none;
@@ -239,12 +233,12 @@ body {
 .centerlist ul li {
 	padding: 15px;
 	border-bottom: 1px solid #555;
+	position: relative;
 }
 
 .centerheader {
 	position: relative;
 	height: 24px;
-	padding: 0 35px;
 	background-size: 24px;
 	background-position: center left;
 	background-repeat: no-repeat;
@@ -252,8 +246,9 @@ body {
 	line-height: 22px;
 	text-transform: uppercase;
 	font-weight: bold;
-	margin-left: 3px;
+	padding-left: 35px;
 	padding-top: 4px;
+	width: 265px;
 }
 
 .centerheader > i,

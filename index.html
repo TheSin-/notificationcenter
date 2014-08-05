@@ -419,6 +419,12 @@
 					notification_offset: 50,
 					types:[
 						{
+							type: 'sticky',
+							img: 'fa fa-clock-o',
+							imgtype: 'class',
+							display_time: 0
+						},
+						{
 							type: 'fontawesome',
 							img: 'fa fa-bullseye',
 							imgtype: 'class',
@@ -529,6 +535,7 @@
 								<p><a class="btn notif" href="#" data-type="gift">Add a notification</a></p>
 								<p><a class="btn notif" href="#" data-type="calendar">Add an other type</a></p>
 								<p><a class="btn notif" href="#" data-type="fontawesome">Add a class type</a></p>
+								<p><a class="btn notif" href="#" data-type="sticky">Add a sticky alert</a></p>
 							</div>
 						</div>
 					</div>
@@ -685,7 +692,7 @@ $('body').notificationcenter({
 												<td>display_time</td>
 												<td>int</td>
 												<td>5000</td>
-												<td>Display time for each notification in milliseconds.</td>
+												<td>Display time for each notification in milliseconds. <span class="comment">0 means the notification is sticky and will not be added to the notif pane</span></td>
 											</tr>
 											<tr>
 												<td><a href="#" class="permalink">types</a></td>
@@ -700,6 +707,7 @@ $('body').notificationcenter({
 		img: 'img/gift.png', // icon path
 		imgtype: 'image', // image or class, if class img is the classes
 		type_max_display: 5, // if not present the global is used
+		display_time: 5000, // if not present the global is used
 		alert_hidden: true, // if not present the global is used
 		alert_hidden_sound: 'sounds/Funk', // if not present the global is used
 		truncate_message: 0, // if not present the global is used

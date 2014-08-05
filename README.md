@@ -20,7 +20,7 @@ FEATURES
 * Mobile compat, includes options for swipe delete on notifs
 * CSS Styled allows lots of styling control to the site
 * Allow ajax and/or faye alerts on top of js calls to create alerts
+* Allow Sticky notifications
 
 TODO
 * Add better default icons
-* Add sticky alerts

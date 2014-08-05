@@ -107,8 +107,10 @@
 						complete: function() {
 							$('#notificationcenteroverlay').remove();
 							$(nc.options.center_element).hide();
-							if (typeof callback === 'function')
+							if (typeof callback === 'function') {
 								callback(notif);
+								removeNotif($('#notif' + notif.id));
+							}
 						}
 					});
 				} else {
@@ -211,13 +213,15 @@
 					position: 'relative'
 				}).fadeIn(500);
 
-				ncTimeout(function() {
-					$('#box' + notifnumber).css({
-						right: '-' + $('#box' + notifnumber).outerWidth() + 20 + 'px'
-					}).fadeOut(500, function() {
-						$(this).remove();
-					});
-				}, nc.options.display_time, '#box' + notifnumber);
+				if (notiftype.display_time) {
+					ncTimeout(function() {
+						$('#box' + notifnumber).css({
+							right: '-' + $('#box' + notifnumber).outerWidth() + 20 + 'px'
+						}).fadeOut(500, function() {
+							$(this).remove();
+						});
+					}, notiftype.display_time, '#box' + notifnumber);
+				}
 
 				$('#box' + notifnumber + ' .closenotif').on('click', function() {
 					$(this).parents('li').css({
@@ -238,6 +242,13 @@
 
 				if (typeof callback === 'undefined')
 					callback = false;
+
+				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
+				if (notiftype.display_time === 0 &&
+				    displayNotification) {
+					nc.alert(text, type);
+					return;
+				}
 
 				var notifnumber = getNotifNum();
 
@@ -468,6 +479,9 @@
 				if (typeof notiftype.header_output === 'undefined')
 					notiftype['header_output'] = nc.options.header_output;
 
+				if (typeof notiftype.display_time === 'undefined')
+					notiftype['display_time'] = nc.options.display_time;
+
 				if (typeof notiftype.type_max_display === 'undefined')
 					notiftype['type_max_display'] = nc.options.type_max_display;
 
@@ -528,6 +542,7 @@
 
 			function notifcenterbox(type, text, time, number, callback) {
 				nc.notifs[number] = {
+					id: number,
 					type: type,
 					text: text,
 					time: time,

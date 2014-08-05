@@ -28,6 +28,7 @@
 		notificationcenter: new function() {
 			var nc = this;
 
+			nc.x = 0;
 			nc.notifs = {};
 			nc._name = "notificationcenter";
 			nc._defaults = {

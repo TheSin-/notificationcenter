@@ -549,7 +549,7 @@
 				$(nc.options.center_element + ' .center' + type + ' ul').prepend(str);
 
 				if (is_mobile === true) {
-					$('#notif' + number).on('touchstart', function(e) {
+					$('#notif' + number + ' .notif').on('touchstart', function(e) {
 						$(this).css('left', '0px');
 						nc.x = e.originalEvent.pageX;
 					}).on('touchmove', function(e) {

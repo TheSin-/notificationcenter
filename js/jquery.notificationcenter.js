@@ -546,7 +546,7 @@
 					type: type,
 					text: text,
 					time: time,
-					callback: callback
+					callback: callback.toString()
 				}
 
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];

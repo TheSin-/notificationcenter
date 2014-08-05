@@ -29,6 +29,7 @@
 			var nc = this;
 
 			nc.x = 0;
+			nc.mobile = false;
 			nc.notifs = {};
 			nc._name = "notificationcenter";
 			nc._defaults = {
@@ -328,6 +329,10 @@
 
 			// Plugin Functions
 			function setup() {
+				if (typeof $.mobile !== 'undefined')
+					if ($.mobile.support.touch)
+						nc.mobile = true;
+
 				if (typeof document.hidden !== "undefined")
 					nc.options.hiddentype = "hidden";
 				else if (typeof document.mozHidden !== "undefined")
@@ -534,12 +539,7 @@
 				if ($(nc.options.center_element + ' .center' + type).length === 0)
 					centerHeader(notiftype);
 
-				var is_mobile = false;
-				if (typeof $.mobile !== 'undefined')
-					if ($.mobile.support.touch)
-						is_mobile = true;
-
-				var str = '<li id="notif' + number + '">' + closenotif(is_mobile) + '<div class="notifcenterbox">' + textstr;
+				var str = '<li id="notif' + number + '">' + closenotif(nc.mobile) + '<div class="notifcenterbox">' + textstr;
 
 				if (time)
 					str += '<br><small data-livestamp="' + time + '"></small>';
@@ -548,8 +548,8 @@
 
 				$(nc.options.center_element + ' .center' + type + ' ul').prepend(str);
 
-				if (is_mobile === true) {
-					$('#notif' + number + ' .notif').on('touchstart', function(e) {
+				if (nc.mobile === true) {
+					$('#notif' + number + ' .notifcenterbox').on('touchstart', function(e) {
 						$(this).css('left', '0px');
 						nc.x = e.originalEvent.pageX;
 					}).on('touchmove', function(e) {
@@ -567,12 +567,11 @@
 
 					$('#notif' + number + ' .delete-btn').on('touchend', function(e) {
 						e.preventDefault()
-						$(this).parents('li').slideUp('fast', function() {
-							removeNotif($(this));
-						});
+						removeNotif($(this).parents('li'));
 					});
 				} else {
 					$('#notif' + number + ' .closenotif').on('click', function() {
+						$(this).parents('li').unbind();
 						removeNotif($(this).parents('li'));
 					});
 				}
@@ -609,14 +608,14 @@
 				});
 			}
 
-			function closenotif(is_mobile) {
+			function closenotif(mobile) {
 				var closenotif = '';
 
-				if (typeof is_mobile === 'undefined')
-					is_mobile = false;
+				if (typeof mobile === 'undefined')
+					mobile = false;
 
-				if (is_mobile === true)
-					closenotif = '<div class="behind"><a href="#" class="ui-btn delete-btn">Delete</a></div>';
+				if (mobile === true)
+					closenotif = '<div class="behind"><span class="ui-btn delete-btn"><a href="#" class="delete-btn">Delete</a></span></div>';
 				else
 					closenotif = '<div class="closenotif"><i class="fa fa-times"></i></div>';
 

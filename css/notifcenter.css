@@ -111,7 +111,9 @@ body {
 
 .notifcenterbox {
 	position: relative;
-	padding-right: 10px;
+	padding: 15px;
+	padding-right: 25px;
+	background-color: #333;
 }
 
 .notifcenterbox small {
@@ -141,6 +143,7 @@ body {
 	line-height: 1px;
 	color: #e7e8ec;
 	padding: 1px;
+	z-index: 10;
 }
 
 .centerlist .closenotif {
@@ -162,11 +165,15 @@ body {
 	right: 0;
 }
 
-.behind .ui-btn {
+.behind span.ui-btn {
 	width: 68px;
 	margin: 0px;
-	float: right;
+	position: absolute;
+	right: 0;
 	border: none;
+	height: 100%;
+	text-align: center;
+	display: table;
 }
 
 .behind .delete-btn,
@@ -177,6 +184,11 @@ body {
 	color: white;
 	background-color: red;
 	text-shadow: none;
+}
+
+.behind a.delete-btn {
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .centerheader .notiftypecount {
@@ -231,7 +243,6 @@ body {
 }
 
 .centerlist ul li {
-	padding: 15px;
 	border-bottom: 1px solid #555;
 	position: relative;
 }

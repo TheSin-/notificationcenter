@@ -11,4 +11,3 @@ Demo/Documentation: http://thesin-.github.io/notificationcenter/
 TODO
 * Add better default icons
 * Add sticky alerts
-* Add swipe support to delete notifications (will require jquery mobile)

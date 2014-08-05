@@ -312,6 +312,18 @@
 				}
 			}
 
+			function prevent_default(e) {
+				e.preventDefault();
+			}
+
+			function disable_scroll() {
+				$(document).on('touchmove', prevent_default);
+			}
+
+			function enable_scroll() {
+				$(document).unbind('touchmove', prevent_default);
+			}
+
 			// Plugin Functions
 			function setup() {
 				if (typeof document.hidden !== "undefined")

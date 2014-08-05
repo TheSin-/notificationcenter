@@ -302,12 +302,12 @@
 				counter();
 
 				if (typeof watchele !== 'undefined') {
-					$(watchele).bind('mouseover', function() {
+					$(watchele).on('mouseover', function() {
 						clearTimeout(timer);
 						seconds++;
 					});
 
-					$(watchele).bind('mouseout', function() {
+					$(watchele).on('mouseout', function() {
 						counter();
 					});
 				}

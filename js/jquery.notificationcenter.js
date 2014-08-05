@@ -226,7 +226,8 @@
 					});
 				});
 
-				if (notiftype.alert_hidden)
+				if (notiftype.alert_hidden &&
+				    document[nc.options.hiddentype])
 					notiftype.snd.play();
 			};
 
@@ -533,7 +534,12 @@
 				if ($(nc.options.center_element + ' .center' + type).length === 0)
 					centerHeader(notiftype);
 
-				var str = '<li id="notif' + number + '"><div class="notifcenterbox">' + closenotif() + textstr;
+				var is_mobile = false;
+				if (typeof $.mobile !== 'undefined')
+					if ($.mobile.support.touch)
+						is_mobile = true;
+
+				var str = '<li id="notif' + number + '">' + closenotif(is_mobile) + '<div class="notifcenterbox">' + textstr;
 
 				if (time)
 					str += '<br><small data-livestamp="' + time + '"></small>';
@@ -542,9 +548,34 @@
 
 				$(nc.options.center_element + ' .center' + type + ' ul').prepend(str);
 
-				$('#notif' + number + ' .closenotif').on('click', function() {
-					removeNotif($(this).parents('li'));
-				});
+				if (is_mobile === true) {
+					$('#notif' + number).on('touchstart', function(e) {
+						$(this).css('left', '0px');
+						nc.x = e.originalEvent.pageX;
+					}).on('touchmove', function(e) {
+						var change = e.originalEvent.pageX - nc.x;
+						change = Math.min(Math.max(-100, change), 0);
+						e.currentTarget.style.left = change + 'px';
+						if (change < -10)
+							disable_scroll();
+					}).on('touchend', function(e) {
+						var left = parseInt(e.currentTarget.style.left);
+						var new_left = (left > -50 ? '0px' : '-100px');
+						e.currentTarget.style.left = new_left;
+						enable_scroll();
+					});
+
+					$('#notif' + number + ' .delete-btn').on('touchend', function(e) {
+						e.preventDefault()
+						$(this).parents('li').slideUp('fast', function() {
+							removeNotif($(this));
+						});
+					});
+				} else {
+					$('#notif' + number + ' .closenotif').on('click', function() {
+						removeNotif($(this).parents('li'));
+					});
+				}
 
 				if (typeof callback === 'function') {
 					$('#notif' + number).on('click', function() {
@@ -578,8 +609,18 @@
 				});
 			}
 
-			function closenotif() {
-				return '<div class="closenotif"><i class="fa fa-times"></i></div>';
+			function closenotif(is_mobile) {
+				var closenotif = '';
+
+				if (typeof is_mobile === 'undefined')
+					is_mobile = false;
+
+				if (is_mobile === true)
+					closenotif = '<div class="behind"><a href="#" class="ui-btn delete-btn">Delete</a></div>';
+				else
+					closenotif = '<div class="closenotif"><i class="fa fa-times"></i></div>';
+
+				return closenotif;
 			}
 
 			function hideNotifs(type) {

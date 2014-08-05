@@ -418,8 +418,12 @@
 				});
 
 				$(nc.options.body_element).on('scroll', function(e) {
+					var ultop = nc.options.notification_offset;
+					if (e.target.scrollTop > nc.options.notification_offset)
+						ultop = e.target.scrollTop;
+
 					$('.notificationul').css({
-						top: nc.options.notification_offset + e.target.scrollTop
+						top: ultop
 					});
 				});
 			}

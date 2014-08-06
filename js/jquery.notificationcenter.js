@@ -179,10 +179,35 @@
 						if (data) {
 							if ($.isArray(data)) {
 								$.each(data, function(k, v) {
-									if ($.isArray(v))
-										nc.newAlert(v[0], v[1], true, v[2], v[3], v[4]);
-									else
-										nc.newAlert(v.text, v.type, true, v.callback, v.time, v.new);
+									var text = '';
+									var type = 'system';
+									var time = date.getTime()/1000;
+									var newnotif = true;
+									if ($.isArray(v)) {
+										if (typeof v[0] !== 'undefined')
+											text = v[0];
+										if (typeof v[1] !== 'undefined')
+											type = v[1];
+										if (typeof v[2] !== 'undefined')
+											callback = v[2];
+										if (typeof v[3] !== 'undefined')
+											time = parseFloat(v[3]);
+										if (typeof v[4] !== 'undefined')
+											newnotif = (v[4] == 'true') ? true : false;
+									} else {
+										if (typeof v.text !== 'undefined')
+											text = v.text;
+										if (typeof v.type !== 'undefined')
+											type = v.type;
+										if (typeof v.callback !== 'undefined')
+											callback = v.callback;
+										if (typeof v.time !== 'undefined')
+											time = parseFloat(v.time);
+										if (typeof v.new !== 'undefined')
+											newnotif = (v.new == 'true') ? true : false;
+									}
+
+									nc.newAlert(text, type, true, callback, time, newnotif);
 								});
 							}
 						}
@@ -254,17 +279,25 @@
 					notiftype.snd.play();
 			};
 
-			nc.newAlert = function(text, type, displayNotification, callback, time, newnotif) {
-				if (typeof displayNotification === 'undefined')
-					displayNotification = true;
+			nc.newAlert = function(text, type, showNotification, callback, time, newnotif) {
+				if (typeof showNotification === 'undefined')
+					showNotification = true;
 
 				if (typeof callback === 'undefined')
 					callback = false;
 
+				if (typeof newnotif === 'undefined')
+					newnotif = true;
+
+				if (is_open())
+					newnotif = false;
+
+console.log(newnotif);
+
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
 
-				if (notiftype.display_time === 0 &&
-				    displayNotification) {
+				if (notiftype.display_time === 0 && 
+				    showNotification) {
 					nc.alert(text, type, callback);
 					return;
 				}
@@ -276,17 +309,12 @@
 					time = Math.round(date.getTime() / 1000);
 				}
 
-				if (typeof newnotif === 'undefined')
-					newnotif = false;
-				if (!is_open())
-					newnotif = true;
-
 				notifcenterbox(type, text, time, notifnumber, callback, newnotif);
 
 				if (nc.options.counter)
 					notifcount();
 
-				if (!is_open() && displayNotification)
+				if (!is_open() && showNotification)
 					nc.alert(text, type, callback, notifnumber);
 			};
 

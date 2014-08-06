@@ -191,9 +191,9 @@
 										if (typeof v[2] !== 'undefined')
 											callback = v[2];
 										if (typeof v[3] !== 'undefined')
-											time = parseFloat(v[3]);
+											time = v[3];
 										if (typeof v[4] !== 'undefined')
-											newnotif = (v[4] == 'true') ? true : false;
+											newnotif = v[4];
 									} else {
 										if (typeof v.text !== 'undefined')
 											text = v.text;
@@ -202,9 +202,9 @@
 										if (typeof v.callback !== 'undefined')
 											callback = v.callback;
 										if (typeof v.time !== 'undefined')
-											time = parseFloat(v.time);
+											time = v.time;
 										if (typeof v.new !== 'undefined')
-											newnotif = (v.new == 'true') ? true : false;
+											newnotif = v.new;
 									}
 
 									nc.newAlert(text, type, true, callback, time, newnotif);
@@ -285,14 +285,29 @@
 
 				if (typeof callback === 'undefined')
 					callback = false;
+				else if (typeof callback !== 'function')
+					eval('callback = ' + callback);
 
 				if (typeof newnotif === 'undefined')
 					newnotif = true;
 
+				if (callback == 'false')
+					callback = false;
+
+				if (typeof time !== 'number')
+					time = parseFloat(time);
+
+				if (time < 1 || time == '0' || time == '' ||
+				    typeof time === 'undefined')
+					time = false;
+
+				if (newnotif == 'false')
+					newnotif = false;
+				else if (newnotif == 'true')
+					newnotif = true;
+
 				if (is_open())
 					newnotif = false;
-
-console.log(newnotif);
 
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
 
@@ -304,7 +319,7 @@ console.log(newnotif);
 
 				var notifnumber = getNotifNum();
 
-				if (jQuery().livestamp && typeof time === 'undefined') {
+				if (jQuery().livestamp && time === false) {
 					var date = new Date();
 					time = Math.round(date.getTime() / 1000);
 				}

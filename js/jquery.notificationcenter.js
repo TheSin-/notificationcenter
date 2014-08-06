@@ -182,6 +182,7 @@
 									var text = '';
 									var type = 'system';
 									var time = date.getTime()/1000;
+									var callback = false;
 									var newnotif = true;
 									if ($.isArray(v)) {
 										if (typeof v[0] !== 'undefined')
@@ -750,6 +751,10 @@
 				var notifnumber = $(notif).attr('id');
 				notifnumber = notifnumber.replace('notif', '');
 
+				var type = nc.notifs[notifnumber].type;
+
+				delete nc.notifs[notifnumber];
+
 				$(notif).css({
 					right: '-' + $(notif).outerWidth() + 20 + 'px'
 				}).fadeOut(500, function() {
@@ -760,10 +765,6 @@
 
 					hideNotifs(type);
 				});
-
-				var type = nc.notifs[notifnumber].type;
-
-				delete nc.notifs[notifnumber];
 
 				if (nc.options.counter)
 					notifcount();

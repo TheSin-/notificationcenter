@@ -462,7 +462,8 @@
 								time: date.getTime()/1000,
 								callback: function(notif) {
 									$.notificationcenter.alert(notif.text);
-								}
+								},
+								new: true
 							}]
 						}
 					],
@@ -758,6 +759,7 @@ $('body').notificationcenter({
 		values: [{
 			text: 'This is an example',
 			time: date.getTime()/1000,
+			new: true,
 			callback: function(notif) {
 				$.notificationcenter.alert(notif.text, notif.type);
 			}
@@ -885,10 +887,10 @@ $.notificationcenter.slide();</pre>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.newAlert(text, type, [display notification], [callback], [time])</a></h4>
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.newAlert(text, type, [display notification], [callback], [time], [new])</a></h4>
 									<div class="cell collapsable">
 	  					  				<pre>
-$.notificationcenter.newAlert('This is a new alert.', 'gift', true, function(notif) { $.notificationcenter.alert(notif.text, notif.type); }, 1406857387);</pre>
+$.notificationcenter.newAlert('This is a new alert.', 'gift', true, function(notif) { $.notificationcenter.alert(notif.text, notif.type); }, 1406857387, true);</pre>
 									</div>
 								</div>
 								<div>

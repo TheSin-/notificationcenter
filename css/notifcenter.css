@@ -83,6 +83,7 @@ body {
 	transition-property: right, position;
 	transition-duration: 500ms;
 	transition-timing-function: linear;
+	cursor: pointer;
 }
 
 .notification li .active {
@@ -120,13 +121,11 @@ body {
 	color: #999;
 }
 
-.centerlist ul li:hover .closenotif,
-.notification:hover .closenotif {
+.centerlist ul li:hover .closenotif {
 	display: block;
 }
 
-.centerlist .closenotif,
-.notification .closenotif {
+.centerlist .closenotif {
 	position: absolute;
 	width: 12px;
 	height: 12px;

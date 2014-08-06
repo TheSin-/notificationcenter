@@ -1,1 +1,9 @@
-[{"text":"This is an ajax notification, you should get an other one in 5 minutes.", "type":"gift"}]
+[
+	{
+		"text": "This is an ajax notification, you should get an other one in 5 minutes.",
+		"type":"gift",
+		"callback": false,
+		"time": "1407337717.116",
+		"new": true
+	}
+]

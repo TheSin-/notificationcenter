@@ -114,11 +114,12 @@
 						}
 					});
 				} else {
-					if (nc.options.counter) {
-						$(nc.options.toggle_button).removeAttr('data-counter');
-						if (nc.options.title_counter)
-							updatetitle();
-					}
+					$.each(nc.notifs, function(k, notif) {
+						notif.new = false;
+					});
+
+					if (nc.options.counter)
+						notifcount();
 
 					$(nc.options.center_element).show();
 					nc.options.zIndex.panel = $(nc.options.center_element).css('zIndex');
@@ -163,7 +164,7 @@
 			nc.faye = function(faye) {
 				var client = new Faye.Client(faye.server);
 				var subscription = client.subscribe(faye.channel, function(message) {
-					nc.newAlert(message.text, message.type, true, message.callback, message.time);
+					nc.newAlert(message.text, message.type, true, message.callback, message.time, message.new);
 				});
 			}
 
@@ -177,9 +178,9 @@
 							if ($.isArray(data)) {
 								$.each(data, function(k, v) {
 									if ($.isArray(v))
-										nc.newAlert(v[0], v[1], true, v[2], v[3]);
+										nc.newAlert(v[0], v[1], true, v[2], v[3], v[4]);
 									else
-										nc.newAlert(v.text, v.type, true, v.callback, v.time);
+										nc.newAlert(v.text, v.type, true, v.callback, v.time, v.new);
 								});
 							}
 						}
@@ -187,11 +188,16 @@
 				}, checktime);
 			};
 
-			nc.alert = function(text, type) {
+			nc.alert = function(text, type, callback, notifnumber) {
 				if (typeof type === 'undefined')
 					type = 'system';
 
-				var notifnumber = $('.notificationul').find('li').length + 1;
+				var removenotif = true;
+				if (typeof notifnumber === 'undefined') {
+					notifnumber = $('.notificationul').find('li').length + 1;
+					removenotif = false;
+				}
+
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
 				var textstr = text;
 
@@ -206,7 +212,7 @@
 					});
 				}
 
-				$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification">' + closenotif() + '<div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + textstr + '</div></div></li>');
+				$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification"><div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + textstr + '</div></div></li>');
 
 				$('#box' + notifnumber).css({
 					right: '0px',
@@ -223,11 +229,21 @@
 					}, notiftype.display_time, '#box' + notifnumber);
 				}
 
-				$('#box' + notifnumber + ' .closenotif').on('click', function() {
-					$(this).parents('li').css({
+				var notif = {};
+				if (typeof nc.notifs[notifnumber] !== 'undefined')
+					notif = nc.notifs[notifnumber];
+
+				$('#box' + notifnumber).on('click', function() {
+					$(this).css({
 						right: '-' + $('#box' + notifnumber).outerWidth() + 20 + 'px'
 					}).fadeOut(500, function() {
 						$(this).remove();
+
+						if (typeof callback === 'function')
+							callback(notif);
+
+						if (removenotif)
+							removeNotif($(nc.options.center_element).find('.centerlist.center' + notif.type).find('#notif' + notif.id));
 					});
 				});
 
@@ -236,7 +252,7 @@
 					notiftype.snd.play();
 			};
 
-			nc.newAlert = function(text, type, displayNotification, callback, time) {
+			nc.newAlert = function(text, type, displayNotification, callback, time, newnotif) {
 				if (typeof displayNotification === 'undefined')
 					displayNotification = true;
 
@@ -244,38 +260,32 @@
 					callback = false;
 
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
+
 				if (notiftype.display_time === 0 &&
 				    displayNotification) {
-					nc.alert(text, type);
+					nc.alert(text, type, callback);
 					return;
 				}
 
 				var notifnumber = getNotifNum();
-
-				if (!is_open() && displayNotification) {
-					nc.alert(text, type);
-
-					if (nc.options.counter) {
-						if ($(nc.options.toggle_button).attr('data-counter') === undefined) {
-							$(nc.options.toggle_button).attr('data-counter', 1);
-							if (nc.options.title_counter)
-								updatetitle();
-						} else {
-							var counter = parseInt($(nc.options.toggle_button).attr('data-counter')) + 1;
-
-							$(nc.options.toggle_button).attr('data-counter', counter);
-							if (nc.options.title_counter)
-								updatetitle();
-						}
-					}
-				}
 
 				if (jQuery().livestamp && typeof time === 'undefined') {
 					var date = new Date();
 					time = Math.round(date.getTime() / 1000);
 				}
 
-				notifcenterbox(type, text, time, notifnumber, callback);
+				if (typeof newnotif === 'undefined')
+					newnotif = false;
+				if (!is_open())
+					newnotif = true;
+
+				notifcenterbox(type, text, time, notifnumber, callback, newnotif);
+
+				if (nc.options.counter)
+					notifcount();
+
+				if (!is_open() && displayNotification)
+					nc.alert(text, type, callback, notifnumber);
 			};
 
 			/* private functions */
@@ -398,7 +408,7 @@
 						var type = item.type;
 
 						$(item.values).each(function(i, notif) {
-							nc.newAlert(notif.text, type, false, notif.callback, notif.time);
+							nc.newAlert(notif.text, type, false, notif.callback, notif.time, notif.new);
 						});
 					});
 				}
@@ -441,6 +451,22 @@
 
 			function is_open() {
 				return $(nc.options.center_element).is(':visible');
+			}
+
+			function notifcount() {
+				var counter = 0;
+				$.each(nc.notifs, function(k, notif) {
+					if (notif.new === true)
+						counter++;
+				});
+
+				if (counter > 0)
+					$(nc.options.toggle_button).attr('data-counter', counter);
+				else
+					$(nc.options.toggle_button).removeAttr('data-counter');
+
+				if (nc.options.title_counter)
+					updatetitle();
 			}
 
 			function updatetitle() {
@@ -540,8 +566,9 @@
 				return tmsg;
 			}
 
-			function notifcenterbox(type, text, time, number, callback) {
+			function notifcenterbox(type, text, time, number, callback, newnotif) {
 				nc.notifs[number] = {
+					new: newnotif,
 					id: number,
 					type: type,
 					text: text,
@@ -692,6 +719,9 @@
 				var type = nc.notifs[notifnumber].type;
 
 				delete nc.notifs[notifnumber];
+
+				if (nc.options.counter)
+					notifcount();
 			}
 
 			function getNotifNum() {

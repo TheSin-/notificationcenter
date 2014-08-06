@@ -121,6 +121,8 @@
 					if (nc.options.counter)
 						notifcount();
 
+					if (typeof nc.options.store_callback === 'function')
+						nc.options.store_callback(nc.notifs);
 					$(nc.options.center_element).show();
 					nc.options.zIndex.panel = $(nc.options.center_element).css('zIndex');
 					nc.options.zIndex.button = $(nc.options.toggle_button).css('zIndex');

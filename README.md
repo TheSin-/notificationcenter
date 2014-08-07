@@ -24,3 +24,5 @@ FEATURES
 
 TODO
 * Add better default icons
+* Add banner option per type, (banner will be smaller alerts)
+* Alerts should fall in from teh top like on OS X

@@ -29,6 +29,7 @@
 			var nc = this;
 
 			nc.x = 0;
+			nc.init = false;
 			nc.mobile = false;
 			nc.notifs = {};
 			nc._name = "notificationcenter";
@@ -78,6 +79,11 @@
 					nc.options.hiddentype = false;
 
 					setup();
+
+					nc.init = true;
+
+					if (typeof nc.options.store_callback === 'function')
+						nc.options.store_callback(nc.notifs);
 				});
 			};
 
@@ -121,7 +127,7 @@
 					if (nc.options.counter)
 						notifcount();
 
-					if (typeof nc.options.store_callback === 'function')
+					if (typeof nc.options.store_callback === 'function' && nc.init === true)
 						nc.options.store_callback(nc.notifs);
 					$(nc.options.center_element).show();
 					nc.options.zIndex.panel = $(nc.options.center_element).css('zIndex');
@@ -737,7 +743,7 @@
 					});
 				}
 
-				if (typeof nc.options.store_callback === 'function')
+				if (typeof nc.options.store_callback === 'function' && nc.init === true)
 					nc.options.store_callback(nc.notifs);
 
 				if ($(nc.options.center_element + ' .center' + type + ' ul').length > 0)

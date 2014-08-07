@@ -411,7 +411,7 @@
 
 				if (nc.options.add_panel &&
 					$(nc.options.center_element).length === 0)
-						$(nc.element).prepend('<div id="' + nc.options.center_element.replace('#', '') + '"></div>');
+						$(nc.element).prepend('<div id="' + nc.options.center_element.replace('#', '') + '"><div class="nonew"><div>No New Notifications</div></div></div>');
 
 				// Line it up with body_element
 				var bposition = $(nc.options.body_element).position();
@@ -739,6 +739,11 @@
 
 				if (typeof nc.options.store_callback === 'function')
 					nc.options.store_callback(nc.notifs);
+
+				if ($(nc.options.center_element + ' .center' + type + ' ul').length > 0)
+					$(nc.options.center_element + ' .nonew').hide();
+				else
+					$(nc.options.center_element + ' .nonew').show();
 			}
 
 			function removeNotifType(type) {

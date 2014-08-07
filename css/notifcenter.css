@@ -61,6 +61,21 @@ body {
 	background-color: #333;
 }
 
+#notificationcenterpanel .nonew {
+	height: 100%;
+	width: 100%;
+	display: table;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+}
+
+#notificationcenterpanel .nonew div {
+	display: table-cell;
+	vertical-align: middle;
+}
+
 .notificationul {
 	list-style: none;
 	margin: 0;

@@ -24,3 +24,4 @@ FEATURES
 
 TODO
 * Add better default icons
+* Only call store_callback once at the end of default_notifs

@@ -430,13 +430,16 @@
 
 				// Make sure body element has position: absolute or relative
 				var bodyPos = $(nc.options.body_element).css('position');
-				if (bodyPos != 'relative' ||
-				    bodyPos != 'absolute')
+				if (bodyPos != 'relative' &&
+				    bodyPos != 'absolute') {
 					bodyPos = 'absolute';
+					$(nc.options.body_element).css({
+						position: 'absolute',
+						top: bposition.top
+					});
+				}
 
 				$(nc.options.body_element).css({
-					position: bodyPos,
-					top: bposition.top,
 					right: '0px',
 					width: '100%',
 					height: '100%',

@@ -108,15 +108,12 @@
 
 					$(nc.options.body_element).animate({
 						right: '0px'
-					}, {
-						duration: 500,
-						complete: function() {
-							$('#notificationcenteroverlay').remove();
-							$(nc.options.center_element).hide();
-							if (typeof callback === 'function') {
-								callback(notif);
-								removeNotif($('#notif' + notif.id));
-							}
+					}, 'slow', function() {
+						$('#notificationcenteroverlay').remove();
+						$(nc.options.center_element).hide();
+						if (typeof callback === 'function') {
+							callback(notif);
+							removeNotif($('#notif' + notif.id));
 						}
 					});
 				} else {
@@ -154,16 +151,13 @@
 
 					$(nc.options.body_element).animate({
 						right: $(nc.options.center_element).outerWidth()
-					}, {
-						duration: 500,
-						complete: function() {
-							$(nc.options.center_element).css({
-								zIndex: 1002
-							});
-							$(nc.options.toggle_button).css({
-								zIndex: 1002
-							});
-						}
+					}, 'slow', function() {
+						$(nc.options.center_element).css({
+							zIndex: 1002
+						});
+						$(nc.options.toggle_button).css({
+							zIndex: 1002
+						});
 					});
 				}
 			};
@@ -242,22 +236,26 @@
 					$(nc.options.body_element).prepend('<ul class="notificationul"></ul>');
 
 					$('.notificationul').css({
-						top: nc.options.notification_offset
+						'padding-top': nc.options.notification_offset
 					});
 				}
 
 				$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification"><div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + textstr + '</div></div></li>');
 
 				$('#box' + notifnumber).css({
-					right: '0px',
-					position: 'relative'
-				}).fadeIn(500);
+					'top': '-' + ($('#box' + notifnumber).outerHeight(true) + nc.options.notification_offset) + 'px',
+					'right': 0
+				}).show();
+
+				$('#box' + notifnumber).animate({
+					'top': 0
+				}, 'slow');
 
 				if (notiftype.display_time) {
 					ncTimeout(function() {
-						$('#box' + notifnumber).css({
-							right: '-' + $('#box' + notifnumber).outerWidth() + 20 + 'px'
-						}).fadeOut(500, function() {
+						$('#box' + notifnumber).animate({
+							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+						}, 'slow', function() {
 							$(this).remove();
 						});
 					}, notiftype.display_time, '#box' + notifnumber);
@@ -268,9 +266,9 @@
 					notif = nc.notifs[notifnumber];
 
 				$('#box' + notifnumber).on('click', function() {
-					$(this).css({
-						right: '-' + $('#box' + notifnumber).outerWidth() + 20 + 'px'
-					}).fadeOut(500, function() {
+					$(this).animate({
+						right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+					}, 'slow', function() {
 						$(this).remove();
 
 						if (typeof callback === 'function')
@@ -749,10 +747,22 @@
 				if (typeof nc.options.store_callback === 'function' && nc.init === true)
 					nc.options.store_callback(nc.notifs);
 
-				if ($(nc.options.center_element + ' .center' + type + ' ul').length > 0)
-					$(nc.options.center_element + ' .nonew').hide();
+				if (count <= 0) {
+					$(nc.options.center_element + ' .center' + type).fadeOut('slow', function() {
+						$(this).remove();
+
+						checkNoNew();
+					});
+				}
+
+				checkNoNew();
+			}
+
+			function checkNoNew() {
+				if ($(nc.options.center_element + ' ul').length > 0)
+					$(nc.options.center_element + ' .nonew').fadeOut('slow');
 				else
-					$(nc.options.center_element + ' .nonew').show();
+					$(nc.options.center_element + ' .nonew').fadeIn('slow');
 			}
 
 			function removeNotifType(type) {
@@ -769,12 +779,7 @@
 
 				delete nc.notifs[notifnumber];
 
-				$(notif).css({
-					right: '-' + $(notif).outerWidth() + 20 + 'px'
-				}).fadeOut(500, function() {
-					if ($(notif).parents('ul').find('li').length <= 1)
-						$(notif).parents('.centerlist').remove();
-
+				$(notif).fadeOut('slow', function() {
 					$(this).remove();
 
 					hideNotifs(type);

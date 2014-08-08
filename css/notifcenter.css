@@ -83,26 +83,24 @@ body {
 	position: absolute;
 	top: 0;
 	right: 0;
-	z-index: 1003;
+	overflow: hidden;
+	overflow-y: auto;
+	height: 100%;
+	width: 450px;
 }
 
 .notificationul li {
 	margin: 20px;
-	position: absolute;
-	right: -450px;
+	position: relative;
+	right: 0;
+	display: none;
+	z-index: 1003;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	-webkit-box-shadow: 0 2px 1px 0 #f2f2f2;
 	box-shadow: 0 2px 1px 0 #f2f2f2;
-	transition-property: right, position;
-	transition-duration: 500ms;
-	transition-timing-function: linear;
 	cursor: pointer;
-}
-
-.notification li .active {
-	right: 0px;
 }
 
 .notification {

@@ -300,7 +300,7 @@
 					callback = false;
 
 				if (typeof time !== 'number')
-					time = parseFloat(time);
+					time = parseFloat(time) || false;
 
 				if (time < 1 || time == '0' || time == '' ||
 				    typeof time === 'undefined')
@@ -494,10 +494,10 @@
 				$(nc.options.body_element).on('scroll', function(e) {
 					var ultop = nc.options.notification_offset;
 					if (e.target.scrollTop > nc.options.notification_offset)
-						ultop = e.target.scrollTop;
+						ultop = 0;
 
 					$('.notificationul').css({
-						top: ultop
+						'padding-top': ultop
 					});
 				});
 			}

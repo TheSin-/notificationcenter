@@ -233,7 +233,7 @@
 					textstr = truncatemsg(text, notiftype.truncate_message);
 
 				if ($('.notificationul').length === 0) {
-					$(nc.options.body_element).prepend('<ul class="notificationul"></ul>');
+					$(nc.element).prepend('<ul class="notificationul"></ul>');
 
 					$('.notificationul').css({
 						'padding-top': nc.options.notification_offset
@@ -759,10 +759,10 @@
 			}
 
 			function checkNoNew() {
-				if ($(nc.options.center_element + ' ul').length > 0)
-					$(nc.options.center_element + ' .nonew').fadeOut('slow');
+				if ($(nc.options.center_element).find('ul').length > 0)
+					$(nc.options.center_element + ' .nonew').hide();
 				else
-					$(nc.options.center_element + ' .nonew').fadeIn('slow');
+					$(nc.options.center_element + ' .nonew').show();
 			}
 
 			function removeNotifType(type) {

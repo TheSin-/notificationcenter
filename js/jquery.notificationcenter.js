@@ -117,6 +117,10 @@
 						}
 					});
 				} else {
+					$('.notificationul li').each(function() {
+						$(this).remove();
+					});
+
 					$.each(nc.notifs, function(k, notif) {
 						notif.new = false;
 					});
@@ -238,6 +242,8 @@
 					$('.notificationul').css({
 						'padding-top': nc.options.notification_offset
 					});
+
+					$(window).trigger("scroll")
 				}
 
 				$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification"><div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + textstr + '</div></div></li>');
@@ -489,7 +495,9 @@
 			var pinchToZoomCheckTimer;
 			var mobilewindow = {
 				top: 0,
-				left: 0
+				left: 0,
+				doc: 0,
+				view: 0
 			};
 			function bindings() {
 				$(nc.options.toggle_button).on('click', function() {
@@ -497,11 +505,14 @@
 					return false;
 				});
 
-					$(window).on("resize scroll", function (e) {
+				$(window).on("resize scroll", function (e) {
+					mobilewindow.doc = $(document).outerWidth();
+
 					clearTimeout(pinchToZoomCheckTimer);
 					pinchToZoomCheckTimer = setTimeout(function () {
 						mobilewindow.top = window.pageYOffset;
 						mobilewindow.left = window.pageXOffset;
+						mobilewindow.view = window.innerWidth;
 						$(nc.options.body_element).trigger('mobilechange');
 					}, 50);
 				});
@@ -512,11 +523,14 @@
 					    mobilewindow.top > nc.options.notification_offset)
 						ultop = 0;
 
-					var ulright = 0;
-					//FIXME need to get viewport size, page size and convert left to right with those and the ul size of course
+					var ulright = (mobilewindow.doc - mobilewindow.view) - mobilewindow.left;
 
+					if (is_open)
+						ulright += $(nc.options.panel_element).outerWidth();
+					
 					$('.notificationul').css({
-						'padding-top': ultop
+						'padding-top': ultop,
+						'right': ulright
 					});
 				});
 			}

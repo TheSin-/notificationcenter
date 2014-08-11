@@ -18,6 +18,7 @@ FEATURES
 * Notif callbacks, including a redisplay notification option
 * Export callback so you can save the list of current notifs
 * Mobile compat, includes options for swipe delete on notifs
+* Mobile on notifications stay in viewport even with pinch zoom
 * CSS Styled allows lots of styling control to the site
 * Allow ajax and/or faye alerts on top of js calls to create alerts
 * Allow Sticky notifications
@@ -25,5 +26,3 @@ FEATURES
 TODO
 * Add better default icons
 * Add banner option per type, (banner will be smaller alerts)
-* Make sure the notificaitons stay in viewport on mobile
-* Make the notifications stay ont he body_element when sliding/is_open

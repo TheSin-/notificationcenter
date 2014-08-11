@@ -518,10 +518,10 @@
 				});
 
 				$(nc.options.body_element).on('scroll mobilechange', function(e) {
-					var ultop = nc.options.notification_offset;
+					var ultop = 0;
 					if (e.target.scrollTop > nc.options.notification_offset ||
 					    mobilewindow.top > nc.options.notification_offset)
-						ultop = 0;
+						ultop = mobilewindow.top - nc.options.notification_offset;
 
 					var ulright = (mobilewindow.doc - mobilewindow.view) - mobilewindow.left;
 
@@ -529,7 +529,7 @@
 						ulright += $(nc.options.panel_element).outerWidth();
 					
 					$('.notificationul').css({
-						'padding-top': ultop,
+						'top': ultop,
 						'right': ulright
 					});
 				});
@@ -701,7 +701,7 @@
 						enable_scroll();
 					});
 
-					$('#notif' + number + ' .delete-btn').on('touchend', function(e) {
+					$('#notif' + number + ' .delete-btn').on('vclick', function(e) {
 						e.preventDefault()
 						removeNotif($(this).parents('li'));
 					});
@@ -804,22 +804,24 @@
 				});
 			}
 
-			function removeNotif (notif) {
+			function removeNotif(notif) {
 				var notifnumber = $(notif).attr('id');
 				notifnumber = notifnumber.replace('notif', '');
 
-				var type = nc.notifs[notifnumber].type;
+				if (typeof nc.notifs[notifnumber] !== 'undefined') {
+					var type = nc.notifs[notifnumber].type;
 
-				delete nc.notifs[notifnumber];
+					delete nc.notifs[notifnumber];
 
-				$(notif).fadeOut('slow', function() {
-					$(this).remove();
+					$(notif).fadeOut('slow', function() {
+						$(this).remove();
 
-					hideNotifs(type);
-				});
+						hideNotifs(type);
+					});
 
-				if (nc.options.counter)
-					notifcount();
+					if (nc.options.counter)
+						notifcount();
+				}
 			}
 
 			function getNotifNum() {

@@ -315,6 +315,7 @@
 					newnotif = false;
 
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
+				type = notiftype.type;
 
 				if (notiftype.display_time === 0 && 
 				    showNotification) {
@@ -485,16 +486,34 @@
 				});
 			}
 
+			var pinchToZoomCheckTimer;
+			var mobilewindow = {
+				top: 0,
+				left: 0
+			};
 			function bindings() {
 				$(nc.options.toggle_button).on('click', function() {
 					nc.slide();
 					return false;
 				});
 
-				$(nc.options.body_element).on('scroll', function(e) {
+					$(window).on("resize scroll", function (e) {
+					clearTimeout(pinchToZoomCheckTimer);
+					pinchToZoomCheckTimer = setTimeout(function () {
+						mobilewindow.top = window.pageYOffset;
+						mobilewindow.left = window.pageXOffset;
+						$(nc.options.body_element).trigger('mobilechange');
+					}, 50);
+				});
+
+				$(nc.options.body_element).on('scroll mobilechange', function(e) {
 					var ultop = nc.options.notification_offset;
-					if (e.target.scrollTop > nc.options.notification_offset)
+					if (e.target.scrollTop > nc.options.notification_offset ||
+					    mobilewindow.top > nc.options.notification_offset)
 						ultop = 0;
+
+					var ulright = 0;
+					//FIXME need to get viewport size, page size and convert left to right with those and the ul size of course
 
 					$('.notificationul').css({
 						'padding-top': ultop

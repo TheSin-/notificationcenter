@@ -25,3 +25,5 @@ FEATURES
 TODO
 * Add better default icons
 * Add banner option per type, (banner will be smaller alerts)
+* Make sure the notificaitons stay in viewport on mobile
+* Make the notifications stay ont he body_element when sliding/is_open

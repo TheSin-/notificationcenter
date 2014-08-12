@@ -109,6 +109,7 @@ body {
 	width: 300px;
 	background-color: #fff;
 	color: #333;
+	font-size: 12px;
 	border-radius: 8px;
 	border: 1px solid #ccc;
 	-moz-border-radius: 8px;
@@ -250,6 +251,9 @@ body {
 	margin: 0;
 	margin-bottom: 5px;
 	font-weight: bold;
+	font-size: 1.35em;
+	line-height: 1.35em;
+	text-transform: capitalize;
 }
 
 .centerlist ul {

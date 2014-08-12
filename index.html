@@ -458,7 +458,10 @@
 						{
 							type: 'gift',
 							values:[{
-								text: 'This is an example, I have a callback click me to see it.',
+								text: {
+									text: 'This is an example, I have a callback click me to see it.',
+									title: 'Callback'
+								},
 								time: date.getTime()/1000,
 								callback: function(notif) {
 									$.notificationcenter.alert(notif.text);
@@ -478,7 +481,7 @@
 				});
 
 				$('.notif').on('click', function() {
-					$.notificationcenter.newAlert('New alert by button click.', $(this).attr('data-type'));
+					$.notificationcenter.newAlert({'text':'New alert by button click.', 'title':$(this).attr('data-type')}, $(this).attr('data-type'));
 				});
 
 				var ajax_options = 'examples/object.json';
@@ -750,14 +753,17 @@ $('body').notificationcenter({
 												<td><a href="#" class="permalink">default_notifs</a></td>
 												<td>array</td>
 												<td>[]</td>
-												<td>Array of objects to define the default notifications. <span class="comments">callback is optional</span>
+												<td>Array of objects to define the default notifications. <span class="comments">callback is optional, text can be a string or an object like the example.</span>
 													<div class="collapsable">
 														<pre>
 $('body').notificationcenter({
 	default_notifs: [{
 		type: 'gift', // define the type
 		values: [{
-			text: 'This is an example',
+			text: {
+				text: 'This is an example',
+				title: 'This is a title'
+			},
 			time: date.getTime()/1000,
 			new: true,
 			callback: function(notif) {

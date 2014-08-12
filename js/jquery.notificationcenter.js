@@ -231,10 +231,18 @@
 				}
 
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
-				var textstr = text;
+
+				var textstr = '';
+				var title = '';
+				if (typeof text === 'object') {
+					textstr = text.text;
+					title = '<h3>' + text.title + '</h3>';
+				} else {
+					textstr = text;
+				}
 
 				if (notiftype.truncate_message)
-					textstr = truncatemsg(text, notiftype.truncate_message);
+					textstr = truncatemsg(textstr, notiftype.truncate_message);
 
 				if ($('.notificationul').length === 0) {
 					$(nc.element).prepend('<ul class="notificationul"></ul>');
@@ -246,7 +254,7 @@
 					$(window).trigger("scroll")
 				}
 
-				$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification"><div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + textstr + '</div></div></li>');
+				$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification"><div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + title + textstr + '</div></div></li>');
 
 				$('#box' + notifnumber).css({
 					'top': '-' + ($('#box' + notifnumber).outerHeight(true) + nc.options.notification_offset) + 'px',
@@ -663,10 +671,17 @@
 				}
 
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
-				var textstr = text;
+				var title = '';
+				var textstr = '';
+				if (typeof text === 'object') {
+					textstr = text.text;
+					title = text.title;
+				} else {
+					textstr = text;
+				}
 
 				if (notiftype.truncate_message)
-					textstr = truncatemsg(text, notiftype.truncate_message);
+					textstr = truncatemsg(textstr, notiftype.truncate_message);
 
 				if ($(nc.options.center_element + ' .center' + type).length === 0)
 					centerHeader(notiftype);

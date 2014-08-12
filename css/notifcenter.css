@@ -86,7 +86,7 @@ body {
 	overflow: hidden;
 	overflow-y: auto;
 	height: 100%;
-	width: 450px;
+	width: 350px;
 }
 
 .notificationul li {
@@ -105,17 +105,25 @@ body {
 
 .notification {
 	position: relative;
-	min-height: 100px;
-	width: 400px;
-	background-color: #e7e8ec;
-	color: #a5a6a9;
-	border: 1px solid #CCC;
+	min-height: 64px;
+	width: 300px;
+	background-color: #fff;
+	color: #333;
 	border-radius: 8px;
+	border: 1px solid #ccc;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	box-shadow: 3px 3px 6px #333;
 	-moz-box-shadow: 3px 3px 6px #333;
 	-webkit-box-shadow: 3px 3px 6px #333;
+	display: table;
+	vertical-align: top;
+	opacity: 0.95;
+	-moz-opacity: 0.95;
+	-webkit-opacity: 0.95;
+	-khtml-opacity: 0.95;
+	filter: alpha(opacity=95);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=95)";
 }
 
 .notification a, .notification a:hover {
@@ -210,43 +218,38 @@ body {
 }
 
 .notification .iconnotif {
-	width: 99px;
-	float: left;
-	height: 100px;
-	border-right: 1px solid #e0e0e0
+	width: 32px;
+	display: table-cell;
+	vertical-align: top;
 }
 
 .notification .iconnotifimg {
-	width: 64px;
-	height: 64px;
-	margin: 18px;
+	width: 32px;
+	margin: 10px;
 }
 
 .notification .iconnotifimg i {
-	font-size: 64px;
-	width: 64px;
+	font-size: 32px;
+	width: 32px;
 	text-align: center;
-	color: #000;
 }
 
 .notification .iconnotifimg img {
-	max-width: 100%;
-	max-height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 .notification .contentnotif {
-	width: 270px;
-	float: left;
-	height: 80px;
 	padding: 10px;
-	padding-right: 20px;
-	background-color: #fff;
-	-webkit-border-top-right-radius: 8px;
-	-webkit-border-bottom-right-radius: 8px;
-	-moz-border-radius-topright: 8px;
-	-moz-border-radius-bottomright: 8px;
-	border-top-right-radius: 8px;
-	border-bottom-right-radius: 8px;
+	display: table-cell;
+	vertical-align: top;
+}
+
+.notification .contentnotif h3 {
+	padding: 0;
+	margin: 0;
+	margin-bottom: 5px;
+	font-weight: bold;
 }
 
 .centerlist ul {

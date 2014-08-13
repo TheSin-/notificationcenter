@@ -21,8 +21,8 @@ FEATURES
 * Mobile on notifications stay in viewport even with pinch zoom
 * CSS Styled allows lots of styling control to the site
 * Allow ajax and/or faye alerts on top of js calls to create alerts
-* Allow Sticky notifications
+* Allow Sticky notifications, sticky notifications also have an optional settable action button
 
 TODO
 * Add better default icons
-* Add alert/banner option per type, (banner is the current, alert will have buttons on it (close, snooze))
+* Add a 'poof' effect like OS X instead of slide right for close

@@ -213,7 +213,7 @@
 				}, checktime);
 			};
 
-			nc.alert = function(text, type, callback, notifnumber) {
+			nc.alert = function(text, type, callback, notificationtype, notifnumber) {
 				if (typeof type === 'undefined')
 					type = 'system';
 
@@ -224,6 +224,9 @@
 				}
 
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
+
+				if (typeof notificationtype === 'undefined')
+					notificationtype = notiftype.notificationtype || 'banner';
 
 				var textstr = '';
 				var title = '';
@@ -247,7 +250,18 @@
 					$(window).trigger("scroll")
 				}
 
-				$('.notificationul').prepend('<li id="box' + notifnumber + '"><div class="notification"><div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + title + textstr + '</div></div></li>');
+				var notification = '';
+				if (notificationtype != 'banner') {
+					notiftype.display_time = 0;
+					var callbackbtn = '';
+					if (typeof callback === 'function')
+						callbackbtn = '<a href="#" class="btn action">' + notificationtype + '</a>';
+					notification = '<li id="box' + notifnumber + '"><div class="notification"><div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + title + textstr + '</div><div class="buttonnotif"><a href="#" class="btn close">Close</a>' + callbackbtn + '</div></div></li>';
+				} else {
+					notification = '<li id="box' + notifnumber + '"><div class="notification"><div class="iconnotif"><div class="iconnotifimg">' + notiftype.icon + '</div></div><div class="contentnotif">' + title + textstr + '</div></div></li>';
+				}
+
+				$('.notificationul').prepend(notification);
 
 				$('#box' + notifnumber).css({
 					'top': '-' + ($('#box' + notifnumber).outerHeight(true) + nc.options.notification_offset) + 'px',
@@ -268,23 +282,63 @@
 					}, notiftype.display_time, '#box' + notifnumber);
 				}
 
-				var notif = {};
+				var notif = {
+					'text': text,
+					'type': type,
+					'callback': callback
+				};
 				if (typeof nc.notifs[notifnumber] !== 'undefined')
 					notif = nc.notifs[notifnumber];
 
-				$('#box' + notifnumber).on('click', function() {
-					$(this).animate({
-						right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
-					}, 'slow', function() {
-						$(this).remove();
-
-						if (typeof callback === 'function')
-							callback(notif);
-
-						if (removenotif)
-							removeNotif($(nc.options.center_element).find('.centerlist.center' + notif.type).find('#notif' + notif.id));
+				if (notificationtype != 'banner') {
+					$('#box' + notifnumber).css({
+						cursor: 'initial'
 					});
-				});
+
+					$('#box' + notifnumber + ' .close').on('click', function() {
+						$('#box' + notifnumber).animate({
+							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+						}, 'slow', function() {
+							$(this).remove();
+
+							if (removenotif)
+								removeNotif($(nc.options.center_element).find('.centerlist.center' + notif.type).find('#notif' + notif.id));
+						});
+
+						return false;
+					});
+
+					if (typeof callback === 'function') {
+						$('#box' + notifnumber + ' .action').on('click', function() {
+							$('#box' + notifnumber).animate({
+								right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+							}, 'slow', function() {
+								$(this).remove();
+
+								callback(notif);
+
+								if (removenotif)
+									removeNotif($(nc.options.center_element).find('.centerlist.center' + notif.type).find('#notif' + notif.id));
+							});
+
+							return false;
+						});
+					}
+				} else {
+					$('#box' + notifnumber).on('click', function() {
+						$(this).animate({
+							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+						}, 'slow', function() {
+							$(this).remove();
+
+							if (typeof callback === 'function')
+								callback(notif);
+
+							if (removenotif)
+								removeNotif($(nc.options.center_element).find('.centerlist.center' + notif.type).find('#notif' + notif.id));
+						});
+					});
+				}
 
 				if (notiftype.alert_hidden &&
 				    document[nc.options.hiddentype])
@@ -326,7 +380,7 @@
 
 				if (notiftype.display_time === 0 && 
 				    showNotification) {
-					nc.alert(text, type, callback);
+					nc.alert(text, type, callback, 'snooze');
 					return;
 				}
 
@@ -343,7 +397,7 @@
 					notifcount();
 
 				if (!is_open() && showNotification)
-					nc.alert(text, type, callback, notifnumber);
+					nc.alert(text, type, callback, 'banner', notifnumber);
 			};
 
 			/* private functions */

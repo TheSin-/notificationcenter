@@ -438,7 +438,7 @@
 							img: 'img/gift.png',
 							bgcolor: '#eb5d49',
 							color: '#fff',
-							truncate_message: 35
+							truncate_message: 50
 						},
 						{
 							type: 'calendar',
@@ -459,7 +459,7 @@
 							type: 'gift',
 							values:[{
 								text: {
-									text: 'This is an example, I have a callback click me to see it.',
+									text: 'This is an example, I\'m truncated and I have a callback click me to see it.',
 									title: 'Callback'
 								},
 								time: date.getTime()/1000,
@@ -481,7 +481,10 @@
 				});
 
 				$('.notif').on('click', function() {
-					$.notificationcenter.newAlert({'text':'New alert by button click.', 'title':$(this).attr('data-type')}, $(this).attr('data-type'));
+					if ($(this).attr('data-type') == 'snooze')
+						$.notificationcenter.alert('New alert by button click, with a callback action.', 'sticky', function(notif) { setTimeout( function() { $.notificationcenter.alert(notif.text, notif.type, notif.callback, 'snooze'); }, 1 * 60 * 1000); }, 'snooze');
+					else
+						$.notificationcenter.newAlert({'text':'New alert by button click.', 'title':$(this).attr('data-type')}, $(this).attr('data-type'));
 				});
 
 				var ajax_options = 'examples/object.json';
@@ -539,7 +542,8 @@
 								<p><a class="btn notif" href="#" data-type="gift">Add a notification</a></p>
 								<p><a class="btn notif" href="#" data-type="calendar">Add an other type</a></p>
 								<p><a class="btn notif" href="#" data-type="fontawesome">Add a class type</a></p>
-								<p><a class="btn notif" href="#" data-type="sticky">Add a sticky alert</a></p>
+								<p><a class="btn notif" href="#" data-type="sticky">Add a alert</a></p>
+								<p><a class="btn notif" href="#" data-type="snooze">Add a alert w/callback</a></p>
 							</div>
 						</div>
 					</div>
@@ -930,9 +934,9 @@ $.notificationcenter.ajax(ajax_options, 5000);</pre>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.alert(text, [type], [callback])</a></h4>
+	  					  			<h4><a href="#" class="permalink">$.notificationcenter.alert(text, [type], [callback], [action])</a></h4>
 									<div class="cell collapsable">
-										This is very useful for callbacks, you could setup a callback type even.
+										This is very useful for callbacks, you could setup a callback type even. <span type="comment">action defaults to banner, anything else gives you a action button on your callback and sets the notificaiton to sticky aka no timeout.</span>
 										<div class="cell">
 	  					  					<pre>
 $.notificationcenter.alert('This is just an alert, nothing in notificaiton center', 'system', function(notif) { $.notificationcenter.alert(notif.text, notif.type); });</pre>

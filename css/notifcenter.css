@@ -148,7 +148,7 @@ body {
 	display: table;
 	width: 275px;
 	padding: 5px;
-	padding-left: 20px;
+	padding-left: 25px;
 	border-collapse: initial;
 }
 
@@ -338,7 +338,7 @@ body {
 	font-weight: bold;
 	font-size: 14px;
 	padding: 2px;
-	padding-left: 20px;
+	padding-left: 25px;
 	width: 280px;
 	border-bottom: 1px solid #111;
 }
@@ -350,7 +350,7 @@ body {
 	height: 14px;
 	position: absolute;
 	top: 2px;
-	left: 2px;
+	left: 5px;
 	font-size: 14px;
 }
 

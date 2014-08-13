@@ -25,4 +25,4 @@ FEATURES
 
 TODO
 * Add better default icons
-* Add banner option per type, (banner will be smaller alerts)
+* Add alert/banner option per type, (banner is the current, alert will have buttons on it (close, snooze))

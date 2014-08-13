@@ -30,6 +30,7 @@
 
 			nc.x = 0;
 			nc.init = false;
+			nc.open = false;
 			nc.mobile = false;
 			nc.notifs = {};
 			nc._name = "notificationcenter";
@@ -104,13 +105,13 @@
 						zIndex: nc.options.zIndex.button
 					});
 
-					$(nc.options.toggle_button).removeClass('close').addClass('open');
-
 					$(nc.options.body_element).animate({
 						right: '0px'
 					}, 'slow', function() {
+						nc.open = false;
+						$(nc.options.toggle_button).removeClass('close').addClass('open');
+
 						$('#notificationcenteroverlay').remove();
-						$(nc.options.center_element).hide();
 						if (typeof callback === 'function') {
 							callback(notif);
 							removeNotif($('#notif' + notif.id));
@@ -130,23 +131,12 @@
 
 					if (typeof nc.options.store_callback === 'function' && nc.init === true)
 						nc.options.store_callback(nc.notifs);
-					$(nc.options.center_element).show();
 					nc.options.zIndex.panel = $(nc.options.center_element).css('zIndex');
 					nc.options.zIndex.button = $(nc.options.toggle_button).css('zIndex');
-
-					$(nc.options.toggle_button).removeClass('open').addClass('close');
 
 					// Safety add an overlay over document to remove
 					// event control, only notifier panel has control
 					$('body').append('<div id="notificationcenteroverlay"></div>');
-					$('#notificationcenteroverlay').css({
-						'zIndex': 1001,
-						'position': 'absolute',
-						'top': 0,
-						'left': 0,
-						'height': '100%',
-						'width': '100%'
-					});
 
 					$('#notificationcenteroverlay').on('click', function() {
 						nc.slide();
@@ -156,11 +146,14 @@
 					$(nc.options.body_element).animate({
 						right: $(nc.options.center_element).outerWidth()
 					}, 'slow', function() {
+						nc.open = true;
+						$(nc.options.toggle_button).removeClass('open').addClass('close');
+
 						$(nc.options.center_element).css({
-							zIndex: 1002
+							zIndex: ($('#notificationcenteroverlay').css('zIndex') + 1)
 						});
 						$(nc.options.toggle_button).css({
-							zIndex: 1002
+							zIndex: ($('#notificationcenteroverlay').css('zIndex') + 1)
 						});
 					});
 				}
@@ -430,16 +423,15 @@
 
 				if (nc.options.add_panel &&
 					$(nc.options.center_element).length === 0)
-						$(nc.element).prepend('<div id="' + nc.options.center_element.replace('#', '') + '"><div class="nonew"><div>No New Notifications</div></div></div>');
+						$(nc.options.body_element).before('<div id="' + nc.options.center_element.replace('#', '') + '"><div class="nonew"><div>No New Notifications</div></div></div>');
 
 				// Line it up with body_element
 				var bposition = $(nc.options.body_element).position();
-				$(nc.options.center_element).hide();
 				$(nc.options.center_element).css({
-					position: 'absolute',
-					top: bposition.top,
-					right: '0px'
+					top: bposition.top
 				});
+
+				$(nc.options.center_element).show();
 
 				// Make sure body element has position: absolute or relative
 				var bodyPos = $(nc.options.body_element).css('position');
@@ -544,7 +536,7 @@
 			}
 
 			function is_open() {
-				return $(nc.options.center_element).is(':visible');
+				return nc.open;
 			}
 
 			function notifcount() {
@@ -688,12 +680,12 @@
 
 				var str = '';
 				if (nc.mobile === true)
-					str = '<li id="notif' + number + '">' + closenotif(nc.mobile) + '<div class="notifcenterbox">' + textstr;
+					str = '<li id="notif' + number + '">' + closenotif(nc.mobile) + '<div class="notifcenterbox"><div class="notiftext">' + title + textstr +'</div>';
 				else
-					str = '<li id="notif' + number + '"><div class="notifcenterbox">' + title + textstr;
+					str = '<li id="notif' + number + '"><div class="notifcenterbox"><div class="notiftext">' + title + textstr + '</div>';
 
 				if (time)
-					str += '<br><small data-livestamp="' + time + '"></small>';
+					str += '<div class="notiftime"><span data-livestamp="' + time + '"></span></div>';
 
 				str += '</div></li>';
 

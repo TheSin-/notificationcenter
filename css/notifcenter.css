@@ -38,6 +38,15 @@ body {
 	overflow-y: auto;
 }
 
+#notificationcenteroverlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1001;
+}
+
 #notificationcentermain {
 	width: 100%;
 	height: 100%;
@@ -54,11 +63,13 @@ body {
 	min-height: 600px;
 	position: absolute;
 	top: 0;
-	right: -300px;
-	-webkit-box-shadow: inset 2px 0 3px 1px rgba(0, 0, 0, 0.5);
-	box-shadow: inset 2px 0 3px 1px rgba(0, 0, 0, 0.5);
+	right: 0;
+	-webkit-box-shadow: inset 2px 0 5px 1px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: inset 2px 0 5px 1px rgba(0, 0, 0, 0.5);
+	box-shadow: inset 2px 0 5px 1px rgba(0, 0, 0, 0.5);
 	color: #fff;
 	background-color: #333;
+	display: none;
 }
 
 #notificationcenterpanel .nonew {
@@ -94,7 +105,7 @@ body {
 	position: relative;
 	right: 0;
 	display: none;
-	z-index: 1003;
+	z-index: 1001;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
@@ -133,13 +144,21 @@ body {
 
 .notifcenterbox {
 	position: relative;
-	padding: 5px 20px;
 	background-color: #333;
 	font-size: 12px;
+	display: table;
+	width: 270px;
 }
 
-.notifcenterbox small {
-	color: #999;
+.notifcenterbox .notiftext {
+	display: table-cell;
+	padding-right: 10px;
+}
+
+.notifcenterbox .notiftime {
+	display: table-cell;
+	width: 1px;
+	white-space: nowrap;
 }
 
 .centerlist .closenotif {
@@ -251,6 +270,8 @@ body {
 	border-bottom: 2px groove #555;
 	position: relative;
 	cursor: pointer;
+	padding: 5px;
+	padding-left: 20px;
 }
 
 .centerheader {

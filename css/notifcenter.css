@@ -133,47 +133,31 @@ body {
 
 .notifcenterbox {
 	position: relative;
-	padding: 15px;
-	padding-right: 25px;
+	padding: 5px 20px;
 	background-color: #333;
+	font-size: 12px;
 }
 
 .notifcenterbox small {
 	color: #999;
 }
 
-.centerlist ul li:hover .closenotif {
-	display: block;
-}
-
 .centerlist .closenotif {
 	position: absolute;
 	width: 12px;
 	height: 12px;
-	top: 5px;
-	right: 5px;
+	top: 2px;
+	right: 9px;
 	cursor: pointer;
-	display: none;
-	background-color: #b7b8bc;
+	background-color: #111;
 	-moz-border-radius: 100px;
 	-webkit-border-radius: 100px;
 	border-radius: 100px;
 	text-align: center;
 	font-size: 12px;
 	line-height: 1px;
-	color: #e7e8ec;
-	padding: 1px;
-}
-
-.centerlist .closenotif {
-	top: 7px;
-	right: 7px;
-	background-color: #111;
 	color: #555;
-}
-
-.centerheader .closenotif {
-	display: block;
+	padding: 1px;
 }
 
 .behind {
@@ -241,17 +225,19 @@ body {
 
 .notification .contentnotif {
 	padding: 10px;
+	padding-left: 0px;
 	display: table-cell;
 	vertical-align: top;
 }
 
+.centerlist ul li h3,
 .notification .contentnotif h3 {
 	padding: 0;
 	margin: 0;
 	margin-bottom: 5px;
 	font-weight: bold;
-	font-size: 1.35em;
-	line-height: 1.35em;
+	font-size: 14px;
+	line-height: 14px;
 	text-transform: capitalize;
 }
 
@@ -262,34 +248,32 @@ body {
 }
 
 .centerlist ul li {
-	border-bottom: 1px solid #555;
+	border-bottom: 2px groove #555;
 	position: relative;
+	cursor: pointer;
 }
 
 .centerheader {
 	position: relative;
-	height: 24px;
-	background-size: 24px;
-	background-position: center left;
-	background-repeat: no-repeat;
-	border-bottom: 1px solid #555;
-	line-height: 22px;
-	text-transform: uppercase;
+	height: 14px;
+	line-height: 12px;
+	text-transform: capitalize;
 	font-weight: bold;
-	padding-left: 35px;
-	padding-top: 4px;
-	width: 265px;
+	font-size: 14px;
+	padding: 2px;
+	padding-left: 20px;
+	width: 280px;
 }
 
 .centerheader > i,
 .centerheader > img {
 	padding-right: 10px;
-	width: 25px;
-	height: 25px;
+	width: 14px;
+	height: 14px;
 	position: absolute;
 	top: 2px;
 	left: 2px;
-	font-size: 25px;
+	font-size: 14px;
 }
 
 .notificationcentericon {

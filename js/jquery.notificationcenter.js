@@ -675,7 +675,7 @@
 				var textstr = '';
 				if (typeof text === 'object') {
 					textstr = text.text;
-					title = text.title;
+					title = '<h3>' + text.title + '</h3>';
 				} else {
 					textstr = text;
 				}
@@ -690,7 +690,7 @@
 				if (nc.mobile === true)
 					str = '<li id="notif' + number + '">' + closenotif(nc.mobile) + '<div class="notifcenterbox">' + textstr;
 				else
-					str = '<li id="notif' + number + '"><div class="notifcenterbox">' + closenotif() + textstr;
+					str = '<li id="notif' + number + '"><div class="notifcenterbox">' + title + textstr;
 
 				if (time)
 					str += '<br><small data-livestamp="' + time + '"></small>';
@@ -720,20 +720,15 @@
 						e.preventDefault()
 						removeNotif($(this).parents('li'));
 					});
-				} else {
-					$('#notif' + number + ' .closenotif').on('click', function() {
-						$(this).parents('li').unbind();
-						removeNotif($(this).parents('li'));
+				} else if (typeof callback !== 'function') {
+					$('#notif' + number).on('click', function() {
+						removeNotif($(this));
 					});
 				}
 
 				if (typeof callback === 'function') {
 					$('#notif' + number).on('click', function() {
 						nc.slide(callback, nc.notifs[number]);
-					});
-
-					$('#notif' + number).css({
-						cursor: 'pointer'
 					});
 				}
 

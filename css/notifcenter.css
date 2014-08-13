@@ -263,6 +263,7 @@ body {
 	padding: 2px;
 	padding-left: 20px;
 	width: 280px;
+	border-bottom: 1px solid #111;
 }
 
 .centerheader > i,

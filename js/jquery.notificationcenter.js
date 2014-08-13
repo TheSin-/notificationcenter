@@ -431,8 +431,6 @@
 					top: bposition.top
 				});
 
-				$(nc.options.center_element).show();
-
 				// Make sure body element has position: absolute or relative
 				var bodyPos = $(nc.options.body_element).css('position');
 				if (bodyPos != 'relative' &&

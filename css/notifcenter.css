@@ -147,7 +147,10 @@ body {
 	background-color: #333;
 	font-size: 12px;
 	display: table;
-	width: 270px;
+	width: 275px;
+	padding: 5px;
+	padding-left: 20px;
+	border-collapse: initial;
 }
 
 .notifcenterbox .notiftext {
@@ -270,8 +273,6 @@ body {
 	border-bottom: 2px groove #555;
 	position: relative;
 	cursor: pointer;
-	padding: 5px;
-	padding-left: 20px;
 }
 
 .centerheader {

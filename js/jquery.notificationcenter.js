@@ -105,7 +105,7 @@
 						zIndex: nc.options.zIndex.button
 					});
 
-					$(nc.options.body_element).animate({
+					$(nc.options.body_element + ', .notificationul').animate({
 						right: '0px'
 					}, 'slow', function() {
 						nc.open = false;
@@ -118,10 +118,6 @@
 						}
 					});
 				} else {
-					$('.notificationul li').each(function() {
-						$(this).remove();
-					});
-
 					$.each(nc.notifs, function(k, notif) {
 						notif.new = false;
 					});
@@ -143,7 +139,7 @@
 						return false;
 					});
 
-					$(nc.options.body_element).animate({
+					$(nc.options.body_element + ', .notificationul').animate({
 						right: $(nc.options.center_element).outerWidth()
 					}, 'slow', function() {
 						nc.open = true;
@@ -275,7 +271,8 @@
 				if (notiftype.display_time) {
 					ncTimeout(function() {
 						$('#box' + notifnumber).animate({
-							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px',
+							opacity: 0
 						}, 'slow', function() {
 							$(this).remove();
 						});
@@ -295,9 +292,11 @@
 						cursor: 'initial'
 					});
 
+					// FIXME (change to poof effect)
 					$('#box' + notifnumber + ' .close').on('click', function() {
 						$('#box' + notifnumber).animate({
-							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px',
+							opacity: 0
 						}, 'slow', function() {
 							$(this).remove();
 
@@ -311,7 +310,8 @@
 					if (typeof callback === 'function') {
 						$('#box' + notifnumber + ' .action').on('click', function() {
 							$('#box' + notifnumber).animate({
-								right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+								right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px',
+								opacity: 0
 							}, 'slow', function() {
 								$(this).remove();
 
@@ -327,7 +327,8 @@
 				} else {
 					$('#box' + notifnumber).on('click', function() {
 						$(this).animate({
-							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px'
+							right: '-' + $('#box' + notifnumber).outerWidth(true) + 'px',
+							opacity: 0
 						}, 'slow', function() {
 							$(this).remove();
 

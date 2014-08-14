@@ -1,7 +1,7 @@
 [
 	{
 		"text": "This is an ajax notification, you should get an other one in 5 minutes.",
-		"type":"gift",
+		"type":"todo",
 		"callback": false,
 		"time": "1407337717.116",
 		"new": true

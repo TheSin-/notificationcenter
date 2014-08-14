@@ -24,5 +24,4 @@ FEATURES
 * Allow Sticky notifications, sticky notifications also have an optional settable action button
 
 TODO
-* Add better default icons
 * Add a 'poof' effect like OS X instead of slide right for close

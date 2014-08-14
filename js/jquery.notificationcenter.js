@@ -237,16 +237,6 @@
 				if (notiftype.truncate_message)
 					textstr = truncatemsg(textstr, notiftype.truncate_message);
 
-				if ($('.notificationul').length === 0) {
-					$(nc.element).prepend('<ul class="notificationul"></ul>');
-
-					$('.notificationul').css({
-						'padding-top': nc.options.notification_offset
-					});
-
-					$(window).trigger("scroll")
-				}
-
 				var notification = '';
 				if (notificationtype != 'banner') {
 					notiftype.display_time = 0;
@@ -504,6 +494,16 @@
 					height: '100%',
 					overflow: 'auto'
 				});
+
+				if ($('.notificationul').length === 0) {
+					$(nc.element).prepend('<ul class="notificationul"></ul>');
+
+					$('.notificationul').css({
+						'padding-top': nc.options.notification_offset
+					});
+
+					$(window).trigger("scroll")
+				}
 
 				$(nc.options.toggle_button).addClass('notificationcentericon');
 

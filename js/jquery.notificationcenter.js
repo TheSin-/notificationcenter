@@ -44,9 +44,7 @@
 				types:			[{
 					type: 'system',
 					img: 'fa fa-cogs',
-					imgtype: 'class',
-					bgcolor: '#222',
-					color: '#fff'
+					imgtype: 'class'
 				}],
 				type_max_display:	5,
 				truncate_message:	0,
@@ -631,10 +629,10 @@
 				notiftype['index'] = index;
 
 				if (typeof notiftype.bgcolor === 'undefined')
-					notiftype['bgcolor'] = nc._defaults.types[0].bgcolor
+					notiftype['bgcolor'] = false;
 
 				if (typeof notiftype.color === 'undefined')
-					notiftype['color']  = nc._defaults.types[0].bgcolor;
+					notiftype['color']  = false;
 
 				if (typeof notiftype.imgtype === 'undefined')
 					notiftype['imgtype'] = 'image';
@@ -793,7 +791,19 @@
                                         	return '<div class="notiftypecount"></div>';
                                 	});
 
-				$(nc.options.center_element).prepend('<div class="centerlist center' + notiftype.type + '"><div class="centerheader" style="background-color: ' + notiftype.bgcolor + '; color: ' + notiftype.color + ';">' + s + closenotif() + '</div><ul></ul></div>');
+				var bgcolor = '';
+				if (notiftype.bgcolor !== false)
+					bgcolor = 'background: ' + notiftype.bgcolor + ';';
+
+				var color = '';
+				if (notiftype.color !== false)
+					color = 'color: ' + notiftype.color + ';';
+
+				var style = '';
+				if (bgcolor != '' || color != '')
+					style = ' style="' + bgcolor + color +'"';
+
+				$(nc.options.center_element).prepend('<div class="centerlist center' + notiftype.type + '"><div class="centerheader"' + style + '>' + s + closenotif() + '</div><ul></ul></div>');
 
 				$(nc.options.center_element).find('.centerlist.center' + notiftype.type).find('.closenotif').on('click', function() {
 					removeNotifType(notiftype.type);

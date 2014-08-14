@@ -25,3 +25,4 @@ FEATURES
 
 TODO
 * Add a 'poof' effect like OS X instead of slide right for close
+* once notificationul hits to bottom stack a stagger stack

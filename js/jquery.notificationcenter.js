@@ -174,6 +174,7 @@
 								$.each(data, function(k, v) {
 									var text = '';
 									var type = 'system';
+									var date = new Date();
 									var time = date.getTime()/1000;
 									var callback = false;
 									var newnotif = true;

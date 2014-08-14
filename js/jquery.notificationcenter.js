@@ -103,7 +103,7 @@
 						zIndex: nc.options.zIndex.button
 					});
 
-					$(nc.options.body_element + ', .notificationul').animate({
+					$(nc.options.body_element).animate({
 						right: '0px'
 					}, 'slow', function() {
 						nc.open = false;
@@ -115,6 +115,10 @@
 							removeNotif($('#notif' + notif.id));
 						}
 					});
+
+					$('.notificationul').animate({
+						right: '0px'
+					}, 'slow');
 				} else {
 					$.each(nc.notifs, function(k, notif) {
 						notif.new = false;
@@ -137,7 +141,7 @@
 						return false;
 					});
 
-					$(nc.options.body_element + ', .notificationul').animate({
+					$(nc.options.body_element).animate({
 						right: $(nc.options.center_element).outerWidth()
 					}, 'slow', function() {
 						nc.open = true;
@@ -150,6 +154,10 @@
 							zIndex: ($('#notificationcenteroverlay').css('zIndex') + 1)
 						});
 					});
+
+					$('.notificationul').animate({
+						right: $(nc.options.center_element).outerWidth()
+					}, 'slow');
 				}
 			};
 
@@ -771,7 +779,7 @@
 				}
 
 				if (typeof callback === 'function') {
-					$('#notif' + number).on('click', function() {
+					$('#notif' + number).on('click', function(e) {
 						nc.slide(callback, nc.notifs[number]);
 					});
 				}

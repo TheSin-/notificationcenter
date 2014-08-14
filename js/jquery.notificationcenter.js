@@ -374,9 +374,6 @@
 				else if (newnotif == 'true')
 					newnotif = true;
 
-				if (is_open())
-					newnotif = false;
-
 				var notiftype = (typeof nc.types[type] !== 'undefined')?nc.types[type]:nc.types['system'];
 				type = notiftype.type;
 
@@ -395,11 +392,14 @@
 
 				notifcenterbox(type, text, time, notifnumber, callback, newnotif);
 
-				if (nc.options.counter)
+				if (!is_open() && nc.options.counter)
 					notifcount();
 
-				if (!is_open() && showNotification)
+				if (showNotification)
 					nc.alert(text, type, callback, 'banner', notifnumber);
+
+				if (is_open())
+					nc.notifs[notifnumber].new = false;
 			};
 
 			/* private functions */
@@ -579,7 +579,7 @@
 
 					var ulright = (mobilewindow.doc - mobilewindow.view) - mobilewindow.left;
 
-					if (is_open)
+					if (is_open())
 						ulright += $(nc.options.panel_element).outerWidth();
 					
 					$('.notificationul').css({

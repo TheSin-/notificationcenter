@@ -508,7 +508,7 @@
 						'padding-top': nc.options.notification_offset
 					});
 
-					$(window).trigger("scroll")
+					$(document).trigger('scroll')
 				}
 
 				$(nc.options.toggle_button).addClass('notificationcentericon');
@@ -565,23 +565,25 @@
 					return false;
 				});
 
-				$(window).on("resize scroll", function (e) {
-					mobilewindow.doc = $(document).outerWidth();
+				if (nc.mobile) {
+					$(document).on("resize scroll", function (e) {
+						mobilewindow.doc = $(document).outerWidth();
 
-					clearTimeout(pinchToZoomCheckTimer);
-					pinchToZoomCheckTimer = setTimeout(function () {
-						mobilewindow.top = window.pageYOffset;
-						mobilewindow.left = window.pageXOffset;
-						mobilewindow.view = window.innerWidth;
-						$(nc.options.body_element).trigger('mobilechange');
-					}, 50);
-				});
+						clearTimeout(pinchToZoomCheckTimer);
+						pinchToZoomCheckTimer = setTimeout(function () {
+							mobilewindow.top = window.pageYOffset;
+							mobilewindow.left = window.pageXOffset;
+							mobilewindow.view = window.innerWidth;
+							$(nc.options.body_element).trigger('mobilechange');
+						}, 50);
+					});
+				}
 
 				$(nc.options.body_element).on('scroll mobilechange', function(e) {
-					var ultop = 0;
+					var ultop = nc.options.notification_offset - e.target.scrollTop;
 					if (e.target.scrollTop > nc.options.notification_offset ||
 					    mobilewindow.top > nc.options.notification_offset)
-						ultop = mobilewindow.top - nc.options.notification_offset;
+						ultop = 0; //mobilewindow.top - nc.options.notification_offset;
 
 					var ulright = (mobilewindow.doc - mobilewindow.view) - mobilewindow.left;
 
@@ -589,7 +591,7 @@
 						ulright += $(nc.options.panel_element).outerWidth();
 					
 					$('.notificationul').css({
-						'top': ultop,
+						'padding-top': ultop,
 						'right': ulright
 					});
 				});

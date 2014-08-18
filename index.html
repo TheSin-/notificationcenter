@@ -392,6 +392,7 @@
 			$(document).ready(function(){
 				$.mobile.linkBindingEnabled = false;
 				$.mobile.ajaxEnabled = false;
+				$.mobile.hashListeningEnabled = false;
 				$('.collapsable').hide();
 				$('.permalink').bind('click', function() {
 					if ($(this).parents('td').length > 0) {

@@ -3,7 +3,7 @@
     "version"     : "0.0.3",
     "title"       : "notificationcenter - a jQuery OS X notification center plugin",
     "description" : "notificationcenter is a jQuery version of the Apple OS X Notification Center. I've attempted to copy everything I can from the OS X verison in 10.9.  Icons, colors, sounds, visuals, interactions, functions.",
-    "keywords"    : ["notificationcenter", "notification", "plugin", "jquery", "javascript", "alert", "error", "warning", "information", "confirmation", "ajax", "slider", "ui", "osx", "apple"],
+    "keywords"    : ["notificationcenter", "notification", "plugin", "jquery", "javascript", "alert", "error", "warning", "information", "confirmation", "ajax", "slider", "ui", "osx", "apple", "jquery-plugin"],
     "homepage"    : "http://thesin-.github.io/notificationcenter/",
     "docs"        : "http://thesin-.github.io/notificationcenter/",
     "demo"        : "http://thesin-.github.io/notificationcenter/",

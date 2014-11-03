@@ -107,6 +107,7 @@
 						right: '0px'
 					}, 'slow', function() {
 						nc.open = false;
+						$(nc.options.center_element).css('visibility', 'hidden');
 						$(nc.options.toggle_button).removeClass('close').addClass('open');
 
 						$('#notificationcenteroverlay').remove();
@@ -141,6 +142,7 @@
 						return false;
 					});
 
+					$(nc.options.center_element).css('visibility', 'visible');
 					$(nc.options.body_element).animate({
 						right: $(nc.options.center_element).outerWidth()
 					}, 'slow', function() {

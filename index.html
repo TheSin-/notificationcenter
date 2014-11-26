@@ -390,9 +390,11 @@
 		<script>
 			var client = null;
 			$(document).ready(function(){
-				$.mobile.linkBindingEnabled = false;
-				$.mobile.ajaxEnabled = false;
-				$.mobile.hashListeningEnabled = false;
+				if (typeof $.mobile === 'object') {
+					$.mobile.linkBindingEnabled = false;
+					$.mobile.ajaxEnabled = false;
+					$.mobile.hashListeningEnabled = false;
+				}
 				$('.collapsable').hide();
 				$('.permalink').bind('click', function() {
 					if ($(this).parents('td').length > 0) {
@@ -927,30 +929,32 @@ $.notificationcenter.slide();</pre>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.newAlert(text, [type], [display notification], [callback], [time], [new])</a></h4>
-									<div class="cell collapsable">
-	  					  				<pre>
+		  					  			<h4><a href="#" class="permalink">$.notificationcenter.newAlert(text, [type], [display notification], [callback], [time], [new])</a></h4>
+										<div class="cell collapsable">
+	  						  				<pre>
 $.notificationcenter.newAlert('This is a new alert.', 'gift', true, function(notif) { $.notificationcenter.alert(notif.text, notif.type); }, 1406857387, true);</pre>
+										</div>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.faye(faye_object)</a></h4>
-									<div class="cell collapsable">
-	  					  				<pre>
+	  							  		<h4><a href="#" class="permalink">$.notificationcenter.faye(faye_object)</a></h4>
+										<div class="cell collapsable">
+	  							  			<pre>
 var faye = {
 	server: 'http://yourserver:port',
 	channel: 'your channel'
 };
 
 $.notificationcenter.faye(faye);</pre>
+										</div>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.ajax(options_object, checkTime)</a></h4>
-									<div class="cell collapsable">
-	  					  				<pre>
+	  						  			<h4><a href="#" class="permalink">$.notificationcenter.ajax(options_object, checkTime)</a></h4>
+										<div class="cell collapsable">
+		  					  				<pre>
 var ajax_options = {
 	type: 'POST',
 	url: 'some.php',
@@ -960,38 +964,41 @@ var ajax_options = {
 };
 
 $.notificationcenter.ajax(ajax_options, 5000);</pre>
+										</div>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.alert(text, [type], [callback], [action])</a></h4>
-									<div class="cell collapsable">
-										This is very useful for callbacks, you could setup a callback type even. <span type="comment">action defaults to banner, anything else gives you a action button on your callback and sets the notificaiton to sticky aka no timeout.</span>
-										<div class="cell">
-	  					  					<pre>
+	  						  			<h4><a href="#" class="permalink">$.notificationcenter.alert(text, [type], [callback], [action])</a></h4>
+										<div class="cell collapsable">
+											This is very useful for callbacks, you could setup a callback type even. <span type="comment">action defaults to banner, anything else gives you a action button on your callback and sets the notificaiton to sticky aka no timeout.</span>
+											<div class="cell">
+	  						  					<pre>
 $.notificationcenter.alert('This is just an alert, nothing in notificaiton center', 'system', function(notif) { $.notificationcenter.alert(notif.text, notif.type); });</pre>
+											</div>
 										</div>
 									</div>
 								</div>
 								<div>
 									<div class="cell">
-	  					  			<h4><a href="#" class="permalink">$.notificationcenter.captureTitle([title])</a></h4>
-									<div class="cell collapsable">
-										Set a page title. <span class="comments">title is optional, it'll use the current title otherwise</span>
-										<div class="cell">
-	  					  					<pre>
+	  						  			<h4><a href="#" class="permalink">$.notificationcenter.captureTitle([title])</a></h4>
+										<div class="cell collapsable">
+											Set a page title. <span class="comments">title is optional, it'll use the current title otherwise</span>
+											<div class="cell">
+	  						  					<pre>
 $.notificationcenter.captureTitle('This is the new page title');</pre>
-										</div>
-										Use the current page title. <span class="comment">It will attempt to detect and remove any current notification counts</span>
-										<div class="cell">
-	  					  					<pre>
+											</div>
+											Use the current page title. <span class="comment">It will attempt to detect and remove any current notification counts</span>
+											<div class="cell">
+	 	 					  					<pre>
 $.notificationcenter.captureTitle();</pre>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-  		 		 	</div>
+  		 			 	</div>
+					</div>
 				</div>
 			</div>
 			<footer>

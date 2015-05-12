@@ -81,7 +81,7 @@
 
 					nc.init = true;
 
-					if (typeof nc.options.store_callback === 'function')
+					if (typeof nc.options.store_callback === 'function' && nc.notifs.length > 0)
 						nc.options.store_callback(nc.notifs);
 				});
 			};

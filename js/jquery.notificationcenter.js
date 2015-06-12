@@ -108,7 +108,7 @@
 					}, 'slow', function() {
 						nc.open = false;
 						$(nc.options.center_element).css('visibility', 'hidden');
-						$(nc.options.toggle_button).removeClass('close').addClass('open');
+						$(nc.options.toggle_button).removeClass('notificationclose').addClass('notificationopen');
 
 						$('#notificationcenteroverlay').remove();
 						if (typeof callback === 'function') {
@@ -147,7 +147,7 @@
 						right: $(nc.options.center_element).outerWidth()
 					}, 'slow', function() {
 						nc.open = true;
-						$(nc.options.toggle_button).removeClass('open').addClass('close');
+						$(nc.options.toggle_button).removeClass('notificationopen').addClass('notificationclose');
 
 						$(nc.options.center_element).css({
 							zIndex: ($('#notificationcenteroverlay').css('zIndex') + 1)

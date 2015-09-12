@@ -17,7 +17,7 @@ class notificationcenter {
 	 *
 	 * @var string
 	 */
-	private $_sServerUrl 		= "";
+	private $_sServerUrl = "";
 
 	/**
 	 * Your channel
@@ -26,14 +26,14 @@ class notificationcenter {
 	 *
 	 * @var string
 	 */
-	private $_sChannel	= "";
+	private $_sChannel = "";
 
 	/**
 	 * This method will be called to send a request
 	 *
 	 * Really simple cUrl :)
 	 *
-	 * @param string $sUrl 
+	 * @param string $sUrl
 	 * @return void
 	 */
 	private function sendRequest($sUrl, $aParams) {
@@ -47,8 +47,8 @@ class notificationcenter {
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'Content-Type: application/json',
-		    'Content-Length: ' . strlen($data_string))
+			'Content-Type: application/json',
+			'Content-Length: ' . strlen($data_string))
 		);
 
 		$output = curl_exec($ch);
@@ -65,7 +65,7 @@ class notificationcenter {
 		$this->_sServerUrl = $server;
 		$this->_sChannel = $channel;
 	}
-	
+
 	public function shoot($message, $type) {
 		$aParams['text'] = $message;
 		$aParams['type'] = $type;

@@ -68,8 +68,6 @@
 				overlay             : true,
 				overlay_z_index     : 1001,
 				// change this option & nc.css.panelNotifTime to use a different time plugins
-				// e.g. for http://timeago.yarp.com/, set this to 'title' & css.panelNotifTime to 'timeago'
-				// also make sure to update the css definition
 				center_time_attr    : 'data-livestamp',
 
 				lang : {

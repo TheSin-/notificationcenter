@@ -526,7 +526,7 @@ $('body').notificationcenter({
 											</tr>
 											<tr>
 												<td>alert_hidden</td>
-												<td>bool</td>
+												<td>boolean</td>
 												<td>true</td>
 												<td>If you want to be alerted even if the page has not the focus.</td>
 											</tr>
@@ -560,6 +560,44 @@ $('body').notificationcenter({
 													</div>
 												</td>
 											</tr>
+											<tr>
+												<td>overlay</td>
+												<td>boolean</td>
+												<td>true</td>
+												<td>Add overlay to prevent interaction with main page while the notification panel is open</td>
+											</tr>
+											<tr>
+												<td>overlay_z_index</td>
+												<td>int</td>
+												<td>1001</td>
+												<td>Z-index added to the overlay. This value is also used to keep elements on top of the overlay.</td>
+											</tr>
+											<tr>
+												<td>center_time_attr</td>
+												<td>string</td>
+												<td>"data-livestamp"</td>
+												<td>Attribute where the current time is added.</td>
+											</tr>
+											<tr>
+												<td><a href="#" class="permalink">lang</a></td>
+												<td>object</td>
+												<td>see description</td>
+												<td>Change the language used by notificiationcenter.
+													<div class="collapsable">
+														By default, this option is set to <pre>{
+  no_notifications : 'No New Notifications',
+  delete           : 'Delete', // mobile Delete button
+  close            : 'Close',  // Close notification button
+}</pre>
+														<ul>
+															<li><code>no_notifications</code> sets the text shown when the notification panel does not contain any notifications.</li>
+															<li><code>delete</code> sets the text of the mobile delete notification button</li>
+															<li><code>close</code></li>
+														</ul>
+													</div>
+												</td>
+											</tr>
+
 										</tbody>
 									</table>
 								</div>

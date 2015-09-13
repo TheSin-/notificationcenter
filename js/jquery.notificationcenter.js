@@ -70,7 +70,13 @@
 				// change this option & nc.css.panelNotifTime to use a different time plugins
 				// e.g. for http://timeago.yarp.com/, set this to 'title' & css.panelNotifTime to 'timeago'
 				// also make sure to update the css definition
-				center_time_attr    : 'data-livestamp'
+				center_time_attr    : 'data-livestamp',
+
+				lang : {
+					no_notifications : 'No New Notifications',
+					delete           : 'Delete', // mobile Delete button
+					close            : 'Close',  // Close notification button
+				}
 
 			};
 
@@ -326,10 +332,12 @@
 					notiftype.display_time = 0;
 					callbackbtn = '';
 					if (typeof callback === 'function') {
-						callbackbtn = '<a href="#" class="' + nc.css.notifBtn + ' ' + nc.css.callbackBtn + '">' + notificationtype + '</a>';
+						callbackbtn = '<a href="#" class="' + nc.css.notifBtn + ' ' + nc.css.callbackBtn + '">' +
+							notificationtype + '</a>';
 					}
 					notification += '<div class="' + nc.css.notifBtnWrap + '">' +
-						'<a href="#" class="' + nc.css.notifBtn + ' ' + nc.css.notifBtnClose + '">Close</a>' + callbackbtn + '</div>';
+						'<a href="#" class="' + nc.css.notifBtn + ' ' + nc.css.notifBtnClose + '">' +
+						nc.options.lang.close + '</a>' + callbackbtn + '</div>';
 				}
 				notification += '</div></li>';
 
@@ -586,7 +594,7 @@
 
 				if (nc.options.add_panel && $(nc.options.center_element).length === 0) {
 					$bodyElm.before('<div id="' + nc.options.center_element.replace('#', '') + '">' +
-						'<div class="' + nc.css.panelEmpty + '"><div>No New Notifications</div></div></div>');
+						'<div class="' + nc.css.panelEmpty + '"><div>' + nc.options.lang.no_notifications + '</div></div></div>');
 				}
 
 				// Line it up with body_element
@@ -957,7 +965,7 @@
 				return mobile === true ?
 					// nc.css mobile classes to add: behind & ui-btn?
 					'<div class="behind"><span class="ui-btn ' + nc.css.panelGroupXBM + '">' +
-					'<a href="#" class="' + nc.css.panelGroupXBM + '">Delete</a></span></div>' :
+					'<a href="#" class="' + nc.css.panelGroupXBM + '">' + nc.options.lang.delete + '</a></span></div>' :
 					'<div class="' + nc.css.panelGroupX + '"><i class="' + nc.css.panelGroupXBtn + '"></i></div>';
 			}
 

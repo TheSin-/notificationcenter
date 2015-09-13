@@ -1,0 +1,12 @@
+{
+  "name": "notificationcenter",
+  "description" : "notificationcenter is a jQuery version of the Apple OS X Notification Center. I've attempted to copy everything I can from the OS X verison in 10.9.  Icons, colors, sounds, visuals, interactions, functions.",
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "main": [
+    "js/jquery.notificationcenter.js",
+    "css/notifcenter.css"
+  ],
+  "ignore": []
+}

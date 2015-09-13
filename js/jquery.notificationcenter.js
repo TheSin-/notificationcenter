@@ -63,7 +63,11 @@
 				ajax_checkTime      : 5000,
 				alert_hidden        : true,
 				alert_hidden_sound  : '',
-				store_callback      : false
+				store_callback      : false,
+
+				overlay             : true,
+				overlay_z_index     : 1001
+
 			};
 
 			nc.css = {
@@ -181,12 +185,14 @@
 
 					// Safety add an overlay over document to remove
 					// event control, only notifier panel has control
-					$('<div id="' + nc.css.panelOverlay + '"></div>')
-						.appendTo('body')
-						.on('click', function() {
-							nc.slide();
-							return false;
-						});
+					if ( nc.options.overlay ) {
+						$('<div id="' + nc.css.panelOverlay + '" style="z-index:' + nc.options.overlay_z_index + '"></div>')
+							.appendTo('body')
+							.on('click', function() {
+								nc.slide();
+								return false;
+							});
+					}
 
 					$centerElm.css('visibility', 'visible');
 					$bodyElm.animate({
@@ -198,10 +204,10 @@
 							.addClass(nc.css.panelClosed);
 
 						$centerElm.css({
-							zIndex: ($('#' + nc.css.panelOverlay).css('zIndex') + 1)
+							zIndex: nc.options.overlay_z_index + 1
 						});
 						$toggleBtn.css({
-							zIndex: ($('#' + nc.css.panelOverlay).css('zIndex') + 1)
+							zIndex: nc.options.overlay_z_index + 1
 						});
 					});
 

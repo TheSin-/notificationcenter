@@ -78,6 +78,8 @@
 
 			};
 
+			nc.options = {};
+
 			nc.css = {
 				// notificationcenter panel
 				panelOpen      : 'notificationopen',
